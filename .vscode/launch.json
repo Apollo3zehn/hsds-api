@@ -2,11 +2,24 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "HSDS Specification",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-specification",
+            "program": "${workspaceFolder}/artifacts/bin/Hsds.Specification/net7.0/Hsds.Specification.dll",
+            "args": [
+                "./"
+            ],
+            "cwd": "${workspaceFolder}",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
             "name": "HSDS Client generator",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-generator",
-            "program": "${workspaceFolder}/artifacts/bin/HsdsClient.Generator/net7.0/HsdsClient.Generator.dll",
+            "program": "${workspaceFolder}/artifacts/bin/Hsds.ClientGenerator/net7.0/Hsds.ClientGenerator.dll",
             "args": [
                 "./"
             ],

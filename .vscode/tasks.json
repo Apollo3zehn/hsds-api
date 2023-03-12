@@ -2,12 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "build-specification",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/Hsds.Specification/Hsds.Specification.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build-generator",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/HsdsClient.Generator/HsdsClient.Generator.csproj",
+                "${workspaceFolder}/src/Hsds.ClientGenerator/Hsds.ClientGenerator.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

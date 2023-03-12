@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DBCCA519-8AA3-4E1E-A8D9-EEE22D4F0F27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HsdsClient.Generator", "src\HsdsClient.Generator\HsdsClient.Generator.csproj", "{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hsds.ClientGenerator", "src\Hsds.ClientGenerator\Hsds.ClientGenerator.csproj", "{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
