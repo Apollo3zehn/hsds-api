@@ -1,6 +1,11 @@
-﻿using Microsoft.OpenApi.Readers;
+﻿using System.Reflection;
+using Apollo3zehn.OpenApiClientGenerator;
+using Hsds.SpecGenerator.Controllers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Readers;
 
-namespace PureHDF.VOL.HsdsClientGenerator;
+namespace Hsds.ClientGenerator;
 
 public static class Program
 {
@@ -10,59 +15,68 @@ public static class Program
             ? args[0]
             : "../../../../../";
 
+        var openApiFileName = args.Length == 2
+            ? args[1]
+            : "openapi.json";
+
+        //
+        var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services
+            .AddMvcCore().AddApplicationPart(typeof(DomainController).Assembly);
+
+        builder.Services.AddControllers();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddOpenApiDocument();
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+
+        var app = builder.Build();
+
+        app.UseOpenApi(settings => settings.Path = "/openapi/{documentName}/openapi.json");
+
+        _ = app.RunAsync();
+
         // read open API document
         var client = new HttpClient();
-        var response = await client.GetAsync("https://raw.githubusercontent.com/HDFGroup/hdf-rest-api/master/openapi.yaml");
+        var response = await client.GetAsync("http://localhost:5000/openapi/v1/openapi.json");
 
         response.EnsureSuccessStatusCode();
 
         var openApiJsonString = await response.Content.ReadAsStringAsync();
 
-        // TODO: workaround
-        openApiJsonString = openApiJsonString.Replace("3.1.0", "3.0.3");
-
         var document = new OpenApiStringReader()
-            .Read(openApiJsonString, out _);
+            .Read(openApiJsonString, out var diagnostic);
+
+        // generate clients
+        var basePath = Assembly.GetExecutingAssembly().Location;
+
+        var settings = new GeneratorSettings(
+            Namespace: "Hsds.Api",
+            ClientName: "Hsds",
+            TokenFolderName: default!,
+            ConfigurationHeaderKey: default!,
+            ExceptionType: "HsdsException",
+            ExceptionCodePrefix: "H",
+            Special_RefreshTokenSupport: false,
+            Special_NexusFeatures: false);
 
         // generate C# client
+        var csharpGenerator = new CSharpGenerator();
+        var csharpCode = csharpGenerator.Generate(document, settings);
 
-        // TODO: remove when https://github.com/HDFGroup/hdf-rest-api/issues/10 is resolved
-        var pathToMethodNameMap = new Dictionary<string, string>()
-        {
-            ["/"] = "Domain",
-            ["Post:/groups"] = "Group",
-            ["Get:/groups"] = "Groups",
-            ["/groups/{id}"] = "Group",
-            ["/groups/{id}/links"] = "Links",
-            ["/groups/{id}/links/{linkname}"] = "Link",
-            ["Post:/datasets"] = "Dataset",
-            ["Get:/datasets"] = "Datasets",
-            ["/datasets/{id}"] = "Dataset",
-            ["/datasets/{id}/shape"] = "Shape",
-            ["/datasets/{id}/type"] = "DataType",
-            ["/datasets/{id}/value"] = "Values",
-            ["/datatypes"] = "DataType",
-            ["/datatypes/{id}"] = "Datatype",
-            ["/{collection}/{obj_uuid}/attributes"] = "Attributes",
-            ["/{collection}/{obj_uuid}/attributes/{attr}"] = "Attribute",
-            ["/acls"] = "AccessLists",
-            ["/acls/{user}"] = "UserAccess",
-            ["/groups/{id}/acls"] = "GroupAccessLists",
-            ["/groups/{id}/acls/{user}"] = "GroupUserAccess",
-            ["/datasets/{id}/acls"] = "DatasetAccessLists",
-            ["/datatypes/{id}/acls"] = "DataTypeAccessLists"
-        };
-
-        var csharpSettings = new GeneratorSettings(
-            Namespace: "Hsds.Api",
-            ClientName: "HsdsClient",
-            ExceptionType: "HsdsException",
-            pathToMethodNameMap);
-
-        var csharpOutputPath = $"{solutionRoot}src/clients/dotnet/HsdsClient.g.cs";
-        var csharpGenerator = new CSharpGenerator(csharpSettings);
-        var csharpCode = csharpGenerator.Generate(document);
-
+        var csharpOutputPath = $"{solutionRoot}src/clients/dotnet-client/HsdsClient.g.cs";
         File.WriteAllText(csharpOutputPath, csharpCode);
+
+        // generate Python client
+        var pythonGenerator = new PythonGenerator();
+        var pythonCode = pythonGenerator.Generate(document, settings);
+
+        var pythonOutputPath = $"{solutionRoot}src/clients/python-client/hsds_api/_hsds_api.py";
+        File.WriteAllText(pythonOutputPath, pythonCode);
+
+        // save open API document
+        var openApiDocumentOutputPath = $"{solutionRoot}{openApiFileName}";
+        File.WriteAllText(openApiDocumentOutputPath, openApiJsonString);
     }
 }

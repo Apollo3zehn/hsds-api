@@ -2,12 +2,12 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build-specification",
+            "label": "build-spec-generator",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/Hsds.Specification/Hsds.Specification.csproj",
+                "${workspaceFolder}/src/Hsds.SpecGenerator/Hsds.SpecGenerator.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

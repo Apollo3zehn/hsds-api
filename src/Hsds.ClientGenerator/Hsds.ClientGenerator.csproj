@@ -2,26 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Templates/CSharpTemplate.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Templates/CSharpTemplate.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.6.2" />
+    <ProjectReference Include="/home/vincent/Dokumente/Git/GitHub/apollo3zehn-openapi-client-generator/src/Apollo3zehn.OpenApiClientGenerator/Apollo3zehn.OpenApiClientGenerator.csproj" />
+    <ProjectReference Include="../Hsds.SpecGenerator/Hsds.SpecGenerator.csproj" />
   </ItemGroup>
 
 </Project>

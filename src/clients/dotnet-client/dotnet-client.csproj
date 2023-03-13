@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Hsds.Api</AssemblyName>
+    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Client for the Highly Scalable Data Service (HSDS) system.</Description>
+    <PackageTags>HDF5 Highly Scalable Data Service HSDS</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <!-- This prevents the package to be rebuilt when dotnet test is executed. -->
+  <PropertyGroup Condition="$(GeneratePackage) == 'true'">
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
+	
+</Project>
