@@ -274,16 +274,28 @@ class DomainAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def get_domain(self) -> Awaitable[str]:
+    def create_domain(self, domain: Optional[str], folder: int = None) -> Awaitable[str]:
         """
-        
+        Create a new Domain on the service.
 
         Args:
+            domain: Domain on service to access, e.g., `/home/user/someproject/somefile`
+            folder: If present and `1`, creates a Folder instead of a Domain.
         """
 
-        __url = "/domain"
+        __url = "/"
 
-        return self.___client._invoke(str, "GET", __url, "application/json", None, None)
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query_values["folder"] = quote(_to_string(folder), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(str, "PUT", __url, "application/json", None, None)
 
 
 
@@ -295,16 +307,28 @@ class DomainClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def get_domain(self) -> str:
+    def create_domain(self, domain: Optional[str], folder: int = None) -> str:
         """
-        
+        Create a new Domain on the service.
 
         Args:
+            domain: Domain on service to access, e.g., `/home/user/someproject/somefile`
+            folder: If present and `1`, creates a Folder instead of a Domain.
         """
 
-        __url = "/domain"
+        __url = "/"
 
-        return self.___client._invoke(str, "GET", __url, "application/json", None, None)
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query_values["folder"] = quote(_to_string(folder), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(str, "PUT", __url, "application/json", None, None)
 
 
 

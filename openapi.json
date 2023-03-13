@@ -11,12 +11,36 @@
     }
   ],
   "paths": {
-    "/domain": {
-      "get": {
+    "/": {
+      "put": {
         "tags": [
           "Domain"
         ],
-        "operationId": "Domain_GetDomain",
+        "summary": "Create a new Domain on the service.",
+        "operationId": "Domain_CreateDomain",
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "query",
+            "required": true,
+            "description": "Domain on service to access, e.g., `/home/user/someproject/somefile`",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "folder",
+            "in": "query",
+            "description": "If present and `1`, creates a Folder instead of a Domain.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          }
+        ],
         "responses": {
           "200": {
             "description": "",

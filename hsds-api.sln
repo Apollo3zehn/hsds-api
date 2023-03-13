@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DBCCA519-8AA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hsds.ClientGenerator", "src\Hsds.ClientGenerator\Hsds.ClientGenerator.csproj", "{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "clients", "clients", "{FB91AD01-442F-44C9-9AD5-E9446E4347CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-client", "src\clients\dotnet-client\dotnet-client.csproj", "{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +24,14 @@ Global
 		{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9ADEAC0C-799A-4ED4-B96A-ED2DD8244259} = {DBCCA519-8AA3-4E1E-A8D9-EEE22D4F0F27}
+		{FB91AD01-442F-44C9-9AD5-E9446E4347CB} = {DBCCA519-8AA3-4E1E-A8D9-EEE22D4F0F27}
+		{1BC9F178-4E12-49B4-9B47-672F8E0E7A2F} = {FB91AD01-442F-44C9-9AD5-E9446E4347CB}
 	EndGlobalSection
 EndGlobal
