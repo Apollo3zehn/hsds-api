@@ -67,7 +67,7 @@ public static class Program
                 if (!pathToMethodNameMap.TryGetValue($"{type}:{path}", out var methodName))
                     methodName = pathToMethodNameMap[path];
 
-                return methodName;
+                return $"{type}{methodName}";
             },
             Special_RefreshTokenSupport: false,
             Special_NexusFeatures: false);
