@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="/home/vincent/Dokumente/Git/GitHub/apollo3zehn-openapi-client-generator/src/Apollo3zehn.OpenApiClientGenerator/Apollo3zehn.OpenApiClientGenerator.csproj" />
+    <PackageReference Include="Apollo3zehn.OpenApiClientGenerator" Version="1.0.0-beta.1" />
   </ItemGroup>
 
 </Project>

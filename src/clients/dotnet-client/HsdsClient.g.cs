@@ -284,7 +284,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement? body, string? domain = default, double? folder = default);
+    PutDomainResponse PutDomain(JsonElement? body, string? domain = default, double? folder = default);
 
     /// <summary>
     /// Create a new Domain on the service.
@@ -293,40 +293,40 @@ public interface IDomainClient
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default);
+    Task<PutDomainResponse> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDomainResponse> GetDomain(string? domain = default);
+    GetDomainResponse GetDomain(string? domain = default);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDomainResponse>> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDomainResponse> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, DeleteDomainResponse> DeleteDomain(string? domain = default);
+    DeleteDomainResponse DeleteDomain(string? domain = default);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, DeleteDomainResponse>> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDomainResponse> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Group.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default);
+    PostGroupResponse PostGroup(JsonElement? body, string? domain = default);
 
     /// <summary>
     /// Create a new Group.
@@ -334,27 +334,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default);
+    GetGroupsResponse GetGroups(string? domain = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a Dataset.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
-    IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default);
+    PostDatasetResponse PostDataset(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create a Dataset.
@@ -362,27 +362,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default);
+    GetDatasetsResponse GetDatasets(string? domain = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
-    IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default);
+    PostDataTypeResponse PostDataType(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
@@ -390,27 +390,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default);
+    GetAccessListsResponse GetAccessLists(string? domain = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
-    IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default);
+    GetUserAccessResponse GetUserAccess(string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Domain.
@@ -418,7 +418,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -426,7 +426,7 @@ public interface IDomainClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
-    IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default);
+    PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -435,7 +435,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -450,7 +450,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement? body, string? domain = default, double? folder = default)
+    public PutDomainResponse PutDomain(JsonElement? body, string? domain = default, double? folder = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -467,11 +467,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutDomainResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutDomainResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default)
+    public Task<PutDomainResponse> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -488,11 +488,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutDomainResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutDomainResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDomainResponse> GetDomain(string? domain = default)
+    public GetDomainResponse GetDomain(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -506,11 +506,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDomainResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDomainResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDomainResponse>> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDomainResponse> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -524,11 +524,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDomainResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDomainResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, DeleteDomainResponse> DeleteDomain(string? domain = default)
+    public DeleteDomainResponse DeleteDomain(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -542,11 +542,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, DeleteDomainResponse>>("DELETE", __url, "application/json", default, default);
+        return ___client.Invoke<DeleteDomainResponse>("DELETE", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, DeleteDomainResponse>> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDomainResponse> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -560,11 +560,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, DeleteDomainResponse>>("DELETE", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<DeleteDomainResponse>("DELETE", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default)
+    public PostGroupResponse PostGroup(JsonElement? body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -578,11 +578,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostGroupResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostGroupResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -596,11 +596,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostGroupResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostGroupResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default)
+    public GetGroupsResponse GetGroups(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -614,11 +614,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -632,11 +632,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default)
+    public PostDatasetResponse PostDataset(JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -650,11 +650,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostDatasetResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostDatasetResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -668,11 +668,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostDatasetResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostDatasetResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default)
+    public GetDatasetsResponse GetDatasets(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -686,11 +686,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatasetsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatasetsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -704,11 +704,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatasetsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatasetsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default)
+    public PostDataTypeResponse PostDataType(JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
@@ -722,11 +722,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostDataTypeResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostDataTypeResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
@@ -740,11 +740,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostDataTypeResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostDataTypeResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default)
+    public GetAccessListsResponse GetAccessLists(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
@@ -758,11 +758,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
@@ -776,11 +776,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default)
+    public GetUserAccessResponse GetUserAccess(string user, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -795,11 +795,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetUserAccessResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetUserAccessResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -814,11 +814,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetUserAccessResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetUserAccessResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default)
+    public PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -833,11 +833,11 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutUserAccessResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutUserAccessResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -852,7 +852,7 @@ public class DomainClient : IDomainClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutUserAccessResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutUserAccessResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
 }
@@ -867,7 +867,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default);
+    PostGroupResponse PostGroup(JsonElement? body, string? domain = default);
 
     /// <summary>
     /// Create a new Group.
@@ -875,20 +875,20 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default);
+    GetGroupsResponse GetGroups(string? domain = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Group.
@@ -896,7 +896,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
-    IReadOnlyDictionary<string, GetGroupResponse> GetGroup(string id, string? domain = default, int? getalias = default);
+    GetGroupResponse GetGroup(string id, string? domain = default, int? getalias = default);
 
     /// <summary>
     /// Get information about a Group.
@@ -905,14 +905,14 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupResponse>> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default);
+    Task<GetGroupResponse> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, DeleteGroupResponse> DeleteGroup(string id, string? domain = default);
+    DeleteGroupResponse DeleteGroup(string id, string? domain = default);
 
     /// <summary>
     /// Delete a Group.
@@ -920,7 +920,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, DeleteGroupResponse>> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteGroupResponse> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -930,7 +930,7 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -941,7 +941,7 @@ public interface IGroupClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -951,7 +951,7 @@ public interface IGroupClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -962,7 +962,7 @@ public interface IGroupClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -971,7 +971,7 @@ public interface IGroupClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -981,14 +981,14 @@ public interface IGroupClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default);
+    GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Group.
@@ -996,7 +996,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -1004,7 +1004,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default);
+    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -1013,7 +1013,7 @@ public interface IGroupClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -1028,7 +1028,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default)
+    public PostGroupResponse PostGroup(JsonElement? body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1042,11 +1042,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostGroupResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostGroupResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1060,11 +1060,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostGroupResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostGroupResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default)
+    public GetGroupsResponse GetGroups(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1078,11 +1078,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1096,11 +1096,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupResponse> GetGroup(string id, string? domain = default, int? getalias = default)
+    public GetGroupResponse GetGroup(string id, string? domain = default, int? getalias = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1118,11 +1118,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupResponse>> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupResponse> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1140,11 +1140,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, DeleteGroupResponse> DeleteGroup(string id, string? domain = default)
+    public DeleteGroupResponse DeleteGroup(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1159,11 +1159,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, DeleteGroupResponse>>("DELETE", __url, "application/json", default, default);
+        return ___client.Invoke<DeleteGroupResponse>("DELETE", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, DeleteGroupResponse>> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteGroupResponse> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1178,11 +1178,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, DeleteGroupResponse>>("DELETE", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<DeleteGroupResponse>("DELETE", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -1204,11 +1204,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributesResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -1230,11 +1230,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributesResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1251,11 +1251,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1272,11 +1272,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1293,11 +1293,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1314,11 +1314,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default)
+    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -1333,11 +1333,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -1352,11 +1352,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default)
+    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -1372,11 +1372,11 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupUserAccessResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupUserAccessResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -1392,7 +1392,7 @@ public class GroupClient : IGroupClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupUserAccessResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupUserAccessResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -1409,7 +1409,7 @@ public interface ILinkClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
-    IReadOnlyDictionary<string, GetLinksResponse> GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default);
+    GetLinksResponse GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Links in a Group.
@@ -1419,7 +1419,7 @@ public interface ILinkClient
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetLinksResponse>> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetLinksResponse> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Link in a Group.
@@ -1428,7 +1428,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
-    IReadOnlyDictionary<string, PutLinkResponse> PutLink(string id, string linkname, JsonElement body, string? domain = default);
+    PutLinkResponse PutLink(string id, string linkname, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create a new Link in a Group.
@@ -1438,7 +1438,7 @@ public interface ILinkClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutLinkResponse>> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutLinkResponse> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get Link info.
@@ -1446,7 +1446,7 @@ public interface ILinkClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetLinkResponse> GetLink(string id, string linkname, string? domain = default);
+    GetLinkResponse GetLink(string id, string linkname, string? domain = default);
 
     /// <summary>
     /// Get Link info.
@@ -1455,7 +1455,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetLinkResponse>> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete Link.
@@ -1463,7 +1463,7 @@ public interface ILinkClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, DeleteLinkResponse> DeleteLink(string id, string linkname, string? domain = default);
+    DeleteLinkResponse DeleteLink(string id, string linkname, string? domain = default);
 
     /// <summary>
     /// Delete Link.
@@ -1472,7 +1472,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, DeleteLinkResponse>> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -1487,7 +1487,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetLinksResponse> GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetLinksResponse GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links");
@@ -1508,11 +1508,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetLinksResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetLinksResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetLinksResponse>> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetLinksResponse> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links");
@@ -1533,11 +1533,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetLinksResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetLinksResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutLinkResponse> PutLink(string id, string linkname, JsonElement body, string? domain = default)
+    public PutLinkResponse PutLink(string id, string linkname, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1553,11 +1553,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutLinkResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutLinkResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutLinkResponse>> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutLinkResponse> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1573,11 +1573,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutLinkResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutLinkResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetLinkResponse> GetLink(string id, string linkname, string? domain = default)
+    public GetLinkResponse GetLink(string id, string linkname, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1593,11 +1593,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetLinkResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetLinkResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetLinkResponse>> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1613,11 +1613,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetLinkResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetLinkResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, DeleteLinkResponse> DeleteLink(string id, string linkname, string? domain = default)
+    public DeleteLinkResponse DeleteLink(string id, string linkname, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1633,11 +1633,11 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, DeleteLinkResponse>>("DELETE", __url, "application/json", default, default);
+        return ___client.Invoke<DeleteLinkResponse>("DELETE", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, DeleteLinkResponse>> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1653,7 +1653,7 @@ public class LinkClient : ILinkClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, DeleteLinkResponse>>("DELETE", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<DeleteLinkResponse>("DELETE", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -1668,7 +1668,7 @@ public interface IDatasetClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
-    IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default);
+    PostDatasetResponse PostDataset(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create a Dataset.
@@ -1676,27 +1676,27 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default);
+    GetDatasetsResponse GetDatasets(string? domain = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDatasetResponse> GetDataset(string id, string? domain = default);
+    GetDatasetResponse GetDataset(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset.
@@ -1704,14 +1704,14 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatasetResponse>> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetResponse> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, DeleteDatasetResponse> DeleteDataset(string id, string? domain = default);
+    DeleteDatasetResponse DeleteDataset(string id, string? domain = default);
 
     /// <summary>
     /// Delete a Dataset.
@@ -1719,7 +1719,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, DeleteDatasetResponse>> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify a Dataset's dimensions.
@@ -1727,7 +1727,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
-    IReadOnlyDictionary<string, PutShapeResponse> PutShape(string id, JsonElement body, string? domain = default);
+    PutShapeResponse PutShape(string id, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Modify a Dataset's dimensions.
@@ -1736,14 +1736,14 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutShapeResponse>> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutShapeResponse> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset's shape.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetShapeResponse> GetShape(string id, string? domain = default);
+    GetShapeResponse GetShape(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset's shape.
@@ -1751,14 +1751,14 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetShapeResponse>> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetShapeResponse> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset's type.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDataTypeResponse> GetDataType(string id, string? domain = default);
+    GetDataTypeResponse GetDataType(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset's type.
@@ -1766,7 +1766,24 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDataTypeResponse>> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeResponse> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Write values to Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="body">JSON object describing what to write.</param>
+    void PutValues(string id, JsonElement body, string? domain = default);
+
+    /// <summary>
+    /// Write values to Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="body">JSON object describing what to write.</param>
+    /// <param name="cancellationToken">The token to cancel the current operation.</param>
+    Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get values from Dataset.
@@ -1797,7 +1814,7 @@ public interface IDatasetClient
     /// <param name="select">URL-encoded string representing a selection array.</param>
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
-    IReadOnlyDictionary<string, GetValuesAsJsonResponse> GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
+    GetValuesAsJsonResponse GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
 
     /// <summary>
     /// Get values from Dataset.
@@ -1808,7 +1825,7 @@ public interface IDatasetClient
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetValuesAsJsonResponse>> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
+    Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get specific data points from Dataset.
@@ -1816,7 +1833,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
-    IReadOnlyDictionary<string, PostValuesResponse> PostValues(string id, JsonElement body, string? domain = default);
+    PostValuesResponse PostValues(string id, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Get specific data points from Dataset.
@@ -1825,7 +1842,7 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostValuesResponse>> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostValuesResponse> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -1835,7 +1852,7 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -1846,7 +1863,7 @@ public interface IDatasetClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -1856,7 +1873,7 @@ public interface IDatasetClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -1867,7 +1884,7 @@ public interface IDatasetClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -1876,7 +1893,7 @@ public interface IDatasetClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -1886,14 +1903,14 @@ public interface IDatasetClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default);
+    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// Get access lists on Dataset.
@@ -1901,7 +1918,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -1916,7 +1933,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default)
+    public PostDatasetResponse PostDataset(JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -1930,11 +1947,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostDatasetResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostDatasetResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -1948,11 +1965,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostDatasetResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostDatasetResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default)
+    public GetDatasetsResponse GetDatasets(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -1966,11 +1983,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatasetsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatasetsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
@@ -1984,11 +2001,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatasetsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatasetsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatasetResponse> GetDataset(string id, string? domain = default)
+    public GetDatasetResponse GetDataset(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2003,11 +2020,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatasetResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatasetResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatasetResponse>> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetResponse> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2022,11 +2039,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatasetResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatasetResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, DeleteDatasetResponse> DeleteDataset(string id, string? domain = default)
+    public DeleteDatasetResponse DeleteDataset(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2041,11 +2058,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, DeleteDatasetResponse>>("DELETE", __url, "application/json", default, default);
+        return ___client.Invoke<DeleteDatasetResponse>("DELETE", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, DeleteDatasetResponse>> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2060,11 +2077,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, DeleteDatasetResponse>>("DELETE", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<DeleteDatasetResponse>("DELETE", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutShapeResponse> PutShape(string id, JsonElement body, string? domain = default)
+    public PutShapeResponse PutShape(string id, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2079,11 +2096,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutShapeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutShapeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutShapeResponse>> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutShapeResponse> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2098,11 +2115,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutShapeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutShapeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetShapeResponse> GetShape(string id, string? domain = default)
+    public GetShapeResponse GetShape(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2117,11 +2134,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetShapeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetShapeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetShapeResponse>> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetShapeResponse> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2136,11 +2153,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetShapeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetShapeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDataTypeResponse> GetDataType(string id, string? domain = default)
+    public GetDataTypeResponse GetDataType(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/type");
@@ -2155,11 +2172,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDataTypeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDataTypeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDataTypeResponse>> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeResponse> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/type");
@@ -2174,7 +2191,45 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDataTypeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDataTypeResponse>("GET", __url, "application/json", default, default, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public void PutValues(string id, JsonElement body, string? domain = default)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        if (domain is not null)
+            __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        ___client.Invoke<object>("PUT", __url, default, "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+    }
+
+    /// <inheritdoc />
+    public Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        if (domain is not null)
+            __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        return ___client.InvokeAsync<object>("PUT", __url, default, "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
@@ -2234,7 +2289,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetValuesAsJsonResponse> GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
+    public GetValuesAsJsonResponse GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2258,11 +2313,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetValuesAsJsonResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetValuesAsJsonResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetValuesAsJsonResponse>> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
+    public Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2286,11 +2341,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetValuesAsJsonResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetValuesAsJsonResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostValuesResponse> PostValues(string id, JsonElement body, string? domain = default)
+    public PostValuesResponse PostValues(string id, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2305,11 +2360,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostValuesResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostValuesResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostValuesResponse>> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostValuesResponse> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2324,11 +2379,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostValuesResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostValuesResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2350,11 +2405,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributesResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2376,11 +2431,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributesResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2397,11 +2452,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2418,11 +2473,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2439,11 +2494,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2460,11 +2515,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default)
+    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -2479,11 +2534,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatasetAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -2498,7 +2553,7 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatasetAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -2513,7 +2568,7 @@ public interface IDatatypeClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
-    IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default);
+    PostDataTypeResponse PostDataType(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
@@ -2521,14 +2576,14 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a committed Datatype
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
-    IReadOnlyDictionary<string, GetDatatypeResponse> GetDatatype(string id, string? domain = default);
+    GetDatatypeResponse GetDatatype(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a committed Datatype
@@ -2536,14 +2591,14 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatatypeResponse>> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatatypeResponse> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a committed Datatype.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
-    IReadOnlyDictionary<string, DeleteDatatypeResponse> DeleteDatatype(string id, string? domain = default);
+    DeleteDatatypeResponse DeleteDatatype(string id, string? domain = default);
 
     /// <summary>
     /// Delete a committed Datatype.
@@ -2551,7 +2606,7 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, DeleteDatatypeResponse>> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2561,7 +2616,7 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2572,7 +2627,7 @@ public interface IDatatypeClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2582,7 +2637,7 @@ public interface IDatatypeClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2593,7 +2648,7 @@ public interface IDatatypeClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2602,7 +2657,7 @@ public interface IDatatypeClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2612,14 +2667,14 @@ public interface IDatatypeClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default);
+    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Datatype.
@@ -2627,7 +2682,7 @@ public interface IDatatypeClient
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -2642,7 +2697,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default)
+    public PostDataTypeResponse PostDataType(JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
@@ -2656,11 +2711,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PostDataTypeResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostDataTypeResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
@@ -2674,11 +2729,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PostDataTypeResponse>>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostDataTypeResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatatypeResponse> GetDatatype(string id, string? domain = default)
+    public GetDatatypeResponse GetDatatype(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2693,11 +2748,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatatypeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatatypeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatatypeResponse>> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatatypeResponse> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2712,11 +2767,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatatypeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatatypeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, DeleteDatatypeResponse> DeleteDatatype(string id, string? domain = default)
+    public DeleteDatatypeResponse DeleteDatatype(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2731,11 +2786,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, DeleteDatatypeResponse>>("DELETE", __url, "application/json", default, default);
+        return ___client.Invoke<DeleteDatatypeResponse>("DELETE", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, DeleteDatatypeResponse>> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2750,11 +2805,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, DeleteDatatypeResponse>>("DELETE", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<DeleteDatatypeResponse>("DELETE", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2776,11 +2831,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributesResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2802,11 +2857,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributesResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2823,11 +2878,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2844,11 +2899,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2865,11 +2920,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2886,11 +2941,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default)
+    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -2905,11 +2960,11 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDataTypeAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -2924,7 +2979,7 @@ public class DatatypeClient : IDatatypeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDataTypeAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -2942,7 +2997,7 @@ public interface IAttributeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2953,7 +3008,7 @@ public interface IAttributeClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2963,7 +3018,7 @@ public interface IAttributeClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2974,7 +3029,7 @@ public interface IAttributeClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2983,7 +3038,7 @@ public interface IAttributeClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2993,7 +3048,7 @@ public interface IAttributeClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -3008,7 +3063,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -3030,11 +3085,11 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributesResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributesResponse>> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -3056,11 +3111,11 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributesResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributesResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutAttributeResponse> PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3077,11 +3132,11 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutAttributeResponse>> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3098,11 +3153,11 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutAttributeResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutAttributeResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAttributeResponse> GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3119,11 +3174,11 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAttributeResponse>> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3140,7 +3195,7 @@ public class AttributeClient : IAttributeClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAttributeResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -3154,21 +3209,21 @@ public interface IACLSClient
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default);
+    GetAccessListsResponse GetAccessLists(string? domain = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
-    IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default);
+    GetUserAccessResponse GetUserAccess(string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Domain.
@@ -3176,7 +3231,7 @@ public interface IACLSClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -3184,7 +3239,7 @@ public interface IACLSClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
-    IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default);
+    PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -3193,14 +3248,14 @@ public interface IACLSClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default);
+    GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Group.
@@ -3208,7 +3263,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -3216,7 +3271,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default);
+    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -3225,14 +3280,14 @@ public interface IACLSClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default);
+    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// Get access lists on Dataset.
@@ -3240,14 +3295,14 @@ public interface IACLSClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default);
+    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Datatype.
@@ -3255,7 +3310,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
 }
 
@@ -3270,7 +3325,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default)
+    public GetAccessListsResponse GetAccessLists(string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
@@ -3284,11 +3339,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
@@ -3302,11 +3357,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default)
+    public GetUserAccessResponse GetUserAccess(string user, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3321,11 +3376,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetUserAccessResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetUserAccessResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3340,11 +3395,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetUserAccessResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetUserAccessResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default)
+    public PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3359,11 +3414,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, PutUserAccessResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PutUserAccessResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3378,11 +3433,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, PutUserAccessResponse>>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PutUserAccessResponse>("PUT", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default)
+    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -3397,11 +3452,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -3416,11 +3471,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default)
+    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -3436,11 +3491,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetGroupUserAccessResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetGroupUserAccessResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -3456,11 +3511,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetGroupUserAccessResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetGroupUserAccessResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default)
+    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -3475,11 +3530,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDatasetAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -3494,11 +3549,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDatasetAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default)
+    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -3513,11 +3568,11 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<GetDataTypeAccessListsResponse>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -3532,7 +3587,7 @@ public class ACLSClient : IACLSClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<GetDataTypeAccessListsResponse>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -3566,7 +3621,7 @@ public class HsdsException : Exception
 /// Access Control List for a single user.
 /// </summary>
 /// <param name="Username"></param>
-public record ACL(IReadOnlyDictionary<string, UsernameType> Username);
+public record ACL(UsernameType Username);
 
 /// <summary>
 /// Access Control Lists for users.
@@ -3600,7 +3655,7 @@ public record HrefsType(string Href, string Rel);
 /// <param name="Created"></param>
 /// <param name="LastModified"></param>
 /// <param name="Hrefs">Array of url references and their relation to this Domain. Should include entries for: `acls`, `database` (if not class is not `folder`), `groupbase` (if not class is not `folder`), `parent`, `root` (if not class is not `folder`), `self`, `typebase` (if not class is not `folder`).</param>
-public record GetDomainResponse(string Root, string Owner, string Class, double Created, double LastModified, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDomainResponse(string Root, string Owner, string Class, double Created, double LastModified, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// The Domain or Folder which was deleted.
@@ -3624,7 +3679,7 @@ public record PostGroupResponse(string Id, string Root, double LastModified, dou
 /// </summary>
 /// <param name="Groups"></param>
 /// <param name="Hrefs"></param>
-public record GetGroupsResponse(IReadOnlyList<string> Groups, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetGroupsResponse(IReadOnlyList<string> Groups, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3646,14 +3701,14 @@ public record ShapeType();
 /// <param name="AttributeCount"></param>
 /// <param name="Type">(See `GET /datasets/{id}`)</param>
 /// <param name="Shape">(See `GET /datasets/{id}`)</param>
-public record PostDatasetResponse(string Id, string Root, double Created, double LastModified, double AttributeCount, IReadOnlyDictionary<string, TypeType> Type, IReadOnlyDictionary<string, ShapeType> Shape);
+public record PostDatasetResponse(string Id, string Root, double Created, double LastModified, double AttributeCount, TypeType Type, ShapeType Shape);
 
 /// <summary>
 /// 
 /// </summary>
 /// <param name="Datasets"></param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetDatasetsResponse(IReadOnlyList<string> Datasets, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDatasetsResponse(IReadOnlyList<string> Datasets, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
@@ -3667,21 +3722,21 @@ public record PostDataTypeResponse(double AttributeCount, string Id);
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetAccessListsResponse(ACLS Acls, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record GetUserAccessResponse(ACL Acl, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record PutUserAccessResponse(ACL Acl, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record PutUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3695,7 +3750,7 @@ public record PutUserAccessResponse(ACL Acl, IReadOnlyList<IReadOnlyDictionary<s
 /// <param name="AttributeCount"></param>
 /// <param name="LinkCount"></param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetGroupResponse(string Id, string Root, IReadOnlyList<string> Alias, double Created, double LastModified, string Domain, double AttributeCount, double LinkCount, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetGroupResponse(string Id, string Root, IReadOnlyList<string> Alias, double Created, double LastModified, string Domain, double AttributeCount, double LinkCount, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3711,14 +3766,14 @@ public record DeleteGroupResponse();
 /// <param name="Shape"></param>
 /// <param name="Type"></param>
 /// <param name="Value"></param>
-public record AttributesType(double Created, string Href, string Name, IReadOnlyDictionary<string, ShapeType> Shape, IReadOnlyDictionary<string, TypeType> Type, string Value);
+public record AttributesType(double Created, string Href, string Name, ShapeType Shape, TypeType Type, string Value);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Attributes"></param>
 /// <param name="Hrefs"></param>
-public record GetAttributesResponse(IReadOnlyList<IReadOnlyDictionary<string, AttributesType>> Attributes, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetAttributesResponse(IReadOnlyList<AttributesType> Attributes, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
@@ -3734,21 +3789,21 @@ public record PutAttributeResponse();
 /// <param name="Shape"></param>
 /// <param name="Value"></param>
 /// <param name="Hrefs"></param>
-public record GetAttributeResponse(double Created, double LastModified, string Name, IReadOnlyDictionary<string, ShapeType> Shape, string Value, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetAttributeResponse(double Created, double LastModified, string Name, ShapeType Shape, string Value, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetGroupAccessListsResponse(ACLS Acls, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetGroupAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record GetGroupUserAccessResponse(ACL Acl, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetGroupUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3767,7 +3822,7 @@ public record LinksType(string Id, double Created, string Class, string Title, s
 /// </summary>
 /// <param name="Links"></param>
 /// <param name="Hrefs">List of references to other entities.</param>
-public record GetLinksResponse(IReadOnlyList<IReadOnlyDictionary<string, LinksType>> Links, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetLinksResponse(IReadOnlyList<LinksType> Links, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// Always returns `{"hrefs": []}`.
@@ -3790,7 +3845,7 @@ public record LinkType(string Id, string Title, string Collection, string Class)
 /// <param name="Created"></param>
 /// <param name="Link"></param>
 /// <param name="Hrefs">List of references to other entities.</param>
-public record GetLinkResponse(double LastModified, double Created, IReadOnlyDictionary<string, LinkType> Link, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetLinkResponse(double LastModified, double Created, LinkType Link, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// Always returns `{"hrefs": []}`.
@@ -3828,7 +3883,7 @@ public record CreationPropertiesType();
 /// <param name="Layout">TODO</param>
 /// <param name="CreationProperties">Dataset creation properties as provided upon creation.</param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, IReadOnlyDictionary<string, TypeType> Type, IReadOnlyDictionary<string, ShapeType> Shape, IReadOnlyDictionary<string, LayoutType> Layout, IReadOnlyDictionary<string, CreationPropertiesType> CreationProperties, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, TypeType Type, ShapeType Shape, LayoutType Layout, CreationPropertiesType CreationProperties, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3848,14 +3903,14 @@ public record PutShapeResponse(IReadOnlyList<string> Hrefs);
 /// <param name="LastModified"></param>
 /// <param name="Shape"></param>
 /// <param name="Hrefs">Must include references to only: `owner`, `root`, `self`.</param>
-public record GetShapeResponse(double Created, double LastModified, IReadOnlyDictionary<string, ShapeType> Shape, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetShapeResponse(double Created, double LastModified, ShapeType Shape, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// (See `GET /datasets/{id}`)
 /// </summary>
 /// <param name="Type"></param>
 /// <param name="Hrefs"></param>
-public record GetDataTypeResponse(IReadOnlyDictionary<string, TypeType> Type, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDataTypeResponse(TypeType Type, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3875,7 +3930,7 @@ public record PostValuesResponse(IReadOnlyList<JsonElement> Value);
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
@@ -3887,20 +3942,20 @@ public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<IReadOnlyDi
 /// <param name="Root"></param>
 /// <param name="Type"></param>
 /// <param name="Hrefs">TODO</param>
-public record GetDatatypeResponse(double AttributeCount, double Created, string Id, double LastModified, string Root, IReadOnlyDictionary<string, TypeType> Type, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDatatypeResponse(double AttributeCount, double Created, string Id, double LastModified, string Root, TypeType Type, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// Always returns `{"hrefs": []}` (TODO confirm)
 /// </summary>
 /// <param name="Hrefs"></param>
-public record DeleteDatatypeResponse(IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record DeleteDatatypeResponse(IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
 
 /// <summary>
 /// 

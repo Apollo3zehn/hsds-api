@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Apollo3zehn.OpenApiClientGenerator;
+﻿using Apollo3zehn.OpenApiClientGenerator;
 using Microsoft.OpenApi.Readers;
 
 namespace Hsds.ClientGenerator;
@@ -27,7 +26,6 @@ public static class Program
             .Read(openApiJsonString, out var diagnostic);
 
         // generate clients
-        var basePath = Assembly.GetExecutingAssembly().Location;
 
         // TODO: remove when https://github.com/HDFGroup/hdf-rest-api/issues/10 is resolved
         var pathToMethodNameMap = new Dictionary<string, string>()
