@@ -1,12 +1,8 @@
 #nullable enable
 
-using System.Buffers;
 using System.Globalization;
-using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -191,7 +187,7 @@ public class HsdsClient : IHsdsClient, IDisposable
         using var request = BuildRequestMessage(method, relativeUrl, content, contentTypeValue, acceptHeaderValue);
 
         // send request
-        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
         // process response
         if (!response.IsSuccessStatusCode)
@@ -199,7 +195,7 @@ public class HsdsClient : IHsdsClient, IDisposable
 
             if (!response.IsSuccessStatusCode)
             {
-                var message = await response.Content.ReadAsStringAsync();
+                var message = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var statusCode = $"H00.{(int)response.StatusCode}";
 
                 if (string.IsNullOrWhiteSpace(message))
@@ -224,11 +220,11 @@ public class HsdsClient : IHsdsClient, IDisposable
 
             else
             {
-                var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
 
                 try
                 {
-                    return (await JsonSerializer.DeserializeAsync<T>(stream, Utilities.JsonOptions))!;
+                    return (await JsonSerializer.DeserializeAsync<T>(stream, Utilities.JsonOptions).ConfigureAwait(false))!;
                 }
                 catch (Exception ex)
                 {
@@ -285,85 +281,85 @@ public interface IDomainClient
     /// <summary>
     /// Create a new Domain on the service.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement body, string? domain = default, double? folder = default);
+    IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement? body, string? domain = default, double? folder = default);
 
     /// <summary>
     /// Create a new Domain on the service.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default);
+    Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDomainResponse> GetDomain(string? domain = default);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDomainResponse>> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, DeleteDomainResponse> DeleteDomain(string? domain = default);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, DeleteDomainResponse>> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Group.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement body, string? domain = default);
+    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default);
 
     /// <summary>
     /// Create a new Group.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a Dataset.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create a Dataset.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -371,27 +367,27 @@ public interface IDomainClient
     /// <summary>
     /// List Datasets.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -399,27 +395,27 @@ public interface IDomainClient
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
@@ -428,7 +424,7 @@ public interface IDomainClient
     /// Set user's access to the Domain.
     /// </summary>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default);
 
@@ -436,7 +432,7 @@ public interface IDomainClient
     /// Set user's access to the Domain.
     /// </summary>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -454,7 +450,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement body, string? domain = default, double? folder = default)
+    public IReadOnlyDictionary<string, PutDomainResponse> PutDomain(JsonElement? body, string? domain = default, double? folder = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -475,7 +471,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyDictionary<string, PutDomainResponse>> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
@@ -568,7 +564,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement body, string? domain = default)
+    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -586,7 +582,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -869,28 +865,28 @@ public interface IGroupClient
     /// <summary>
     /// Create a new Group.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement body, string? domain = default);
+    IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default);
 
     /// <summary>
     /// Create a new Group.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupsResponse> GetGroups(string? domain = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupsResponse>> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
@@ -898,16 +894,16 @@ public interface IGroupClient
     /// Get information about a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
-    /// <param name="getalias"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
     IReadOnlyDictionary<string, GetGroupResponse> GetGroup(string id, string? domain = default, int? getalias = default);
 
     /// <summary>
     /// Get information about a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
-    /// <param name="getalias"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupResponse>> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default);
 
@@ -915,14 +911,14 @@ public interface IGroupClient
     /// Delete a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, DeleteGroupResponse> DeleteGroup(string id, string? domain = default);
 
     /// <summary>
     /// Delete a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, DeleteGroupResponse>> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -931,7 +927,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
@@ -941,7 +937,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
@@ -950,7 +946,7 @@ public interface IGroupClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -960,7 +956,7 @@ public interface IGroupClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -971,7 +967,7 @@ public interface IGroupClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -980,7 +976,7 @@ public interface IGroupClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -991,14 +987,14 @@ public interface IGroupClient
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1007,7 +1003,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default);
 
     /// <summary>
@@ -1015,7 +1011,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1032,7 +1028,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement body, string? domain = default)
+    public IReadOnlyDictionary<string, PostGroupResponse> PostGroup(JsonElement? body, string? domain = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1050,7 +1046,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyDictionary<string, PostGroupResponse>> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
@@ -1410,7 +1406,7 @@ public interface ILinkClient
     /// List all Links in a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
     IReadOnlyDictionary<string, GetLinksResponse> GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default);
@@ -1419,7 +1415,7 @@ public interface ILinkClient
     /// List all Links in a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
@@ -1429,8 +1425,8 @@ public interface ILinkClient
     /// Create a new Link in a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
     IReadOnlyDictionary<string, PutLinkResponse> PutLink(string id, string linkname, JsonElement body, string? domain = default);
 
@@ -1438,8 +1434,8 @@ public interface ILinkClient
     /// Create a new Link in a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PutLinkResponse>> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -1448,16 +1444,16 @@ public interface ILinkClient
     /// Get Link info.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetLinkResponse> GetLink(string id, string linkname, string? domain = default);
 
     /// <summary>
     /// Get Link info.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetLinkResponse>> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1465,16 +1461,16 @@ public interface ILinkClient
     /// Delete Link.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, DeleteLinkResponse> DeleteLink(string id, string linkname, string? domain = default);
 
     /// <summary>
     /// Delete Link.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="linkname"></param>
-    /// <param name="domain"></param>
+    /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, DeleteLinkResponse>> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1670,14 +1666,14 @@ public interface IDatasetClient
     /// <summary>
     /// Create a Dataset.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     IReadOnlyDictionary<string, PostDatasetResponse> PostDataset(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Create a Dataset.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PostDatasetResponse>> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -1685,13 +1681,13 @@ public interface IDatasetClient
     /// <summary>
     /// List Datasets.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDatasetsResponse> GetDatasets(string? domain = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatasetsResponse>> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1699,14 +1695,14 @@ public interface IDatasetClient
     /// Get information about a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDatasetResponse> GetDataset(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatasetResponse>> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1714,14 +1710,14 @@ public interface IDatasetClient
     /// Delete a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, DeleteDatasetResponse> DeleteDataset(string id, string? domain = default);
 
     /// <summary>
     /// Delete a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, DeleteDatasetResponse>> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1729,7 +1725,7 @@ public interface IDatasetClient
     /// Modify a Dataset's dimensions.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
     IReadOnlyDictionary<string, PutShapeResponse> PutShape(string id, JsonElement body, string? domain = default);
 
@@ -1737,7 +1733,7 @@ public interface IDatasetClient
     /// Modify a Dataset's dimensions.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PutShapeResponse>> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -1746,14 +1742,14 @@ public interface IDatasetClient
     /// Get information about a Dataset's shape.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetShapeResponse> GetShape(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset's shape.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetShapeResponse>> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -1761,60 +1757,64 @@ public interface IDatasetClient
     /// Get information about a Dataset's type.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDataTypeResponse> GetDataType(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a Dataset's type.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDataTypeResponse>> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Write values to Dataset.
+    /// Get values from Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
-    /// <param name="body">JSON object describing what to write.</param>
-    void PutValues(string id, JsonElement body, string? domain = default);
-
-    /// <summary>
-    /// Write values to Dataset.
-    /// </summary>
-    /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
-    /// <param name="body">JSON object describing what to write.</param>
-    /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="select">URL-encoded string representing a selection array.</param>
+    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
+    /// <param name="Limit">Integer greater than zero.</param>
+    HttpResponseMessage GetValuesAsStream(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
 
     /// <summary>
     /// Get values from Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="select">URL-encoded string representing a selection array.</param>
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
-    HttpResponseMessage GetValues(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
+    /// <param name="cancellationToken">The token to cancel the current operation.</param>
+    Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get values from Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="select">URL-encoded string representing a selection array.</param>
+    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
+    /// <param name="Limit">Integer greater than zero.</param>
+    IReadOnlyDictionary<string, GetValuesAsJsonResponse> GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
+
+    /// <summary>
+    /// Get values from Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="select">URL-encoded string representing a selection array.</param>
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<HttpResponseMessage> GetValuesAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
+    Task<IReadOnlyDictionary<string, GetValuesAsJsonResponse>> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get specific data points from Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
     IReadOnlyDictionary<string, PostValuesResponse> PostValues(string id, JsonElement body, string? domain = default);
 
@@ -1822,7 +1822,7 @@ public interface IDatasetClient
     /// Get specific data points from Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PostValuesResponse>> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -1832,7 +1832,7 @@ public interface IDatasetClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
@@ -1842,7 +1842,7 @@ public interface IDatasetClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
@@ -1851,7 +1851,7 @@ public interface IDatasetClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -1861,7 +1861,7 @@ public interface IDatasetClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -1872,7 +1872,7 @@ public interface IDatasetClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -1881,7 +1881,7 @@ public interface IDatasetClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -1892,14 +1892,14 @@ public interface IDatasetClient
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -2178,45 +2178,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public void PutValues(string id, JsonElement body, string? domain = default)
-    {
-        var __urlBuilder = new StringBuilder();
-        __urlBuilder.Append("/datasets/{id}/value");
-        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
-
-        var __queryValues = new Dictionary<string, string>();
-
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
-
-        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
-        __urlBuilder.Append(__query);
-
-        var __url = __urlBuilder.ToString();
-        ___client.Invoke<object>("PUT", __url, default, "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
-    }
-
-    /// <inheritdoc />
-    public Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
-    {
-        var __urlBuilder = new StringBuilder();
-        __urlBuilder.Append("/datasets/{id}/value");
-        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
-
-        var __queryValues = new Dictionary<string, string>();
-
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
-
-        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
-        __urlBuilder.Append(__query);
-
-        var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<object>("PUT", __url, default, "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
-    }
-
-    /// <inheritdoc />
-    public HttpResponseMessage GetValues(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
+    public HttpResponseMessage GetValuesAsStream(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2244,7 +2206,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<HttpResponseMessage> GetValuesAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
+    public Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2269,6 +2231,62 @@ public class DatasetClient : IDatasetClient
 
         var __url = __urlBuilder.ToString();
         return ___client.InvokeAsync<HttpResponseMessage>("GET", __url, "application/octet-stream", default, default, cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public IReadOnlyDictionary<string, GetValuesAsJsonResponse> GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        if (domain is not null)
+            __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        if (select is not null)
+            __queryValues["select"] = Uri.EscapeDataString(select);
+
+        if (query is not null)
+            __queryValues["query"] = Uri.EscapeDataString(query);
+
+        if (Limit is not null)
+            __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        return ___client.Invoke<IReadOnlyDictionary<string, GetValuesAsJsonResponse>>("GET", __url, "application/json", default, default);
+    }
+
+    /// <inheritdoc />
+    public Task<IReadOnlyDictionary<string, GetValuesAsJsonResponse>> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        if (domain is not null)
+            __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        if (select is not null)
+            __queryValues["select"] = Uri.EscapeDataString(select);
+
+        if (query is not null)
+            __queryValues["query"] = Uri.EscapeDataString(query);
+
+        if (Limit is not null)
+            __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        return ___client.InvokeAsync<IReadOnlyDictionary<string, GetValuesAsJsonResponse>>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
@@ -2493,14 +2511,14 @@ public interface IDatatypeClient
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     IReadOnlyDictionary<string, PostDataTypeResponse> PostDataType(JsonElement body, string? domain = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PostDataTypeResponse>> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -2508,14 +2526,14 @@ public interface IDatatypeClient
     /// <summary>
     /// Get information about a committed Datatype
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     IReadOnlyDictionary<string, GetDatatypeResponse> GetDatatype(string id, string? domain = default);
 
     /// <summary>
     /// Get information about a committed Datatype
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatatypeResponse>> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
@@ -2523,14 +2541,14 @@ public interface IDatatypeClient
     /// <summary>
     /// Delete a committed Datatype.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     IReadOnlyDictionary<string, DeleteDatatypeResponse> DeleteDatatype(string id, string? domain = default);
 
     /// <summary>
     /// Delete a committed Datatype.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, DeleteDatatypeResponse>> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
@@ -2540,7 +2558,7 @@ public interface IDatatypeClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
@@ -2550,7 +2568,7 @@ public interface IDatatypeClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
@@ -2559,7 +2577,7 @@ public interface IDatatypeClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2569,7 +2587,7 @@ public interface IDatatypeClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2580,7 +2598,7 @@ public interface IDatatypeClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2589,7 +2607,7 @@ public interface IDatatypeClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2600,14 +2618,14 @@ public interface IDatatypeClient
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -2921,7 +2939,7 @@ public interface IAttributeClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     IReadOnlyDictionary<string, GetAttributesResponse> GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
@@ -2931,7 +2949,7 @@ public interface IAttributeClient
     /// </summary>
     /// <param name="collection">The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">UUID of object.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
@@ -2940,7 +2958,7 @@ public interface IAttributeClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2950,7 +2968,7 @@ public interface IAttributeClient
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).</param>
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2961,7 +2979,7 @@ public interface IAttributeClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -2970,7 +2988,7 @@ public interface IAttributeClient
     /// <summary>
     /// Get information about an Attribute.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
@@ -3135,27 +3153,27 @@ public interface IACLSClient
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetAccessListsResponse> GetAccessLists(string? domain = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetAccessListsResponse>> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     IReadOnlyDictionary<string, GetUserAccessResponse> GetUserAccess(string user, string? domain = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetUserAccessResponse>> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
@@ -3164,7 +3182,7 @@ public interface IACLSClient
     /// Set user's access to the Domain.
     /// </summary>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     IReadOnlyDictionary<string, PutUserAccessResponse> PutUserAccess(string user, JsonElement body, string? domain = default);
 
@@ -3172,7 +3190,7 @@ public interface IACLSClient
     /// Set user's access to the Domain.
     /// </summary>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, PutUserAccessResponse>> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
@@ -3181,14 +3199,14 @@ public interface IACLSClient
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupAccessListsResponse> GetGroupAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupAccessListsResponse>> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -3197,7 +3215,7 @@ public interface IACLSClient
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetGroupUserAccessResponse> GetGroupUserAccess(string id, string user, string? domain = default);
 
     /// <summary>
@@ -3205,7 +3223,7 @@ public interface IACLSClient
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetGroupUserAccessResponse>> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -3213,14 +3231,14 @@ public interface IACLSClient
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDatasetAccessListsResponse> GetDatasetAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDatasetAccessListsResponse>> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -3228,14 +3246,14 @@ public interface IACLSClient
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     IReadOnlyDictionary<string, GetDataTypeAccessListsResponse> GetDataTypeAccessLists(string id, string? domain = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
-    /// <param name="domain"></param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
     Task<IReadOnlyDictionary<string, GetDataTypeAccessListsResponse>> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
 
@@ -3838,6 +3856,13 @@ public record GetShapeResponse(double Created, double LastModified, IReadOnlyDic
 /// <param name="Type"></param>
 /// <param name="Hrefs"></param>
 public record GetDataTypeResponse(IReadOnlyDictionary<string, TypeType> Type, IReadOnlyList<IReadOnlyDictionary<string, HrefsType>> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Index">List of indices (TODO: coordinates?) corresponding with each value returned. i.e., `index[i]` is the coordinate of `value[i]`.</param>
+/// <param name="Value"></param>
+public record GetValuesAsJsonResponse(IReadOnlyList<string> Index, IReadOnlyList<JsonElement> Value);
 
 /// <summary>
 /// 

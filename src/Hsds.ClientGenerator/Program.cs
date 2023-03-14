@@ -80,10 +80,10 @@ public static class Program
         File.WriteAllText(csharpOutputPath, csharpCode);
 
         // generate Python client
-        // var pythonGenerator = new PythonGenerator(settings);
-        // var pythonCode = pythonGenerator.Generate(document);
+        var pythonGenerator = new PythonGenerator(settings);
+        var pythonCode = pythonGenerator.Generate(document);
 
-        // var pythonOutputPath = $"{solutionRoot}src/clients/python-client/hsds_api/_hsds_api.py";
-        // File.WriteAllText(pythonOutputPath, pythonCode);
+        var pythonOutputPath = $"{solutionRoot}src/clients/python-client/hsds_api/_hsds_api.py";
+        File.WriteAllText(pythonOutputPath, pythonCode);
     }
 }

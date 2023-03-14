@@ -211,27 +211,16 @@ def to_snake_case(value: str) -> str:
     return snake_case_pattern.sub(r'_\1', value).lower()
 
 
-import asyncio
-import base64
-import hashlib
 import json
-import os
-import time
-import typing
-from array import array
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-from threading import Lock
 from typing import (Any, AsyncIterable, Awaitable, Callable, Iterable,
                     Optional, Type, Union, cast)
 from urllib.parse import quote
 from uuid import UUID
-from zipfile import ZipFile
 
-from httpx import AsyncClient, Client, Request, Response, codes
+from httpx import AsyncClient, Client, Request, Response
 
 def _to_string(value: Any) -> str:
 
@@ -245,8 +234,8 @@ def _to_string(value: Any) -> str:
         return str(value)
 
 _json_encoder_options: JsonEncoderOptions = JsonEncoderOptions(
-    property_name_encoder=to_camel_case,
-    property_name_decoder=to_snake_case
+    property_name_encoder=lambda value: to_camel_case(value) if value != "class_" else "class",
+    property_name_decoder=lambda value: to_snake_case(value) if value != "class" else "_class"
 )
 
 _json_encoder_options.encoders[Enum] = lambda value: to_camel_case(value.name)
@@ -265,6 +254,937 @@ class HsdsException(Exception):
     message: str
     """The exception message."""
 
+@dataclass(frozen=True)
+class ACL:
+    """
+    Access Control List for a single user.
+
+    Args:
+        username: 
+    """
+
+    username: dict[str, UsernameType]
+    """"""
+
+
+@dataclass(frozen=True)
+class ACLS:
+    """
+    Access Control Lists for users.
+
+    Args:
+        for_whom: Access Control List for a single user.
+    """
+
+    for_whom: ACL
+    """Access Control List for a single user."""
+
+
+@dataclass(frozen=True)
+class PutDomainResponse:
+    """
+    
+
+    Args:
+        acls: Access Control Lists for users.
+        created: When domain was created.
+        last_modified: When object was last modified.
+        owner: Name of owner.
+        root: ID of root group.
+    """
+
+    acls: ACLS
+    """Access Control Lists for users."""
+
+    created: float
+    """When domain was created."""
+
+    last_modified: float
+    """When object was last modified."""
+
+    owner: str
+    """Name of owner."""
+
+    root: str
+    """ID of root group."""
+
+
+@dataclass(frozen=True)
+class HrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: Relation to `href`.
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """Relation to `href`."""
+
+
+@dataclass(frozen=True)
+class GetDomainResponse:
+    """
+    
+
+    Args:
+        root: UUID of root Group. If Domain is of class 'folder', this entry is not present.
+        owner: 
+        class: Category of Domain. If 'folder' no root group is included in response.
+        created: 
+        last_modified: 
+        hrefs: Array of url references and their relation to this Domain. Should include entries for: `acls`, `database` (if not class is not `folder`), `groupbase` (if not class is not `folder`), `parent`, `root` (if not class is not `folder`), `self`, `typebase` (if not class is not `folder`).
+    """
+
+    root: str
+    """UUID of root Group. If Domain is of class 'folder', this entry is not present.
+"""
+
+    owner: str
+    """"""
+
+    class_: str
+    """Category of Domain. If 'folder' no root group is included in response.
+"""
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """Array of url references and their relation to this Domain. Should include entries for: `acls`, `database` (if not class is not `folder`), `groupbase` (if not class is not `folder`), `parent`, `root` (if not class is not `folder`), `self`, `typebase` (if not class is not `folder`).
+"""
+
+
+@dataclass(frozen=True)
+class DeleteDomainResponse:
+    """
+    The Domain or Folder which was deleted.
+
+    Args:
+        domain: domain path
+    """
+
+    domain: str
+    """domain path"""
+
+
+@dataclass(frozen=True)
+class PostGroupResponse:
+    """
+    
+
+    Args:
+        id: UUID of new Group.
+        root: UUID of root Group in Domain.
+        last_modified: 
+        created: 
+        attribute_count: 
+        link_count: 
+    """
+
+    id: str
+    """UUID of new Group."""
+
+    root: str
+    """UUID of root Group in Domain."""
+
+    last_modified: float
+    """"""
+
+    created: float
+    """"""
+
+    attribute_count: float
+    """"""
+
+    link_count: float
+    """"""
+
+
+@dataclass(frozen=True)
+class GetGroupsResponse:
+    """
+    
+
+    Args:
+        groups: 
+        hrefs: 
+    """
+
+    groups: list[str]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class TypeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class ShapeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class PostDatasetResponse:
+    """
+    
+
+    Args:
+        id: UUID of this Dataset.
+        root: UUID of root Group in Domain.
+        created: 
+        last_modified: 
+        attribute_count: 
+        type: (See `GET /datasets/{id}`)
+        shape: (See `GET /datasets/{id}`)
+    """
+
+    id: str
+    """UUID of this Dataset."""
+
+    root: str
+    """UUID of root Group in Domain."""
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    attribute_count: float
+    """"""
+
+    type: dict[str, TypeType]
+    """(See `GET /datasets/{id}`)"""
+
+    shape: dict[str, ShapeType]
+    """(See `GET /datasets/{id}`)"""
+
+
+@dataclass(frozen=True)
+class GetDatasetsResponse:
+    """
+    
+
+    Args:
+        datasets: 
+        hrefs: List of references to other objects.
+    """
+
+    datasets: list[str]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """List of references to other objects.
+Should contain references for: `attributes`, `data`, `home`, `root`, `self`
+"""
+
+
+@dataclass(frozen=True)
+class PostDataTypeResponse:
+    """
+    TODO
+
+    Args:
+        attribute_count: 
+        id: 
+    """
+
+    attribute_count: float
+    """"""
+
+    id: str
+    """"""
+
+
+@dataclass(frozen=True)
+class GetAccessListsResponse:
+    """
+    TODO
+
+    Args:
+        acls: Access Control Lists for users.
+        hrefs: 
+    """
+
+    acls: ACLS
+    """Access Control Lists for users."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetUserAccessResponse:
+    """
+    TODO
+
+    Args:
+        acl: Access Control List for a single user.
+        hrefs: 
+    """
+
+    acl: ACL
+    """Access Control List for a single user."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class PutUserAccessResponse:
+    """
+    TODO
+
+    Args:
+        acl: Access Control List for a single user.
+        hrefs: 
+    """
+
+    acl: ACL
+    """Access Control List for a single user."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetGroupResponse:
+    """
+    
+
+    Args:
+        id: UUID of this Group.
+        root: UUID of root Group.
+        alias: List of aliases for the Group, as reached by _hard_ Links. If Group is unlinked, its alias list will be empty (`[]`).
+        created: 
+        last_modified: 
+        domain: 
+        attribute_count: 
+        link_count: 
+        hrefs: List of references to other objects.
+    """
+
+    id: str
+    """UUID of this Group."""
+
+    root: str
+    """UUID of root Group."""
+
+    alias: list[str]
+    """List of aliases for the Group, as reached by _hard_ Links. If Group is unlinked, its alias list will be empty (`[]`).
+Only present if `alias=1` is present as query parameter.
+"""
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    domain: str
+    """"""
+
+    attribute_count: float
+    """"""
+
+    link_count: float
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """List of references to other objects."""
+
+
+@dataclass(frozen=True)
+class DeleteGroupResponse:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class AttributesType:
+    """
+    
+
+    Args:
+        created: 
+        href: 
+        name: 
+        shape: 
+        type: 
+        value: 
+    """
+
+    created: float
+    """"""
+
+    href: str
+    """"""
+
+    name: str
+    """"""
+
+    shape: dict[str, ShapeType]
+    """"""
+
+    type: dict[str, TypeType]
+    """"""
+
+    value: str
+    """"""
+
+
+@dataclass(frozen=True)
+class GetAttributesResponse:
+    """
+    TODO
+
+    Args:
+        attributes: 
+        hrefs: 
+    """
+
+    attributes: list[dict[str, AttributesType]]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class PutAttributeResponse:
+    """
+    TODO
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetAttributeResponse:
+    """
+    TODO
+
+    Args:
+        created: 
+        last_modified: 
+        name: 
+        shape: 
+        value: 
+        hrefs: 
+    """
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    name: str
+    """"""
+
+    shape: dict[str, ShapeType]
+    """"""
+
+    value: str
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetGroupAccessListsResponse:
+    """
+    TODO
+
+    Args:
+        acls: Access Control Lists for users.
+        hrefs: 
+    """
+
+    acls: ACLS
+    """Access Control Lists for users."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetGroupUserAccessResponse:
+    """
+    TODO
+
+    Args:
+        acl: Access Control List for a single user.
+        hrefs: 
+    """
+
+    acl: ACL
+    """Access Control List for a single user."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class LinksType:
+    """
+    
+
+    Args:
+        id: UUID of Link target.
+        created: 
+        class: Indicate whether this Link is hard, soft, or external.
+        title: Name/label/title of the Link, as provided upon creation.
+        target: URL of Link target.
+        href: URL to origin of Link.
+        collection: What kind of object is the target. (TODO)
+    """
+
+    id: str
+    """UUID of Link target."""
+
+    created: float
+    """"""
+
+    class_: str
+    """Indicate whether this Link is hard, soft, or external.
+"""
+
+    title: str
+    """Name/label/title of the Link, as provided upon creation.
+"""
+
+    target: str
+    """URL of Link target."""
+
+    href: str
+    """URL to origin of Link."""
+
+    collection: str
+    """What kind of object is the target. (TODO)
+"""
+
+
+@dataclass(frozen=True)
+class GetLinksResponse:
+    """
+    
+
+    Args:
+        links: 
+        hrefs: List of references to other entities.
+    """
+
+    links: list[dict[str, LinksType]]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """List of references to other entities.
+Should contain references for: `home`, `owner`, `self`.
+"""
+
+
+@dataclass(frozen=True)
+class PutLinkResponse:
+    """
+    Always returns `{"hrefs": []}`.
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class LinkType:
+    """
+    
+
+    Args:
+        id: 
+        title: 
+        collection: 
+        class: 
+    """
+
+    id: str
+    """"""
+
+    title: str
+    """"""
+
+    collection: str
+    """"""
+
+    class_: str
+    """"""
+
+
+@dataclass(frozen=True)
+class GetLinkResponse:
+    """
+    
+
+    Args:
+        last_modified: 
+        created: 
+        link: 
+        hrefs: List of references to other entities.
+    """
+
+    last_modified: float
+    """"""
+
+    created: float
+    """"""
+
+    link: dict[str, LinkType]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """List of references to other entities.
+Should contain references for: `home`, `owner`, `self`, `target`,
+"""
+
+
+@dataclass(frozen=True)
+class DeleteLinkResponse:
+    """
+    Always returns `{"hrefs": []}`.
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class FieldsType:
+    """
+    
+
+    Args:
+        name: Descriptive or identifying name. Must be unique in the fields list.
+        type: Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)
+    """
+
+    name: str
+    """Descriptive or identifying name. Must be unique in the fields list.
+"""
+
+    type: str
+    """Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)
+"""
+
+
+@dataclass(frozen=True)
+class LayoutType:
+    """
+    TODO
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class CreationPropertiesType:
+    """
+    Dataset creation properties as provided upon creation.
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetDatasetResponse:
+    """
+    
+
+    Args:
+        id: UUID of this Dataset.
+        root: UUID of root Group in Domain.
+        domain: 
+        created: 
+        last_modified: 
+        attribute_count: 
+        type: TODO
+        shape: TODO
+        layout: TODO
+        creation_properties: Dataset creation properties as provided upon creation.
+        hrefs: List of references to other objects.
+    """
+
+    id: str
+    """UUID of this Dataset."""
+
+    root: str
+    """UUID of root Group in Domain."""
+
+    domain: str
+    """"""
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    attribute_count: float
+    """"""
+
+    type: dict[str, TypeType]
+    """TODO"""
+
+    shape: dict[str, ShapeType]
+    """TODO"""
+
+    layout: dict[str, LayoutType]
+    """TODO"""
+
+    creation_properties: dict[str, CreationPropertiesType]
+    """Dataset creation properties as provided upon creation.
+"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """List of references to other objects.
+Must include references to only: `attributes`, `data` (shape class `H5S_NULL` must _not_ include `data`), `root`, `self`.
+"""
+
+
+@dataclass(frozen=True)
+class DeleteDatasetResponse:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class PutShapeResponse:
+    """
+    
+
+    Args:
+        hrefs: 
+    """
+
+    hrefs: list[str]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetShapeResponse:
+    """
+    (See `GET /datasets/{id}`)
+
+    Args:
+        created: 
+        last_modified: 
+        shape: 
+        hrefs: Must include references to only: `owner`, `root`, `self`.
+    """
+
+    created: float
+    """"""
+
+    last_modified: float
+    """"""
+
+    shape: dict[str, ShapeType]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """Must include references to only: `owner`, `root`, `self`.
+"""
+
+
+@dataclass(frozen=True)
+class GetDataTypeResponse:
+    """
+    (See `GET /datasets/{id}`)
+
+    Args:
+        type: 
+        hrefs: 
+    """
+
+    type: dict[str, TypeType]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetValues_as_jsonResponse:
+    """
+    
+
+    Args:
+        index: List of indices (TODO: coordinates?) corresponding with each value returned. i.e., `index[i]` is the coordinate of `value[i]`.
+        value: 
+    """
+
+    index: list[str]
+    """List of indices (TODO: coordinates?) corresponding with each value returned. i.e., `index[i]` is the coordinate of `value[i]`.
+Only present if `query` parameter is part of the request URI.
+"""
+
+    value: list[object]
+    """"""
+
+
+@dataclass(frozen=True)
+class PostValuesResponse:
+    """
+    
+
+    Args:
+        value: 
+    """
+
+    value: list[object]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetDatasetAccessListsResponse:
+    """
+    TODO
+
+    Args:
+        acls: Access Control Lists for users.
+        hrefs: 
+    """
+
+    acls: ACLS
+    """Access Control Lists for users."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetDatatypeResponse:
+    """
+    TODO
+
+    Args:
+        attribute_count: 
+        created: 
+        id: 
+        last_modified: 
+        root: 
+        type: 
+        hrefs: TODO
+    """
+
+    attribute_count: float
+    """"""
+
+    created: float
+    """"""
+
+    id: str
+    """"""
+
+    last_modified: float
+    """"""
+
+    root: str
+    """"""
+
+    type: dict[str, TypeType]
+    """"""
+
+    hrefs: list[dict[str, HrefsType]]
+    """TODO"""
+
+
+@dataclass(frozen=True)
+class DeleteDatatypeResponse:
+    """
+    Always returns `{"hrefs": []}` (TODO confirm)
+
+    Args:
+        hrefs: 
+    """
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class GetDataTypeAccessListsResponse:
+    """
+    TODO
+
+    Args:
+        acls: Access Control Lists for users.
+        hrefs: 
+    """
+
+    acls: ACLS
+    """Access Control Lists for users."""
+
+    hrefs: list[dict[str, HrefsType]]
+    """"""
+
+
+@dataclass(frozen=True)
+class UsernameType:
+    """
+    
+
+    Args:
+        create: 
+        update: 
+        delete: 
+        update_acl: 
+        read: 
+        read_acl: 
+    """
+
+    create: bool
+    """"""
+
+    update: bool
+    """"""
+
+    delete: bool
+    """"""
+
+    update_acl: bool
+    """"""
+
+    read: bool
+    """"""
+
+    read_acl: bool
+    """"""
+
+
 
 class DomainAsyncClient:
     """Provides methods to interact with domain."""
@@ -274,12 +1194,12 @@ class DomainAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def create_domain(self, domain: Optional[str], folder: int = None) -> Awaitable[str]:
+    def put_domain(self, body: Optional[object], domain: Optional[str] = None, folder: Optional[float] = None) -> Awaitable[dict[str, PutDomainResponse]]:
         """
         Create a new Domain on the service.
 
         Args:
-            domain: Domain on service to access, e.g., `/home/user/someproject/somefile`
+            domain: 
             folder: If present and `1`, creates a Folder instead of a Domain.
         """
 
@@ -290,12 +1210,1345 @@ class DomainAsyncClient:
         if domain is not None:
             __query_values["domain"] = quote(_to_string(domain), safe="")
 
-        __query_values["folder"] = quote(_to_string(folder), safe="")
+        if folder is not None:
+            __query_values["folder"] = quote(_to_string(folder), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(str, "PUT", __url, "application/json", None, None)
+        return self.___client._invoke(dict[str, PutDomainResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_domain(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetDomainResponse]]:
+        """
+        Get information about the requested domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDomainResponse], "GET", __url, "application/json", None, None)
+
+    def delete_domain(self, domain: Optional[str] = None) -> Awaitable[dict[str, DeleteDomainResponse]]:
+        """
+        Delete the specified Domain or Folder.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDomainResponse], "DELETE", __url, "application/json", None, None)
+
+    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> Awaitable[dict[str, PostGroupResponse]]:
+        """
+        Create a new Group.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostGroupResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_groups(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupsResponse]]:
+        """
+        Get UUIDs for all non-root Groups in Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupsResponse], "GET", __url, "application/json", None, None)
+
+    def post_dataset(self, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PostDatasetResponse]]:
+        """
+        Create a Dataset.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDatasetResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datasets(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatasetsResponse]]:
+        """
+        List Datasets.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetsResponse], "GET", __url, "application/json", None, None)
+
+    def post_data_type(self, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PostDataTypeResponse]]:
+        """
+        Commit a Datatype to the Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datatypes"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDataTypeResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_access_lists(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetAccessListsResponse]]:
+        """
+        Get access lists on Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/acls"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_user_access(self, user: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetUserAccessResponse]]:
+        """
+        Get users's access to a Domain.
+
+        Args:
+            domain: 
+            user: User identifier/name.
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutUserAccessResponse]]:
+        """
+        Set user's access to the Domain.
+
+        Args:
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutUserAccessResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+
+class GroupAsyncClient:
+    """Provides methods to interact with group."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> Awaitable[dict[str, PostGroupResponse]]:
+        """
+        Create a new Group.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostGroupResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_groups(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupsResponse]]:
+        """
+        Get UUIDs for all non-root Groups in Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group(self, id: str, domain: Optional[str] = None, getalias: Optional[int] = None) -> Awaitable[dict[str, GetGroupResponse]]:
+        """
+        Get information about a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+            getalias: 
+        """
+
+        __url = "/groups/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if getalias is not None:
+            __query_values["getalias"] = quote(_to_string(getalias), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupResponse], "GET", __url, "application/json", None, None)
+
+    def delete_group(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, DeleteGroupResponse]]:
+        """
+        Delete a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteGroupResponse], "DELETE", __url, "application/json", None, None)
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[dict[str, GetAttributesResponse]]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutAttributeResponse]]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetAttributeResponse]]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupAccessListsResponse]]:
+        """
+        List access lists on Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupUserAccessResponse]]:
+        """
+        Get users's access to a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls/{user}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupUserAccessResponse], "GET", __url, "application/json", None, None)
+
+
+class LinkAsyncClient:
+    """Provides methods to interact with link."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def get_links(self, id: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[dict[str, GetLinksResponse]]:
+        """
+        List all Links in a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+            limit: Cap the number of Links returned in list.
+            marker: Title of a Link; the first Link name to list.
+        """
+
+        __url = "/groups/{id}/links"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetLinksResponse], "GET", __url, "application/json", None, None)
+
+    def put_link(self, id: str, linkname: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutLinkResponse]]:
+        """
+        Create a new Link in a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutLinkResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_link(self, id: str, linkname: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetLinkResponse]]:
+        """
+        Get Link info.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetLinkResponse], "GET", __url, "application/json", None, None)
+
+    def delete_link(self, id: str, linkname: str, domain: Optional[str] = None) -> Awaitable[dict[str, DeleteLinkResponse]]:
+        """
+        Delete Link.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteLinkResponse], "DELETE", __url, "application/json", None, None)
+
+
+class DatasetAsyncClient:
+    """Provides methods to interact with dataset."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def post_dataset(self, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PostDatasetResponse]]:
+        """
+        Create a Dataset.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDatasetResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datasets(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatasetsResponse]]:
+        """
+        List Datasets.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetsResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatasetResponse]]:
+        """
+        Get information about a Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetResponse], "GET", __url, "application/json", None, None)
+
+    def delete_dataset(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, DeleteDatasetResponse]]:
+        """
+        Delete a Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDatasetResponse], "DELETE", __url, "application/json", None, None)
+
+    def put_shape(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutShapeResponse]]:
+        """
+        Modify a Dataset's dimensions.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/shape"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutShapeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_shape(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetShapeResponse]]:
+        """
+        Get information about a Dataset's shape.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/shape"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetShapeResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDataTypeResponse]]:
+        """
+        Get information about a Dataset's type.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/type"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeResponse], "GET", __url, "application/json", None, None)
+
+    def get_values_as_stream(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[Response]:
+        """
+        Get values from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+            select: URL-encoded string representing a selection array.
+            query: URL-encoded string of conditional expression to filter selection.
+            limit: Integer greater than zero.
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if select is not None:
+            __query_values["select"] = quote(_to_string(select), safe="")
+
+        if query is not None:
+            __query_values["query"] = quote(_to_string(query), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
+
+    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[dict[str, GetValues_as_jsonResponse]]:
+        """
+        Get values from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+            select: URL-encoded string representing a selection array.
+            query: URL-encoded string of conditional expression to filter selection.
+            limit: Integer greater than zero.
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if select is not None:
+            __query_values["select"] = quote(_to_string(select), safe="")
+
+        if query is not None:
+            __query_values["query"] = quote(_to_string(query), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetValues_as_jsonResponse], "GET", __url, "application/json", None, None)
+
+    def post_values(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PostValuesResponse]]:
+        """
+        Get specific data points from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostValuesResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[dict[str, GetAttributesResponse]]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutAttributeResponse]]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetAttributeResponse]]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatasetAccessListsResponse]]:
+        """
+        Get access lists on Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+
+class DatatypeAsyncClient:
+    """Provides methods to interact with datatype."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def post_data_type(self, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PostDataTypeResponse]]:
+        """
+        Commit a Datatype to the Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datatypes"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDataTypeResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datatype(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatatypeResponse]]:
+        """
+        Get information about a committed Datatype
+
+        Args:
+            domain: 
+            id: UUID of the committed datatype.
+        """
+
+        __url = "/datatypes/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatatypeResponse], "GET", __url, "application/json", None, None)
+
+    def delete_datatype(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, DeleteDatatypeResponse]]:
+        """
+        Delete a committed Datatype.
+
+        Args:
+            domain: 
+            id: UUID of the committed datatype.
+        """
+
+        __url = "/datatypes/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDatatypeResponse], "DELETE", __url, "application/json", None, None)
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[dict[str, GetAttributesResponse]]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutAttributeResponse]]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetAttributeResponse]]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDataTypeAccessListsResponse]]:
+        """
+        List access lists on Datatype.
+
+        Args:
+            id: UUID of the committed datatype.
+            domain: 
+        """
+
+        __url = "/datatypes/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeAccessListsResponse], "GET", __url, "application/json", None, None)
+
+
+class AttributeAsyncClient:
+    """Provides methods to interact with attribute."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[dict[str, GetAttributesResponse]]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutAttributeResponse]]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetAttributeResponse]]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+
+class ACLSAsyncClient:
+    """Provides methods to interact with acls."""
+
+    ___client: HsdsAsyncClient
+    
+    def __init__(self, client: HsdsAsyncClient):
+        self.___client = client
+
+    def get_access_lists(self, domain: Optional[str] = None) -> Awaitable[dict[str, GetAccessListsResponse]]:
+        """
+        Get access lists on Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/acls"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_user_access(self, user: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetUserAccessResponse]]:
+        """
+        Get users's access to a Domain.
+
+        Args:
+            domain: 
+            user: User identifier/name.
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> Awaitable[dict[str, PutUserAccessResponse]]:
+        """
+        Set user's access to the Domain.
+
+        Args:
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutUserAccessResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupAccessListsResponse]]:
+        """
+        List access lists on Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetGroupUserAccessResponse]]:
+        """
+        Get users's access to a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls/{user}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDatasetAccessListsResponse]]:
+        """
+        Get access lists on Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[dict[str, GetDataTypeAccessListsResponse]]:
+        """
+        List access lists on Datatype.
+
+        Args:
+            id: UUID of the committed datatype.
+            domain: 
+        """
+
+        __url = "/datatypes/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeAccessListsResponse], "GET", __url, "application/json", None, None)
 
 
 
@@ -307,12 +2560,12 @@ class DomainClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def create_domain(self, domain: Optional[str], folder: int = None) -> str:
+    def put_domain(self, body: Optional[object], domain: Optional[str] = None, folder: Optional[float] = None) -> dict[str, PutDomainResponse]:
         """
         Create a new Domain on the service.
 
         Args:
-            domain: Domain on service to access, e.g., `/home/user/someproject/somefile`
+            domain: 
             folder: If present and `1`, creates a Folder instead of a Domain.
         """
 
@@ -323,12 +2576,1345 @@ class DomainClient:
         if domain is not None:
             __query_values["domain"] = quote(_to_string(domain), safe="")
 
-        __query_values["folder"] = quote(_to_string(folder), safe="")
+        if folder is not None:
+            __query_values["folder"] = quote(_to_string(folder), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(str, "PUT", __url, "application/json", None, None)
+        return self.___client._invoke(dict[str, PutDomainResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_domain(self, domain: Optional[str] = None) -> dict[str, GetDomainResponse]:
+        """
+        Get information about the requested domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDomainResponse], "GET", __url, "application/json", None, None)
+
+    def delete_domain(self, domain: Optional[str] = None) -> dict[str, DeleteDomainResponse]:
+        """
+        Delete the specified Domain or Folder.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDomainResponse], "DELETE", __url, "application/json", None, None)
+
+    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> dict[str, PostGroupResponse]:
+        """
+        Create a new Group.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostGroupResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_groups(self, domain: Optional[str] = None) -> dict[str, GetGroupsResponse]:
+        """
+        Get UUIDs for all non-root Groups in Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupsResponse], "GET", __url, "application/json", None, None)
+
+    def post_dataset(self, body: object, domain: Optional[str] = None) -> dict[str, PostDatasetResponse]:
+        """
+        Create a Dataset.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDatasetResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datasets(self, domain: Optional[str] = None) -> dict[str, GetDatasetsResponse]:
+        """
+        List Datasets.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetsResponse], "GET", __url, "application/json", None, None)
+
+    def post_data_type(self, body: object, domain: Optional[str] = None) -> dict[str, PostDataTypeResponse]:
+        """
+        Commit a Datatype to the Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datatypes"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDataTypeResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_access_lists(self, domain: Optional[str] = None) -> dict[str, GetAccessListsResponse]:
+        """
+        Get access lists on Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/acls"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_user_access(self, user: str, domain: Optional[str] = None) -> dict[str, GetUserAccessResponse]:
+        """
+        Get users's access to a Domain.
+
+        Args:
+            domain: 
+            user: User identifier/name.
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> dict[str, PutUserAccessResponse]:
+        """
+        Set user's access to the Domain.
+
+        Args:
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutUserAccessResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+
+class GroupClient:
+    """Provides methods to interact with group."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> dict[str, PostGroupResponse]:
+        """
+        Create a new Group.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostGroupResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_groups(self, domain: Optional[str] = None) -> dict[str, GetGroupsResponse]:
+        """
+        Get UUIDs for all non-root Groups in Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/groups"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group(self, id: str, domain: Optional[str] = None, getalias: Optional[int] = None) -> dict[str, GetGroupResponse]:
+        """
+        Get information about a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+            getalias: 
+        """
+
+        __url = "/groups/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if getalias is not None:
+            __query_values["getalias"] = quote(_to_string(getalias), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupResponse], "GET", __url, "application/json", None, None)
+
+    def delete_group(self, id: str, domain: Optional[str] = None) -> dict[str, DeleteGroupResponse]:
+        """
+        Delete a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteGroupResponse], "DELETE", __url, "application/json", None, None)
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> dict[str, GetAttributesResponse]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> dict[str, PutAttributeResponse]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> dict[str, GetAttributeResponse]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetGroupAccessListsResponse]:
+        """
+        List access lists on Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> dict[str, GetGroupUserAccessResponse]:
+        """
+        Get users's access to a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls/{user}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupUserAccessResponse], "GET", __url, "application/json", None, None)
+
+
+class LinkClient:
+    """Provides methods to interact with link."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def get_links(self, id: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> dict[str, GetLinksResponse]:
+        """
+        List all Links in a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+            limit: Cap the number of Links returned in list.
+            marker: Title of a Link; the first Link name to list.
+        """
+
+        __url = "/groups/{id}/links"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetLinksResponse], "GET", __url, "application/json", None, None)
+
+    def put_link(self, id: str, linkname: str, body: object, domain: Optional[str] = None) -> dict[str, PutLinkResponse]:
+        """
+        Create a new Link in a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutLinkResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_link(self, id: str, linkname: str, domain: Optional[str] = None) -> dict[str, GetLinkResponse]:
+        """
+        Get Link info.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetLinkResponse], "GET", __url, "application/json", None, None)
+
+    def delete_link(self, id: str, linkname: str, domain: Optional[str] = None) -> dict[str, DeleteLinkResponse]:
+        """
+        Delete Link.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            linkname: 
+            domain: 
+        """
+
+        __url = "/groups/{id}/links/{linkname}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{linkname}", quote(str(linkname), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteLinkResponse], "DELETE", __url, "application/json", None, None)
+
+
+class DatasetClient:
+    """Provides methods to interact with dataset."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def post_dataset(self, body: object, domain: Optional[str] = None) -> dict[str, PostDatasetResponse]:
+        """
+        Create a Dataset.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDatasetResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datasets(self, domain: Optional[str] = None) -> dict[str, GetDatasetsResponse]:
+        """
+        List Datasets.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datasets"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetsResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset(self, id: str, domain: Optional[str] = None) -> dict[str, GetDatasetResponse]:
+        """
+        Get information about a Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetResponse], "GET", __url, "application/json", None, None)
+
+    def delete_dataset(self, id: str, domain: Optional[str] = None) -> dict[str, DeleteDatasetResponse]:
+        """
+        Delete a Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDatasetResponse], "DELETE", __url, "application/json", None, None)
+
+    def put_shape(self, id: str, body: object, domain: Optional[str] = None) -> dict[str, PutShapeResponse]:
+        """
+        Modify a Dataset's dimensions.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/shape"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutShapeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_shape(self, id: str, domain: Optional[str] = None) -> dict[str, GetShapeResponse]:
+        """
+        Get information about a Dataset's shape.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/shape"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetShapeResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type(self, id: str, domain: Optional[str] = None) -> dict[str, GetDataTypeResponse]:
+        """
+        Get information about a Dataset's type.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/type"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeResponse], "GET", __url, "application/json", None, None)
+
+    def get_values_as_stream(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Response:
+        """
+        Get values from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+            select: URL-encoded string representing a selection array.
+            query: URL-encoded string of conditional expression to filter selection.
+            limit: Integer greater than zero.
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if select is not None:
+            __query_values["select"] = quote(_to_string(select), safe="")
+
+        if query is not None:
+            __query_values["query"] = quote(_to_string(query), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
+
+    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> dict[str, GetValues_as_jsonResponse]:
+        """
+        Get values from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+            select: URL-encoded string representing a selection array.
+            query: URL-encoded string of conditional expression to filter selection.
+            limit: Integer greater than zero.
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if select is not None:
+            __query_values["select"] = quote(_to_string(select), safe="")
+
+        if query is not None:
+            __query_values["query"] = quote(_to_string(query), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetValues_as_jsonResponse], "GET", __url, "application/json", None, None)
+
+    def post_values(self, id: str, body: object, domain: Optional[str] = None) -> dict[str, PostValuesResponse]:
+        """
+        Get specific data points from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostValuesResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> dict[str, GetAttributesResponse]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> dict[str, PutAttributeResponse]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> dict[str, GetAttributeResponse]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetDatasetAccessListsResponse]:
+        """
+        Get access lists on Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+
+class DatatypeClient:
+    """Provides methods to interact with datatype."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def post_data_type(self, body: object, domain: Optional[str] = None) -> dict[str, PostDataTypeResponse]:
+        """
+        Commit a Datatype to the Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/datatypes"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PostDataTypeResponse], "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_datatype(self, id: str, domain: Optional[str] = None) -> dict[str, GetDatatypeResponse]:
+        """
+        Get information about a committed Datatype
+
+        Args:
+            domain: 
+            id: UUID of the committed datatype.
+        """
+
+        __url = "/datatypes/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatatypeResponse], "GET", __url, "application/json", None, None)
+
+    def delete_datatype(self, id: str, domain: Optional[str] = None) -> dict[str, DeleteDatatypeResponse]:
+        """
+        Delete a committed Datatype.
+
+        Args:
+            domain: 
+            id: UUID of the committed datatype.
+        """
+
+        __url = "/datatypes/{id}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, DeleteDatatypeResponse], "DELETE", __url, "application/json", None, None)
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> dict[str, GetAttributesResponse]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> dict[str, PutAttributeResponse]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> dict[str, GetAttributeResponse]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetDataTypeAccessListsResponse]:
+        """
+        List access lists on Datatype.
+
+        Args:
+            id: UUID of the committed datatype.
+            domain: 
+        """
+
+        __url = "/datatypes/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeAccessListsResponse], "GET", __url, "application/json", None, None)
+
+
+class AttributeClient:
+    """Provides methods to interact with attribute."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> dict[str, GetAttributesResponse]:
+        """
+        List all Attributes attached to the HDF5 object `obj_uuid`.
+
+        Args:
+            collection: The collection of the HDF5 object (one of: `groups`, `datasets`, or `datatypes`).
+            obj_uuid: UUID of object.
+            domain: 
+            limit: Cap the number of Attributes listed.
+            marker: Start Attribute listing _after_ the given name.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        if limit is not None:
+            __query_values["Limit"] = quote(_to_string(limit), safe="")
+
+        if marker is not None:
+            __query_values["Marker"] = quote(_to_string(marker), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributesResponse], "GET", __url, "application/json", None, None)
+
+    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> dict[str, PutAttributeResponse]:
+        """
+        Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
+
+        Args:
+            domain: 
+            collection: The collection of the HDF5 object (`groups`, `datasets`, or `datatypes`).
+            obj_uuid: HDF5 object's UUID.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutAttributeResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> dict[str, GetAttributeResponse]:
+        """
+        Get information about an Attribute.
+
+        Args:
+            domain: 
+            collection: Collection of object (Group, Dataset, or Datatype).
+            obj_uuid: UUID of object.
+            attr: Name of attribute.
+        """
+
+        __url = "/{collection}/{obj_uuid}/attributes/{attr}"
+        __url = __url.replace("{collection}", quote(str(collection), safe=""))
+        __url = __url.replace("{obj_uuid}", quote(str(obj_uuid), safe=""))
+        __url = __url.replace("{attr}", quote(str(attr), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAttributeResponse], "GET", __url, "application/json", None, None)
+
+
+class ACLSClient:
+    """Provides methods to interact with acls."""
+
+    ___client: HsdsClient
+    
+    def __init__(self, client: HsdsClient):
+        self.___client = client
+
+    def get_access_lists(self, domain: Optional[str] = None) -> dict[str, GetAccessListsResponse]:
+        """
+        Get access lists on Domain.
+
+        Args:
+            domain: 
+        """
+
+        __url = "/acls"
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_user_access(self, user: str, domain: Optional[str] = None) -> dict[str, GetUserAccessResponse]:
+        """
+        Get users's access to a Domain.
+
+        Args:
+            domain: 
+            user: User identifier/name.
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> dict[str, PutUserAccessResponse]:
+        """
+        Set user's access to the Domain.
+
+        Args:
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/acls/{user}"
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, PutUserAccessResponse], "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetGroupAccessListsResponse]:
+        """
+        List access lists on Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> dict[str, GetGroupUserAccessResponse]:
+        """
+        Get users's access to a Group.
+
+        Args:
+            id: UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.
+            user: Identifier/name of a user.
+            domain: 
+        """
+
+        __url = "/groups/{id}/acls/{user}"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+        __url = __url.replace("{user}", quote(str(user), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetGroupUserAccessResponse], "GET", __url, "application/json", None, None)
+
+    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetDatasetAccessListsResponse]:
+        """
+        Get access lists on Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDatasetAccessListsResponse], "GET", __url, "application/json", None, None)
+
+    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> dict[str, GetDataTypeAccessListsResponse]:
+        """
+        List access lists on Datatype.
+
+        Args:
+            id: UUID of the committed datatype.
+            domain: 
+        """
+
+        __url = "/datatypes/{id}/acls"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        if domain is not None:
+            __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(dict[str, GetDataTypeAccessListsResponse], "GET", __url, "application/json", None, None)
 
 
 
@@ -341,6 +3927,12 @@ class HsdsAsyncClient:
     _http_client: AsyncClient
 
     _domain: DomainAsyncClient
+    _group: GroupAsyncClient
+    _link: LinkAsyncClient
+    _dataset: DatasetAsyncClient
+    _datatype: DatatypeAsyncClient
+    _attribute: AttributeAsyncClient
+    _aCLS: ACLSAsyncClient
 
 
     @classmethod
@@ -368,6 +3960,12 @@ class HsdsAsyncClient:
         self._token_pair = None
 
         self._domain = DomainAsyncClient(self)
+        self._group = GroupAsyncClient(self)
+        self._link = LinkAsyncClient(self)
+        self._dataset = DatasetAsyncClient(self)
+        self._datatype = DatatypeAsyncClient(self)
+        self._attribute = AttributeAsyncClient(self)
+        self._aCLS = ACLSAsyncClient(self)
 
 
 
@@ -375,6 +3973,36 @@ class HsdsAsyncClient:
     def domain(self) -> DomainAsyncClient:
         """Gets the DomainAsyncClient."""
         return self._domain
+
+    @property
+    def group(self) -> GroupAsyncClient:
+        """Gets the GroupAsyncClient."""
+        return self._group
+
+    @property
+    def link(self) -> LinkAsyncClient:
+        """Gets the LinkAsyncClient."""
+        return self._link
+
+    @property
+    def dataset(self) -> DatasetAsyncClient:
+        """Gets the DatasetAsyncClient."""
+        return self._dataset
+
+    @property
+    def datatype(self) -> DatatypeAsyncClient:
+        """Gets the DatatypeAsyncClient."""
+        return self._datatype
+
+    @property
+    def attribute(self) -> AttributeAsyncClient:
+        """Gets the AttributeAsyncClient."""
+        return self._attribute
+
+    @property
+    def acls(self) -> ACLSAsyncClient:
+        """Gets the ACLSAsyncClient."""
+        return self._aCLS
 
 
 
@@ -454,6 +4082,12 @@ class HsdsClient:
     _http_client: Client
 
     _domain: DomainClient
+    _group: GroupClient
+    _link: LinkClient
+    _dataset: DatasetClient
+    _datatype: DatatypeClient
+    _attribute: AttributeClient
+    _aCLS: ACLSClient
 
 
     @classmethod
@@ -481,6 +4115,12 @@ class HsdsClient:
         self._token_pair = None
 
         self._domain = DomainClient(self)
+        self._group = GroupClient(self)
+        self._link = LinkClient(self)
+        self._dataset = DatasetClient(self)
+        self._datatype = DatatypeClient(self)
+        self._attribute = AttributeClient(self)
+        self._aCLS = ACLSClient(self)
 
 
 
@@ -488,6 +4128,36 @@ class HsdsClient:
     def domain(self) -> DomainClient:
         """Gets the DomainClient."""
         return self._domain
+
+    @property
+    def group(self) -> GroupClient:
+        """Gets the GroupClient."""
+        return self._group
+
+    @property
+    def link(self) -> LinkClient:
+        """Gets the LinkClient."""
+        return self._link
+
+    @property
+    def dataset(self) -> DatasetClient:
+        """Gets the DatasetClient."""
+        return self._dataset
+
+    @property
+    def datatype(self) -> DatatypeClient:
+        """Gets the DatatypeClient."""
+        return self._datatype
+
+    @property
+    def attribute(self) -> AttributeClient:
+        """Gets the AttributeClient."""
+        return self._attribute
+
+    @property
+    def acls(self) -> ACLSClient:
+        """Gets the ACLSClient."""
+        return self._aCLS
 
 
 
