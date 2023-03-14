@@ -2,19 +2,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "HSDS spec generator",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-spec-generator",
-            "program": "${workspaceFolder}/artifacts/bin/Hsds.SpecGenerator/net7.0/Hsds.SpecGenerator.dll",
-            "args": [
-                "./"
-            ],
-            "cwd": "${workspaceFolder}",
-            "stopAtEntry": false,
-            "console": "internalConsole"
-        },
-        {
             "name": "HSDS client generator",
             "type": "coreclr",
             "request": "launch",

@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="/home/vincent/Dokumente/Git/GitHub/apollo3zehn-openapi-client-generator/src/Apollo3zehn.OpenApiClientGenerator/Apollo3zehn.OpenApiClientGenerator.csproj" />
-    <ProjectReference Include="../Hsds.SpecGenerator/Hsds.SpecGenerator.csproj" />
   </ItemGroup>
 
 </Project>
