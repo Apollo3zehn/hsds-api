@@ -3,10 +3,6 @@
 # Python <= 3.9
 from __future__ import annotations
 
-from typing import TypeVar
-
-T = TypeVar("T")
-
 import dataclasses
 import re
 import typing
@@ -16,6 +12,10 @@ from enum import Enum
 from typing import (Any, Callable, ClassVar, Optional, Type, Union,
                     cast)
 from uuid import UUID
+
+from typing import TypeVar
+
+T = TypeVar("T")
 
 @dataclass(frozen=True)
 class JsonEncoderOptions:
