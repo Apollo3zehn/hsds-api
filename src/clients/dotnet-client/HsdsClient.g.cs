@@ -3621,7 +3621,7 @@ public class HsdsException : Exception
 /// Access Control List for a single user.
 /// </summary>
 /// <param name="Username"></param>
-public record ACL(UsernameType Username);
+public record ACL(ACLUsernameType Username);
 
 /// <summary>
 /// Access Control Lists for users.
@@ -3642,9 +3642,9 @@ public record PutDomainResponse(ACLS Acls, double Created, double LastModified, 
 /// <summary>
 /// 
 /// </summary>
-/// <param name="Href">URL of resource</param>
-/// <param name="Rel">Relation to `href`.</param>
-public record HrefsType(string Href, string Rel);
+/// <param name="Href">URL to reference.</param>
+/// <param name="Rel">Relation to this Domain.</param>
+public record GetDomainResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// 
@@ -3655,7 +3655,7 @@ public record HrefsType(string Href, string Rel);
 /// <param name="Created"></param>
 /// <param name="LastModified"></param>
 /// <param name="Hrefs">Array of url references and their relation to this Domain. Should include entries for: `acls`, `database` (if not class is not `folder`), `groupbase` (if not class is not `folder`), `parent`, `root` (if not class is not `folder`), `self`, `typebase` (if not class is not `folder`).</param>
-public record GetDomainResponse(string Root, string Owner, string Class, double Created, double LastModified, IReadOnlyList<HrefsType> Hrefs);
+public record GetDomainResponse(string Root, string Owner, string Class, double Created, double LastModified, IReadOnlyList<GetDomainResponseHrefsType> Hrefs);
 
 /// <summary>
 /// The Domain or Folder which was deleted.
@@ -3675,21 +3675,28 @@ public record DeleteDomainResponse(string Domain);
 public record PostGroupResponse(string Id, string Root, double LastModified, double Created, double AttributeCount, double LinkCount);
 
 /// <summary>
+/// References to other objects.
+/// </summary>
+/// <param name="Href">URL reference.</param>
+/// <param name="Rel">Relation to this object.</param>
+public record GetGroupsResponseHrefsType(string Href, string Rel);
+
+/// <summary>
 /// 
 /// </summary>
 /// <param name="Groups"></param>
 /// <param name="Hrefs"></param>
-public record GetGroupsResponse(IReadOnlyList<string> Groups, IReadOnlyList<HrefsType> Hrefs);
+public record GetGroupsResponse(IReadOnlyList<string> Groups, IReadOnlyList<GetGroupsResponseHrefsType> Hrefs);
 
 /// <summary>
-/// 
+/// (See `GET /datasets/{id}`)
 /// </summary>
-public record TypeType();
+public record PostDatasetResponseTypeType();
 
 /// <summary>
-/// 
+/// (See `GET /datasets/{id}`)
 /// </summary>
-public record ShapeType();
+public record PostDatasetResponseShapeType();
 
 /// <summary>
 /// 
@@ -3701,14 +3708,21 @@ public record ShapeType();
 /// <param name="AttributeCount"></param>
 /// <param name="Type">(See `GET /datasets/{id}`)</param>
 /// <param name="Shape">(See `GET /datasets/{id}`)</param>
-public record PostDatasetResponse(string Id, string Root, double Created, double LastModified, double AttributeCount, TypeType Type, ShapeType Shape);
+public record PostDatasetResponse(string Id, string Root, double Created, double LastModified, double AttributeCount, PostDatasetResponseTypeType Type, PostDatasetResponseShapeType Shape);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL reference.</param>
+/// <param name="Rel">Relation to this object.</param>
+public record GetDatasetsResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// 
 /// </summary>
 /// <param name="Datasets"></param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetDatasetsResponse(IReadOnlyList<string> Datasets, IReadOnlyList<HrefsType> Hrefs);
+public record GetDatasetsResponse(IReadOnlyList<string> Datasets, IReadOnlyList<GetDatasetsResponseHrefsType> Hrefs);
 
 /// <summary>
 /// TODO
@@ -3718,25 +3732,53 @@ public record GetDatasetsResponse(IReadOnlyList<string> Datasets, IReadOnlyList<
 public record PostDataTypeResponse(double AttributeCount, string Id);
 
 /// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetAccessListsResponseHrefsType(string Href, string Rel);
+
+/// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
+public record GetAccessListsResponse(ACLS Acls, IReadOnlyList<GetAccessListsResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetUserAccessResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record GetUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
+public record GetUserAccessResponse(ACL Acl, IReadOnlyList<GetUserAccessResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record PutUserAccessResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record PutUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
+public record PutUserAccessResponse(ACL Acl, IReadOnlyList<PutUserAccessResponseHrefsType> Hrefs);
+
+/// <summary>
+/// References to other objects.
+/// </summary>
+/// <param name="Rel">Relation to this object.</param>
+/// <param name="Href">URL to reference.</param>
+public record GetGroupResponseHrefsType(string Rel, string Href);
 
 /// <summary>
 /// 
@@ -3750,12 +3792,22 @@ public record PutUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
 /// <param name="AttributeCount"></param>
 /// <param name="LinkCount"></param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetGroupResponse(string Id, string Root, IReadOnlyList<string> Alias, double Created, double LastModified, string Domain, double AttributeCount, double LinkCount, IReadOnlyList<HrefsType> Hrefs);
+public record GetGroupResponse(string Id, string Root, IReadOnlyList<string> Alias, double Created, double LastModified, string Domain, double AttributeCount, double LinkCount, IReadOnlyList<GetGroupResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
 /// </summary>
 public record DeleteGroupResponse();
+
+/// <summary>
+/// 
+/// </summary>
+public record GetAttributesResponseAttributesTypeShapeType();
+
+/// <summary>
+/// 
+/// </summary>
+public record GetAttributesResponseAttributesTypeTypeType();
 
 /// <summary>
 /// 
@@ -3766,19 +3818,38 @@ public record DeleteGroupResponse();
 /// <param name="Shape"></param>
 /// <param name="Type"></param>
 /// <param name="Value"></param>
-public record AttributesType(double Created, string Href, string Name, ShapeType Shape, TypeType Type, string Value);
+public record GetAttributesResponseAttributesType(double Created, string Href, string Name, GetAttributesResponseAttributesTypeShapeType Shape, GetAttributesResponseAttributesTypeTypeType Type, string Value);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetAttributesResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Attributes"></param>
 /// <param name="Hrefs"></param>
-public record GetAttributesResponse(IReadOnlyList<AttributesType> Attributes, IReadOnlyList<HrefsType> Hrefs);
+public record GetAttributesResponse(IReadOnlyList<GetAttributesResponseAttributesType> Attributes, IReadOnlyList<GetAttributesResponseHrefsType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 public record PutAttributeResponse();
+
+/// <summary>
+/// 
+/// </summary>
+public record GetAttributeResponseShapeType();
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetAttributeResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
@@ -3789,21 +3860,35 @@ public record PutAttributeResponse();
 /// <param name="Shape"></param>
 /// <param name="Value"></param>
 /// <param name="Hrefs"></param>
-public record GetAttributeResponse(double Created, double LastModified, string Name, ShapeType Shape, string Value, IReadOnlyList<HrefsType> Hrefs);
+public record GetAttributeResponse(double Created, double LastModified, string Name, GetAttributeResponseShapeType Shape, string Value, IReadOnlyList<GetAttributeResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetGroupAccessListsResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetGroupAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
+public record GetGroupAccessListsResponse(ACLS Acls, IReadOnlyList<GetGroupAccessListsResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetGroupUserAccessResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acl">Access Control List for a single user.</param>
 /// <param name="Hrefs"></param>
-public record GetGroupUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs);
+public record GetGroupUserAccessResponse(ACL Acl, IReadOnlyList<GetGroupUserAccessResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3815,14 +3900,21 @@ public record GetGroupUserAccessResponse(ACL Acl, IReadOnlyList<HrefsType> Hrefs
 /// <param name="Target">URL of Link target.</param>
 /// <param name="Href">URL to origin of Link.</param>
 /// <param name="Collection">What kind of object is the target. (TODO)</param>
-public record LinksType(string Id, double Created, string Class, string Title, string Target, string Href, string Collection);
+public record GetLinksResponseLinksType(string Id, double Created, string Class, string Title, string Target, string Href, string Collection);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Rel">Relation to this object.</param>
+/// <param name="Href">URL to reference.</param>
+public record GetLinksResponseHrefsType(string Rel, string Href);
 
 /// <summary>
 /// 
 /// </summary>
 /// <param name="Links"></param>
 /// <param name="Hrefs">List of references to other entities.</param>
-public record GetLinksResponse(IReadOnlyList<LinksType> Links, IReadOnlyList<HrefsType> Hrefs);
+public record GetLinksResponse(IReadOnlyList<GetLinksResponseLinksType> Links, IReadOnlyList<GetLinksResponseHrefsType> Hrefs);
 
 /// <summary>
 /// Always returns `{"hrefs": []}`.
@@ -3836,7 +3928,14 @@ public record PutLinkResponse();
 /// <param name="Title"></param>
 /// <param name="Collection"></param>
 /// <param name="Class"></param>
-public record LinkType(string Id, string Title, string Collection, string Class);
+public record GetLinkResponseLinkType(string Id, string Title, string Collection, string Class);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL to reference.</param>
+/// <param name="Rel">Relation to this object.</param>
+public record GetLinkResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// 
@@ -3845,7 +3944,7 @@ public record LinkType(string Id, string Title, string Collection, string Class)
 /// <param name="Created"></param>
 /// <param name="Link"></param>
 /// <param name="Hrefs">List of references to other entities.</param>
-public record GetLinkResponse(double LastModified, double Created, LinkType Link, IReadOnlyList<HrefsType> Hrefs);
+public record GetLinkResponse(double LastModified, double Created, GetLinkResponseLinkType Link, IReadOnlyList<GetLinkResponseHrefsType> Hrefs);
 
 /// <summary>
 /// Always returns `{"hrefs": []}`.
@@ -3857,17 +3956,40 @@ public record DeleteLinkResponse();
 /// </summary>
 /// <param name="Name">Descriptive or identifying name. Must be unique in the fields list.</param>
 /// <param name="Type">Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)</param>
-public record FieldsType(string Name, string Type);
+public record GetDatasetResponseTypeTypeFieldsType(string Name, string Type);
 
 /// <summary>
 /// TODO
 /// </summary>
-public record LayoutType();
+/// <param name="Class">TODO</param>
+/// <param name="Base">TODO</param>
+/// <param name="Fields">List of fields in a compound dataset.</param>
+public record GetDatasetResponseTypeType(string Class, string Base, IReadOnlyList<GetDatasetResponseTypeTypeFieldsType> Fields);
+
+/// <summary>
+/// TODO
+/// </summary>
+/// <param name="Class">String enum indicating expected structure.</param>
+/// <param name="Dims">Extent of each dimension in Dataset.</param>
+/// <param name="Maxdims">Maximum possible extent for each dimension.</param>
+public record GetDatasetResponseShapeType(string Class, IReadOnlyList<double> Dims, IReadOnlyList<double> Maxdims);
+
+/// <summary>
+/// TODO
+/// </summary>
+public record GetDatasetResponseLayoutType();
 
 /// <summary>
 /// Dataset creation properties as provided upon creation.
 /// </summary>
-public record CreationPropertiesType();
+public record GetDatasetResponseCreationPropertiesType();
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL to reference.</param>
+/// <param name="Rel">Relation to this object.</param>
+public record GetDatasetResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// 
@@ -3883,7 +4005,7 @@ public record CreationPropertiesType();
 /// <param name="Layout">TODO</param>
 /// <param name="CreationProperties">Dataset creation properties as provided upon creation.</param>
 /// <param name="Hrefs">List of references to other objects.</param>
-public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, TypeType Type, ShapeType Shape, LayoutType Layout, CreationPropertiesType CreationProperties, IReadOnlyList<HrefsType> Hrefs);
+public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, GetDatasetResponseTypeType Type, GetDatasetResponseShapeType Shape, GetDatasetResponseLayoutType Layout, GetDatasetResponseCreationPropertiesType CreationProperties, IReadOnlyList<GetDatasetResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3897,20 +4019,44 @@ public record DeleteDatasetResponse();
 public record PutShapeResponse(IReadOnlyList<string> Hrefs);
 
 /// <summary>
+/// 
+/// </summary>
+public record GetShapeResponseShapeType();
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetShapeResponseHrefsType(string Href, string Rel);
+
+/// <summary>
 /// (See `GET /datasets/{id}`)
 /// </summary>
 /// <param name="Created"></param>
 /// <param name="LastModified"></param>
 /// <param name="Shape"></param>
 /// <param name="Hrefs">Must include references to only: `owner`, `root`, `self`.</param>
-public record GetShapeResponse(double Created, double LastModified, ShapeType Shape, IReadOnlyList<HrefsType> Hrefs);
+public record GetShapeResponse(double Created, double LastModified, GetShapeResponseShapeType Shape, IReadOnlyList<GetShapeResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+public record GetDataTypeResponseTypeType();
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetDataTypeResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// (See `GET /datasets/{id}`)
 /// </summary>
 /// <param name="Type"></param>
 /// <param name="Hrefs"></param>
-public record GetDataTypeResponse(TypeType Type, IReadOnlyList<HrefsType> Hrefs);
+public record GetDataTypeResponse(GetDataTypeResponseTypeType Type, IReadOnlyList<GetDataTypeResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3926,11 +4072,30 @@ public record GetValuesAsJsonResponse(IReadOnlyList<string> Index, IReadOnlyList
 public record PostValuesResponse(IReadOnlyList<JsonElement> Value);
 
 /// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetDatasetAccessListsResponseHrefsType(string Href, string Rel);
+
+/// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
+public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<GetDatasetAccessListsResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+public record GetDatatypeResponseTypeType();
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record GetDatatypeResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
@@ -3942,20 +4107,34 @@ public record GetDatasetAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> 
 /// <param name="Root"></param>
 /// <param name="Type"></param>
 /// <param name="Hrefs">TODO</param>
-public record GetDatatypeResponse(double AttributeCount, double Created, string Id, double LastModified, string Root, TypeType Type, IReadOnlyList<HrefsType> Hrefs);
+public record GetDatatypeResponse(double AttributeCount, double Created, string Id, double LastModified, string Root, GetDatatypeResponseTypeType Type, IReadOnlyList<GetDatatypeResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">relation to this object</param>
+public record DeleteDatatypeResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// Always returns `{"hrefs": []}` (TODO confirm)
 /// </summary>
 /// <param name="Hrefs"></param>
-public record DeleteDatatypeResponse(IReadOnlyList<HrefsType> Hrefs);
+public record DeleteDatatypeResponse(IReadOnlyList<DeleteDatatypeResponseHrefsType> Hrefs);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Href">URL of resource</param>
+/// <param name="Rel">Relation to `href`.</param>
+public record GetDataTypeAccessListsResponseHrefsType(string Href, string Rel);
 
 /// <summary>
 /// TODO
 /// </summary>
 /// <param name="Acls">Access Control Lists for users.</param>
 /// <param name="Hrefs"></param>
-public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType> Hrefs);
+public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<GetDataTypeAccessListsResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3966,7 +4145,7 @@ public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<HrefsType>
 /// <param name="UpdateACL"></param>
 /// <param name="Read"></param>
 /// <param name="ReadACL"></param>
-public record UsernameType(bool Create, bool Update, bool Delete, bool UpdateACL, bool Read, bool ReadACL);
+public record ACLUsernameType(bool Create, bool Update, bool Delete, bool UpdateACL, bool Read, bool ReadACL);
 
 
 

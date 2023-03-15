@@ -21,6 +21,7 @@ public static class Program
 
         // TODO: workaround
         openApiJsonString = openApiJsonString.Replace("3.1.0", "3.0.3");
+        openApiJsonString = openApiJsonString.Replace("\"type\"", "type");
 
         var document = new OpenApiStringReader()
             .Read(openApiJsonString, out var diagnostic);

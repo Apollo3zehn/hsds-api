@@ -235,7 +235,7 @@ def _to_string(value: Any) -> str:
 
 _json_encoder_options: JsonEncoderOptions = JsonEncoderOptions(
     property_name_encoder=lambda value: to_camel_case(value) if value != "class_" else "class",
-    property_name_decoder=lambda value: to_snake_case(value) if value != "class" else "_class"
+    property_name_decoder=lambda value: to_snake_case(value) if value != "class" else "class_"
 )
 
 _json_encoder_options.encoders[Enum] = lambda value: to_camel_case(value.name)
@@ -263,7 +263,7 @@ class ACL:
         username: 
     """
 
-    username: UsernameType
+    username: ACLUsernameType
     """"""
 
 
@@ -310,20 +310,20 @@ class PutDomainResponse:
 
 
 @dataclass(frozen=True)
-class HrefsType:
+class GetDomainResponseHrefsType:
     """
     
 
     Args:
-        href: URL of resource
-        rel: Relation to `href`.
+        href: URL to reference.
+        rel: Relation to this Domain.
     """
 
     href: str
-    """URL of resource"""
+    """URL to reference."""
 
     rel: str
-    """Relation to `href`."""
+    """Relation to this Domain."""
 
 
 @dataclass(frozen=True)
@@ -357,7 +357,7 @@ class GetDomainResponse:
     last_modified: float
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDomainResponseHrefsType]
     """Array of url references and their relation to this Domain. Should include entries for: `acls`, `database` (if not class is not `folder`), `groupbase` (if not class is not `folder`), `parent`, `root` (if not class is not `folder`), `self`, `typebase` (if not class is not `folder`).
 """
 
@@ -409,6 +409,23 @@ class PostGroupResponse:
 
 
 @dataclass(frozen=True)
+class GetGroupsResponseHrefsType:
+    """
+    References to other objects.
+
+    Args:
+        href: URL reference.
+        rel: Relation to this object.
+    """
+
+    href: str
+    """URL reference."""
+
+    rel: str
+    """Relation to this object."""
+
+
+@dataclass(frozen=True)
 class GetGroupsResponse:
     """
     
@@ -421,23 +438,23 @@ class GetGroupsResponse:
     groups: list[str]
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetGroupsResponseHrefsType]
     """"""
 
 
 @dataclass(frozen=True)
-class TypeType:
+class PostDatasetResponseTypeType:
     """
-    
+    (See `GET /datasets/{id}`)
 
     Args:
     """
 
 
 @dataclass(frozen=True)
-class ShapeType:
+class PostDatasetResponseShapeType:
     """
-    
+    (See `GET /datasets/{id}`)
 
     Args:
     """
@@ -473,11 +490,28 @@ class PostDatasetResponse:
     attribute_count: float
     """"""
 
-    type: TypeType
+    type: PostDatasetResponseTypeType
     """(See `GET /datasets/{id}`)"""
 
-    shape: ShapeType
+    shape: PostDatasetResponseShapeType
     """(See `GET /datasets/{id}`)"""
+
+
+@dataclass(frozen=True)
+class GetDatasetsResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL reference.
+        rel: Relation to this object.
+    """
+
+    href: str
+    """URL reference."""
+
+    rel: str
+    """Relation to this object."""
 
 
 @dataclass(frozen=True)
@@ -493,7 +527,7 @@ class GetDatasetsResponse:
     datasets: list[str]
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDatasetsResponseHrefsType]
     """List of references to other objects.
 Should contain references for: `attributes`, `data`, `home`, `root`, `self`
 """
@@ -517,6 +551,23 @@ class PostDataTypeResponse:
 
 
 @dataclass(frozen=True)
+class GetAccessListsResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
+
+
+@dataclass(frozen=True)
 class GetAccessListsResponse:
     """
     TODO
@@ -529,8 +580,25 @@ class GetAccessListsResponse:
     acls: ACLS
     """Access Control Lists for users."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetAccessListsResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetUserAccessResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -546,8 +614,25 @@ class GetUserAccessResponse:
     acl: ACL
     """Access Control List for a single user."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetUserAccessResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class PutUserAccessResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -563,8 +648,25 @@ class PutUserAccessResponse:
     acl: ACL
     """Access Control List for a single user."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[PutUserAccessResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetGroupResponseHrefsType:
+    """
+    References to other objects.
+
+    Args:
+        rel: Relation to this object.
+        href: URL to reference.
+    """
+
+    rel: str
+    """Relation to this object."""
+
+    href: str
+    """URL to reference."""
 
 
 @dataclass(frozen=True)
@@ -610,7 +712,7 @@ Only present if `alias=1` is present as query parameter.
     link_count: float
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetGroupResponseHrefsType]
     """List of references to other objects."""
 
 
@@ -624,7 +726,25 @@ class DeleteGroupResponse:
 
 
 @dataclass(frozen=True)
-class AttributesType:
+class GetAttributesResponseAttributesTypeShapeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetAttributesResponseAttributesTypeTypeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetAttributesResponseAttributesType:
     """
     
 
@@ -646,14 +766,31 @@ class AttributesType:
     name: str
     """"""
 
-    shape: ShapeType
+    shape: GetAttributesResponseAttributesTypeShapeType
     """"""
 
-    type: TypeType
+    type: GetAttributesResponseAttributesTypeTypeType
     """"""
 
     value: str
     """"""
+
+
+@dataclass(frozen=True)
+class GetAttributesResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -666,10 +803,10 @@ class GetAttributesResponse:
         hrefs: 
     """
 
-    attributes: list[AttributesType]
+    attributes: list[GetAttributesResponseAttributesType]
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetAttributesResponseHrefsType]
     """"""
 
 
@@ -680,6 +817,32 @@ class PutAttributeResponse:
 
     Args:
     """
+
+
+@dataclass(frozen=True)
+class GetAttributeResponseShapeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetAttributeResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -705,14 +868,31 @@ class GetAttributeResponse:
     name: str
     """"""
 
-    shape: ShapeType
+    shape: GetAttributeResponseShapeType
     """"""
 
     value: str
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetAttributeResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetGroupAccessListsResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -728,8 +908,25 @@ class GetGroupAccessListsResponse:
     acls: ACLS
     """Access Control Lists for users."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetGroupAccessListsResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetGroupUserAccessResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -745,12 +942,12 @@ class GetGroupUserAccessResponse:
     acl: ACL
     """Access Control List for a single user."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetGroupUserAccessResponseHrefsType]
     """"""
 
 
 @dataclass(frozen=True)
-class LinksType:
+class GetLinksResponseLinksType:
     """
     
 
@@ -790,6 +987,23 @@ class LinksType:
 
 
 @dataclass(frozen=True)
+class GetLinksResponseHrefsType:
+    """
+    
+
+    Args:
+        rel: Relation to this object.
+        href: URL to reference.
+    """
+
+    rel: str
+    """Relation to this object."""
+
+    href: str
+    """URL to reference."""
+
+
+@dataclass(frozen=True)
 class GetLinksResponse:
     """
     
@@ -799,10 +1013,10 @@ class GetLinksResponse:
         hrefs: List of references to other entities.
     """
 
-    links: list[LinksType]
+    links: list[GetLinksResponseLinksType]
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetLinksResponseHrefsType]
     """List of references to other entities.
 Should contain references for: `home`, `owner`, `self`.
 """
@@ -818,7 +1032,7 @@ class PutLinkResponse:
 
 
 @dataclass(frozen=True)
-class LinkType:
+class GetLinkResponseLinkType:
     """
     
 
@@ -843,6 +1057,23 @@ class LinkType:
 
 
 @dataclass(frozen=True)
+class GetLinkResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL to reference.
+        rel: Relation to this object.
+    """
+
+    href: str
+    """URL to reference."""
+
+    rel: str
+    """Relation to this object."""
+
+
+@dataclass(frozen=True)
 class GetLinkResponse:
     """
     
@@ -860,10 +1091,10 @@ class GetLinkResponse:
     created: float
     """"""
 
-    link: LinkType
+    link: GetLinkResponseLinkType
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetLinkResponseHrefsType]
     """List of references to other entities.
 Should contain references for: `home`, `owner`, `self`, `target`,
 """
@@ -879,7 +1110,7 @@ class DeleteLinkResponse:
 
 
 @dataclass(frozen=True)
-class FieldsType:
+class GetDatasetResponseTypeTypeFieldsType:
     """
     
 
@@ -898,7 +1129,64 @@ class FieldsType:
 
 
 @dataclass(frozen=True)
-class LayoutType:
+class GetDatasetResponseTypeType:
+    """
+    TODO
+
+    Args:
+        class: TODO
+        base: TODO
+        fields: List of fields in a compound dataset.
+    """
+
+    class_: str
+    """TODO
+"""
+
+    base: str
+    """TODO
+Only present if class is not `H5T_COMPUND`.
+"""
+
+    fields: list[GetDatasetResponseTypeTypeFieldsType]
+    """List of fields in a compound dataset.
+Only present if `class` is `H5T_COMPOUND`.
+"""
+
+
+@dataclass(frozen=True)
+class GetDatasetResponseShapeType:
+    """
+    TODO
+
+    Args:
+        class: String enum indicating expected structure.
+        dims: Extent of each dimension in Dataset.
+        maxdims: Maximum possible extent for each dimension.
+    """
+
+    class_: str
+    """String enum indicating expected structure.
++ H5S_NULL -- Dataset has no data and no shape.
++ H5S_SCALAR -- Single entity as the Datast.
++ H5S_SIMPLE -- Dataset has hyperrectangular shape of
+  one or more dimensions.
+"""
+
+    dims: list[float]
+    """Extent of each dimension in Dataset.
+Only present if `class` is `H5S_SIMPLE`.
+"""
+
+    maxdims: list[float]
+    """Maximum possible extent for each dimension.
+Value of `0` in array indicates that the dimension has unlimited maximum extent.
+Only present if `class` is `H5S_SIMPLE`, and `maxdims` was included upon Dataset creation.
+"""
+
+
+@dataclass(frozen=True)
+class GetDatasetResponseLayoutType:
     """
     TODO
 
@@ -907,12 +1195,29 @@ class LayoutType:
 
 
 @dataclass(frozen=True)
-class CreationPropertiesType:
+class GetDatasetResponseCreationPropertiesType:
     """
     Dataset creation properties as provided upon creation.
 
     Args:
     """
+
+
+@dataclass(frozen=True)
+class GetDatasetResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL to reference.
+        rel: Relation to this object.
+    """
+
+    href: str
+    """URL to reference."""
+
+    rel: str
+    """Relation to this object."""
 
 
 @dataclass(frozen=True)
@@ -952,20 +1257,20 @@ class GetDatasetResponse:
     attribute_count: float
     """"""
 
-    type: TypeType
+    type: GetDatasetResponseTypeType
     """TODO"""
 
-    shape: ShapeType
+    shape: GetDatasetResponseShapeType
     """TODO"""
 
-    layout: LayoutType
+    layout: GetDatasetResponseLayoutType
     """TODO"""
 
-    creation_properties: CreationPropertiesType
+    creation_properties: GetDatasetResponseCreationPropertiesType
     """Dataset creation properties as provided upon creation.
 """
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDatasetResponseHrefsType]
     """List of references to other objects.
 Must include references to only: `attributes`, `data` (shape class `H5S_NULL` must _not_ include `data`), `root`, `self`.
 """
@@ -994,6 +1299,32 @@ class PutShapeResponse:
 
 
 @dataclass(frozen=True)
+class GetShapeResponseShapeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetShapeResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
+
+
+@dataclass(frozen=True)
 class GetShapeResponse:
     """
     (See `GET /datasets/{id}`)
@@ -1011,12 +1342,38 @@ class GetShapeResponse:
     last_modified: float
     """"""
 
-    shape: ShapeType
+    shape: GetShapeResponseShapeType
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetShapeResponseHrefsType]
     """Must include references to only: `owner`, `root`, `self`.
 """
+
+
+@dataclass(frozen=True)
+class GetDataTypeResponseTypeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetDataTypeResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -1029,15 +1386,15 @@ class GetDataTypeResponse:
         hrefs: 
     """
 
-    type: TypeType
+    type: GetDataTypeResponseTypeType
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDataTypeResponseHrefsType]
     """"""
 
 
 @dataclass(frozen=True)
-class GetValues_as_jsonResponse:
+class GetValuesAsJsonResponse:
     """
     
 
@@ -1069,6 +1426,23 @@ class PostValuesResponse:
 
 
 @dataclass(frozen=True)
+class GetDatasetAccessListsResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
+
+
+@dataclass(frozen=True)
 class GetDatasetAccessListsResponse:
     """
     TODO
@@ -1081,8 +1455,34 @@ class GetDatasetAccessListsResponse:
     acls: ACLS
     """Access Control Lists for users."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDatasetAccessListsResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetDatatypeResponseTypeType:
+    """
+    
+
+    Args:
+    """
+
+
+@dataclass(frozen=True)
+class GetDatatypeResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -1115,11 +1515,28 @@ class GetDatatypeResponse:
     root: str
     """"""
 
-    type: TypeType
+    type: GetDatatypeResponseTypeType
     """"""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDatatypeResponseHrefsType]
     """TODO"""
+
+
+@dataclass(frozen=True)
+class DeleteDatatypeResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: relation to this object
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """relation to this object"""
 
 
 @dataclass(frozen=True)
@@ -1131,8 +1548,25 @@ class DeleteDatatypeResponse:
         hrefs: 
     """
 
-    hrefs: list[HrefsType]
+    hrefs: list[DeleteDatatypeResponseHrefsType]
     """"""
+
+
+@dataclass(frozen=True)
+class GetDataTypeAccessListsResponseHrefsType:
+    """
+    
+
+    Args:
+        href: URL of resource
+        rel: Relation to `href`.
+    """
+
+    href: str
+    """URL of resource"""
+
+    rel: str
+    """Relation to `href`."""
 
 
 @dataclass(frozen=True)
@@ -1148,12 +1582,12 @@ class GetDataTypeAccessListsResponse:
     acls: ACLS
     """Access Control Lists for users."""
 
-    hrefs: list[HrefsType]
+    hrefs: list[GetDataTypeAccessListsResponseHrefsType]
     """"""
 
 
 @dataclass(frozen=True)
-class UsernameType:
+class ACLUsernameType:
     """
     
 
@@ -1975,7 +2409,7 @@ class DatasetAsyncClient:
 
         return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
 
-    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[GetValues_as_jsonResponse]:
+    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[GetValuesAsJsonResponse]:
         """
         Get values from Dataset.
 
@@ -2007,7 +2441,7 @@ class DatasetAsyncClient:
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetValues_as_jsonResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
     def post_values(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[PostValuesResponse]:
         """
@@ -3363,7 +3797,7 @@ class DatasetClient:
 
         return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
 
-    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> GetValues_as_jsonResponse:
+    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> GetValuesAsJsonResponse:
         """
         Get values from Dataset.
 
@@ -3395,7 +3829,7 @@ class DatasetClient:
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetValues_as_jsonResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
     def post_values(self, id: str, body: object, domain: Optional[str] = None) -> PostValuesResponse:
         """
