@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <AssemblyName>Hsds.Api</AssemblyName>
-    <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

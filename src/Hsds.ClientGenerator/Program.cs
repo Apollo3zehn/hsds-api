@@ -68,6 +68,7 @@ public static class Program
 
                 return $"{type}{methodName}";
             },
+            Special_WebAssemblySupport: false,
             Special_RefreshTokenSupport: false,
             Special_NexusFeatures: false);
 

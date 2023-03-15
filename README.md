@@ -6,7 +6,7 @@ This project hosts auto-generated C# and (type-annotated) Python clients for the
 
 You can use them like this:
 
-## .NET
+## .NET 6+
 
 `dotnet add package Hsds.Api --prerelease`
 
