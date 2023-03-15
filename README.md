@@ -1,5 +1,7 @@
 # Hsds.Api
 
+[![GitHub Actions](https://github.com/Apollo3zehn/apollo3zehn-openapi-client-generator/actions/workflows/build-and-publish.yml/badge.svg)](https://github.com/Apollo3zehn/hsds-api/actions) [![NuGet](https://img.shields.io/nuget/v/Hsds.Api?label=Nuget)](https://www.nuget.org/packages/Hsds.Api)
+
 This project hosts auto-generated C# and (type-annotated) Python clients for the HDF5 Highly Scalable Data Service (HSDS).
 
 You can use them like this:

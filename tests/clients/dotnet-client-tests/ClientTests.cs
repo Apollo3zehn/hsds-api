@@ -1,9 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text.Json;
-using Hsds.Api;
 using Xunit;
 
-namespace Nexus.Api.Tests
+namespace Hsds.Api.Tests
 {
     public class ClientTests
     {
