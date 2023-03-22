@@ -279,7 +279,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
-    PutDomainResponse PutDomain(JsonElement? body, string? domain = default, double? folder = default);
+    PutDomainResponse PutDomain(string domain, JsonElement? body, double? folder = default);
 
     /// <summary>
     /// Create a new Domain on the service.
@@ -288,40 +288,40 @@ public interface IDomainClient
     /// <param name="folder">If present and `1`, creates a Folder instead of a Domain.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutDomainResponse> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default);
+    Task<PutDomainResponse> PutDomainAsync(string domain, JsonElement? body, double? folder = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDomainResponse GetDomain(string? domain = default);
+    GetDomainResponse GetDomain(string domain);
 
     /// <summary>
     /// Get information about the requested domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDomainResponse> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDomainResponse> GetDomainAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    DeleteDomainResponse DeleteDomain(string? domain = default);
+    DeleteDomainResponse DeleteDomain(string domain);
 
     /// <summary>
     /// Delete the specified Domain or Folder.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<DeleteDomainResponse> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDomainResponse> DeleteDomainAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Group.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    PostGroupResponse PostGroup(JsonElement? body, string? domain = default);
+    PostGroupResponse PostGroup(string domain, JsonElement? body);
 
     /// <summary>
     /// Create a new Group.
@@ -329,27 +329,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostGroupResponse> PostGroupAsync(string domain, JsonElement? body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupsResponse GetGroups(string? domain = default);
+    GetGroupsResponse GetGroups(string domain);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupsResponse> GetGroupsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a Dataset.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
-    PostDatasetResponse PostDataset(JsonElement body, string? domain = default);
+    PostDatasetResponse PostDataset(string domain, JsonElement body);
 
     /// <summary>
     /// Create a Dataset.
@@ -357,27 +357,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDatasetResponse> PostDatasetAsync(string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDatasetsResponse GetDatasets(string? domain = default);
+    GetDatasetsResponse GetDatasets(string domain);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetsResponse> GetDatasetsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
-    PostDataTypeResponse PostDataType(JsonElement body, string? domain = default);
+    PostDataTypeResponse PostDataType(string domain, JsonElement body);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
@@ -385,27 +385,27 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDataTypeResponse> PostDataTypeAsync(string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetAccessListsResponse GetAccessLists(string? domain = default);
+    GetAccessListsResponse GetAccessLists(string domain);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAccessListsResponse> GetAccessListsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
-    GetUserAccessResponse GetUserAccess(string user, string? domain = default);
+    GetUserAccessResponse GetUserAccess(string domain, string user);
 
     /// <summary>
     /// Get users's access to a Domain.
@@ -413,7 +413,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetUserAccessResponse> GetUserAccessAsync(string domain, string user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -421,7 +421,7 @@ public interface IDomainClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
-    PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default);
+    PutUserAccessResponse PutUserAccess(string user, string domain, JsonElement body);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -430,7 +430,7 @@ public interface IDomainClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutUserAccessResponse> PutUserAccessAsync(string user, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
 }
 
@@ -445,15 +445,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public PutDomainResponse PutDomain(JsonElement? body, string? domain = default, double? folder = default)
+    public PutDomainResponse PutDomain(string domain, JsonElement? body, double? folder = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (folder is not null)
             __queryValues["folder"] = Uri.EscapeDataString(Convert.ToString(folder, CultureInfo.InvariantCulture)!);
@@ -466,15 +465,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<PutDomainResponse> PutDomainAsync(JsonElement? body, string? domain = default, double? folder = default, CancellationToken cancellationToken = default)
+    public Task<PutDomainResponse> PutDomainAsync(string domain, JsonElement? body, double? folder = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (folder is not null)
             __queryValues["folder"] = Uri.EscapeDataString(Convert.ToString(folder, CultureInfo.InvariantCulture)!);
@@ -487,15 +485,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public GetDomainResponse GetDomain(string? domain = default)
+    public GetDomainResponse GetDomain(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -505,15 +502,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<GetDomainResponse> GetDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDomainResponse> GetDomainAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -523,15 +519,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public DeleteDomainResponse DeleteDomain(string? domain = default)
+    public DeleteDomainResponse DeleteDomain(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -541,15 +536,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<DeleteDomainResponse> DeleteDomainAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDomainResponse> DeleteDomainAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -559,15 +553,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public PostGroupResponse PostGroup(JsonElement? body, string? domain = default)
+    public PostGroupResponse PostGroup(string domain, JsonElement? body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -577,15 +570,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostGroupResponse> PostGroupAsync(string domain, JsonElement? body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -595,15 +587,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public GetGroupsResponse GetGroups(string? domain = default)
+    public GetGroupsResponse GetGroups(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -613,15 +604,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupsResponse> GetGroupsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -631,15 +621,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public PostDatasetResponse PostDataset(JsonElement body, string? domain = default)
+    public PostDatasetResponse PostDataset(string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -649,15 +638,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDatasetResponse> PostDatasetAsync(string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -667,15 +655,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public GetDatasetsResponse GetDatasets(string? domain = default)
+    public GetDatasetsResponse GetDatasets(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -685,15 +672,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetsResponse> GetDatasetsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -703,15 +689,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public PostDataTypeResponse PostDataType(JsonElement body, string? domain = default)
+    public PostDataTypeResponse PostDataType(string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -721,15 +706,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDataTypeResponse> PostDataTypeAsync(string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -739,15 +723,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public GetAccessListsResponse GetAccessLists(string? domain = default)
+    public GetAccessListsResponse GetAccessLists(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -757,15 +740,14 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAccessListsResponse> GetAccessListsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -775,7 +757,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public GetUserAccessResponse GetUserAccess(string user, string? domain = default)
+    public GetUserAccessResponse GetUserAccess(string domain, string user)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -783,8 +765,7 @@ public class DomainClient : IDomainClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -794,7 +775,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetUserAccessResponse> GetUserAccessAsync(string domain, string user, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -802,8 +783,7 @@ public class DomainClient : IDomainClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -813,7 +793,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default)
+    public PutUserAccessResponse PutUserAccess(string user, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -821,8 +801,7 @@ public class DomainClient : IDomainClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -832,7 +811,7 @@ public class DomainClient : IDomainClient
     }
 
     /// <inheritdoc />
-    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -840,8 +819,7 @@ public class DomainClient : IDomainClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -862,7 +840,7 @@ public interface IGroupClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
-    PostGroupResponse PostGroup(JsonElement? body, string? domain = default);
+    PostGroupResponse PostGroup(string domain, JsonElement? body);
 
     /// <summary>
     /// Create a new Group.
@@ -870,20 +848,20 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostGroupResponse> PostGroupAsync(string domain, JsonElement? body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupsResponse GetGroups(string? domain = default);
+    GetGroupsResponse GetGroups(string domain);
 
     /// <summary>
     /// Get UUIDs for all non-root Groups in Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupsResponse> GetGroupsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Group.
@@ -891,7 +869,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
-    GetGroupResponse GetGroup(string id, string? domain = default, int? getalias = default);
+    GetGroupResponse GetGroup(string id, string domain, int? getalias = default);
 
     /// <summary>
     /// Get information about a Group.
@@ -900,14 +878,14 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="getalias">Optional body content, gets the alias (path name(s) from root) of the group as part of the response. Only includes paths as reached via _hard_ Links.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupResponse> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default);
+    Task<GetGroupResponse> GetGroupAsync(string id, string domain, int? getalias = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    DeleteGroupResponse DeleteGroup(string id, string? domain = default);
+    DeleteGroupResponse DeleteGroup(string id, string domain);
 
     /// <summary>
     /// Delete a Group.
@@ -915,7 +893,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<DeleteGroupResponse> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteGroupResponse> DeleteGroupAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -925,7 +903,7 @@ public interface IGroupClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -936,7 +914,7 @@ public interface IGroupClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -946,7 +924,7 @@ public interface IGroupClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -957,7 +935,7 @@ public interface IGroupClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -966,7 +944,7 @@ public interface IGroupClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -976,14 +954,14 @@ public interface IGroupClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default);
+    GetGroupAccessListsResponse GetGroupAccessLists(string id, string domain);
 
     /// <summary>
     /// List access lists on Group.
@@ -991,7 +969,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -999,7 +977,7 @@ public interface IGroupClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default);
+    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string domain);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -1008,7 +986,7 @@ public interface IGroupClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string domain, CancellationToken cancellationToken = default);
 
 }
 
@@ -1023,15 +1001,14 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public PostGroupResponse PostGroup(JsonElement? body, string? domain = default)
+    public PostGroupResponse PostGroup(string domain, JsonElement? body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1041,15 +1018,14 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<PostGroupResponse> PostGroupAsync(JsonElement? body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostGroupResponse> PostGroupAsync(string domain, JsonElement? body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1059,15 +1035,14 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public GetGroupsResponse GetGroups(string? domain = default)
+    public GetGroupsResponse GetGroups(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1077,15 +1052,14 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupsResponse> GetGroupsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupsResponse> GetGroupsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1095,7 +1069,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public GetGroupResponse GetGroup(string id, string? domain = default, int? getalias = default)
+    public GetGroupResponse GetGroup(string id, string domain, int? getalias = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1103,8 +1077,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (getalias is not null)
             __queryValues["getalias"] = Uri.EscapeDataString(Convert.ToString(getalias, CultureInfo.InvariantCulture)!);
@@ -1117,7 +1090,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupResponse> GetGroupAsync(string id, string? domain = default, int? getalias = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupResponse> GetGroupAsync(string id, string domain, int? getalias = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1125,8 +1098,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (getalias is not null)
             __queryValues["getalias"] = Uri.EscapeDataString(Convert.ToString(getalias, CultureInfo.InvariantCulture)!);
@@ -1139,7 +1111,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public DeleteGroupResponse DeleteGroup(string id, string? domain = default)
+    public DeleteGroupResponse DeleteGroup(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1147,8 +1119,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1158,7 +1129,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<DeleteGroupResponse> DeleteGroupAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteGroupResponse> DeleteGroupAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}");
@@ -1166,8 +1137,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1177,7 +1147,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -1186,8 +1156,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -1203,7 +1172,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -1212,8 +1181,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -1229,7 +1197,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1239,8 +1207,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1250,7 +1217,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1260,8 +1227,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1271,7 +1237,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1281,18 +1247,17 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<AttributeType>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -1302,18 +1267,17 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<AttributeType>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default)
+    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -1321,8 +1285,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1332,7 +1295,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -1340,8 +1303,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1351,7 +1313,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default)
+    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -1360,8 +1322,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1371,7 +1332,7 @@ public class GroupClient : IGroupClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -1380,8 +1341,7 @@ public class GroupClient : IGroupClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1404,7 +1364,7 @@ public interface ILinkClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
-    GetLinksResponse GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default);
+    GetLinksResponse GetLinks(string id, string domain, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Links in a Group.
@@ -1414,7 +1374,7 @@ public interface ILinkClient
     /// <param name="Limit">Cap the number of Links returned in list.</param>
     /// <param name="Marker">Title of a Link; the first Link name to list.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetLinksResponse> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetLinksResponse> GetLinksAsync(string id, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create a new Link in a Group.
@@ -1423,7 +1383,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
-    PutLinkResponse PutLink(string id, string linkname, JsonElement body, string? domain = default);
+    PutLinkResponse PutLink(string id, string linkname, string domain, JsonElement body);
 
     /// <summary>
     /// Create a new Link in a Group.
@@ -1433,7 +1393,7 @@ public interface ILinkClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Link to create.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutLinkResponse> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutLinkResponse> PutLinkAsync(string id, string linkname, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get Link info.
@@ -1441,7 +1401,7 @@ public interface ILinkClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetLinkResponse GetLink(string id, string linkname, string? domain = default);
+    GetLinkResponse GetLink(string id, string linkname, string domain);
 
     /// <summary>
     /// Get Link info.
@@ -1450,7 +1410,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete Link.
@@ -1458,7 +1418,7 @@ public interface ILinkClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    DeleteLinkResponse DeleteLink(string id, string linkname, string? domain = default);
+    DeleteLinkResponse DeleteLink(string id, string linkname, string domain);
 
     /// <summary>
     /// Delete Link.
@@ -1467,7 +1427,7 @@ public interface ILinkClient
     /// <param name="linkname">URL-encoded name of the Link. Label/name/title of the Link, e.g., `dset1` or `group3`. `linkname` cannot contain slashes.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string domain, CancellationToken cancellationToken = default);
 
 }
 
@@ -1482,7 +1442,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public GetLinksResponse GetLinks(string id, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetLinksResponse GetLinks(string id, string domain, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links");
@@ -1490,8 +1450,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -1507,7 +1466,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public Task<GetLinksResponse> GetLinksAsync(string id, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetLinksResponse> GetLinksAsync(string id, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links");
@@ -1515,8 +1474,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -1532,7 +1490,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public PutLinkResponse PutLink(string id, string linkname, JsonElement body, string? domain = default)
+    public PutLinkResponse PutLink(string id, string linkname, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1541,8 +1499,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1552,7 +1509,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public Task<PutLinkResponse> PutLinkAsync(string id, string linkname, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutLinkResponse> PutLinkAsync(string id, string linkname, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1561,8 +1518,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1572,7 +1528,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public GetLinkResponse GetLink(string id, string linkname, string? domain = default)
+    public GetLinkResponse GetLink(string id, string linkname, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1581,8 +1537,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1592,7 +1547,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetLinkResponse> GetLinkAsync(string id, string linkname, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1601,8 +1556,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1612,7 +1566,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public DeleteLinkResponse DeleteLink(string id, string linkname, string? domain = default)
+    public DeleteLinkResponse DeleteLink(string id, string linkname, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1621,8 +1575,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1632,7 +1585,7 @@ public class LinkClient : ILinkClient
     }
 
     /// <inheritdoc />
-    public Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteLinkResponse> DeleteLinkAsync(string id, string linkname, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/links/{linkname}");
@@ -1641,8 +1594,7 @@ public class LinkClient : ILinkClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1663,7 +1615,7 @@ public interface IDatasetClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
-    PostDatasetResponse PostDataset(JsonElement body, string? domain = default);
+    PostDatasetResponse PostDataset(string domain, JsonElement body);
 
     /// <summary>
     /// Create a Dataset.
@@ -1671,27 +1623,27 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing the Dataset's properties.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDatasetResponse> PostDatasetAsync(string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDatasetsResponse GetDatasets(string? domain = default);
+    GetDatasetsResponse GetDatasets(string domain);
 
     /// <summary>
     /// List Datasets.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetsResponse> GetDatasetsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDatasetResponse GetDataset(string id, string? domain = default);
+    GetDatasetResponse GetDataset(string id, string domain);
 
     /// <summary>
     /// Get information about a Dataset.
@@ -1699,14 +1651,14 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatasetResponse> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetResponse> GetDatasetAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    DeleteDatasetResponse DeleteDataset(string id, string? domain = default);
+    DeleteDatasetResponse DeleteDataset(string id, string domain);
 
     /// <summary>
     /// Delete a Dataset.
@@ -1714,7 +1666,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Modify a Dataset's dimensions.
@@ -1722,7 +1674,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
-    PutShapeResponse PutShape(string id, JsonElement body, string? domain = default);
+    PutShapeResponse PutShape(string id, string domain, JsonElement body);
 
     /// <summary>
     /// Modify a Dataset's dimensions.
@@ -1731,14 +1683,14 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Array of nonzero integers.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutShapeResponse> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutShapeResponse> PutShapeAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset's shape.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetShapeResponse GetShape(string id, string? domain = default);
+    GetShapeResponse GetShape(string id, string domain);
 
     /// <summary>
     /// Get information about a Dataset's shape.
@@ -1746,14 +1698,14 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetShapeResponse> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetShapeResponse> GetShapeAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a Dataset's type.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDataTypeResponse GetDataType(string id, string? domain = default);
+    GetDataTypeResponse GetDataType(string id, string domain);
 
     /// <summary>
     /// Get information about a Dataset's type.
@@ -1761,7 +1713,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDataTypeResponse> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeResponse> GetDataTypeAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Write values to Dataset.
@@ -1769,7 +1721,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing what to write.</param>
-    void PutValues(string id, JsonElement body, string? domain = default);
+    void PutValues(string id, string domain, JsonElement body);
 
     /// <summary>
     /// Write values to Dataset.
@@ -1778,7 +1730,7 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object describing what to write.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task PutValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get values from Dataset.
@@ -1788,28 +1740,7 @@ public interface IDatasetClient
     /// <param name="select">URL-encoded string representing a selection array.</param>
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
-    HttpResponseMessage GetValuesAsStream(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
-
-    /// <summary>
-    /// Get values from Dataset.
-    /// </summary>
-    /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    /// <param name="select">URL-encoded string representing a selection array.</param>
-    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
-    /// <param name="Limit">Integer greater than zero.</param>
-    /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Get values from Dataset.
-    /// </summary>
-    /// <param name="id">UUID of the Dataset.</param>
-    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    /// <param name="select">URL-encoded string representing a selection array.</param>
-    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
-    /// <param name="Limit">Integer greater than zero.</param>
-    GetValuesAsJsonResponse GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default);
+    HttpResponseMessage GetValuesAsStream(string id, string domain, string? select = default, string? query = default, double? Limit = default);
 
     /// <summary>
     /// Get values from Dataset.
@@ -1820,7 +1751,28 @@ public interface IDatasetClient
     /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
     /// <param name="Limit">Integer greater than zero.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
+    Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string domain, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get values from Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="select">URL-encoded string representing a selection array.</param>
+    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
+    /// <param name="Limit">Integer greater than zero.</param>
+    GetValuesAsJsonResponse GetValuesAsJson(string id, string domain, string? select = default, string? query = default, double? Limit = default);
+
+    /// <summary>
+    /// Get values from Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="select">URL-encoded string representing a selection array.</param>
+    /// <param name="query">URL-encoded string of conditional expression to filter selection.</param>
+    /// <param name="Limit">Integer greater than zero.</param>
+    /// <param name="cancellationToken">The token to cancel the current operation.</param>
+    Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string domain, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get specific data points from Dataset.
@@ -1828,7 +1780,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
-    PostValuesResponse PostValues(string id, JsonElement body, string? domain = default);
+    PostValuesResponse PostValues(string id, string domain, JsonElement body);
 
     /// <summary>
     /// Get specific data points from Dataset.
@@ -1837,7 +1789,7 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostValuesResponse> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostValuesResponse> PostValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -1847,7 +1799,7 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -1858,7 +1810,7 @@ public interface IDatasetClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -1868,7 +1820,7 @@ public interface IDatasetClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -1879,7 +1831,7 @@ public interface IDatasetClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -1888,7 +1840,7 @@ public interface IDatasetClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -1898,14 +1850,14 @@ public interface IDatasetClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default);
+    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string domain);
 
     /// <summary>
     /// Get access lists on Dataset.
@@ -1913,7 +1865,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
 }
 
@@ -1928,15 +1880,14 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public PostDatasetResponse PostDataset(JsonElement body, string? domain = default)
+    public PostDatasetResponse PostDataset(string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1946,15 +1897,14 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<PostDatasetResponse> PostDatasetAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDatasetResponse> PostDatasetAsync(string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1964,15 +1914,14 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetDatasetsResponse GetDatasets(string? domain = default)
+    public GetDatasetsResponse GetDatasets(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -1982,15 +1931,14 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatasetsResponse> GetDatasetsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetsResponse> GetDatasetsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2000,7 +1948,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetDatasetResponse GetDataset(string id, string? domain = default)
+    public GetDatasetResponse GetDataset(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2008,8 +1956,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2019,7 +1966,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatasetResponse> GetDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetResponse> GetDatasetAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2027,8 +1974,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2038,7 +1984,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public DeleteDatasetResponse DeleteDataset(string id, string? domain = default)
+    public DeleteDatasetResponse DeleteDataset(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2046,8 +1992,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2057,7 +2002,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDatasetResponse> DeleteDatasetAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}");
@@ -2065,8 +2010,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2076,7 +2020,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public PutShapeResponse PutShape(string id, JsonElement body, string? domain = default)
+    public PutShapeResponse PutShape(string id, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2084,8 +2028,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2095,7 +2038,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<PutShapeResponse> PutShapeAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutShapeResponse> PutShapeAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2103,8 +2046,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2114,7 +2056,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetShapeResponse GetShape(string id, string? domain = default)
+    public GetShapeResponse GetShape(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2122,8 +2064,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2133,7 +2074,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetShapeResponse> GetShapeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetShapeResponse> GetShapeAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/shape");
@@ -2141,8 +2082,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2152,7 +2092,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetDataTypeResponse GetDataType(string id, string? domain = default)
+    public GetDataTypeResponse GetDataType(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/type");
@@ -2160,8 +2100,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2171,7 +2110,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetDataTypeResponse> GetDataTypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeResponse> GetDataTypeAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/type");
@@ -2179,8 +2118,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2190,7 +2128,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public void PutValues(string id, JsonElement body, string? domain = default)
+    public void PutValues(string id, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2198,8 +2136,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2209,7 +2146,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task PutValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task PutValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2217,8 +2154,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2228,7 +2164,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public HttpResponseMessage GetValuesAsStream(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
+    public HttpResponseMessage GetValuesAsStream(string id, string domain, string? select = default, string? query = default, double? Limit = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2236,8 +2172,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (select is not null)
             __queryValues["select"] = Uri.EscapeDataString(select);
@@ -2256,7 +2191,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
+    public Task<HttpResponseMessage> GetValuesAsStreamAsync(string id, string domain, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2264,8 +2199,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (select is not null)
             __queryValues["select"] = Uri.EscapeDataString(select);
@@ -2284,7 +2218,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetValuesAsJsonResponse GetValuesAsJson(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default)
+    public GetValuesAsJsonResponse GetValuesAsJson(string id, string domain, string? select = default, string? query = default, double? Limit = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2292,8 +2226,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (select is not null)
             __queryValues["select"] = Uri.EscapeDataString(select);
@@ -2312,7 +2245,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string? domain = default, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
+    public Task<GetValuesAsJsonResponse> GetValuesAsJsonAsync(string id, string domain, string? select = default, string? query = default, double? Limit = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2320,8 +2253,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (select is not null)
             __queryValues["select"] = Uri.EscapeDataString(select);
@@ -2340,7 +2272,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public PostValuesResponse PostValues(string id, JsonElement body, string? domain = default)
+    public PostValuesResponse PostValues(string id, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2348,8 +2280,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2359,7 +2290,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<PostValuesResponse> PostValuesAsync(string id, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostValuesResponse> PostValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2367,8 +2298,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2378,7 +2308,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2387,8 +2317,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -2404,7 +2333,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2413,8 +2342,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -2430,7 +2358,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2440,8 +2368,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2451,7 +2378,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2461,8 +2388,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2472,7 +2398,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2482,18 +2408,17 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<AttributeType>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2503,18 +2428,17 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<AttributeType>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default)
+    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -2522,8 +2446,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2533,7 +2456,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -2541,8 +2464,7 @@ public class DatasetClient : IDatasetClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2563,7 +2485,7 @@ public interface IDatatypeClient
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
-    PostDataTypeResponse PostDataType(JsonElement body, string? domain = default);
+    PostDataTypeResponse PostDataType(string domain, JsonElement body);
 
     /// <summary>
     /// Commit a Datatype to the Domain.
@@ -2571,14 +2493,14 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">Definition of Datatype to commit.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PostDataTypeResponse> PostDataTypeAsync(string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about a committed Datatype
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
-    GetDatatypeResponse GetDatatype(string id, string? domain = default);
+    GetDatatypeResponse GetDatatype(string domain, string id);
 
     /// <summary>
     /// Get information about a committed Datatype
@@ -2586,14 +2508,14 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatatypeResponse> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatatypeResponse> GetDatatypeAsync(string domain, string id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Delete a committed Datatype.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
-    DeleteDatatypeResponse DeleteDatatype(string id, string? domain = default);
+    DeleteDatatypeResponse DeleteDatatype(string domain, string id);
 
     /// <summary>
     /// Delete a committed Datatype.
@@ -2601,7 +2523,7 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string domain, string id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2611,7 +2533,7 @@ public interface IDatatypeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2622,7 +2544,7 @@ public interface IDatatypeClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2632,7 +2554,7 @@ public interface IDatatypeClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -2643,7 +2565,7 @@ public interface IDatatypeClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2652,7 +2574,7 @@ public interface IDatatypeClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -2662,14 +2584,14 @@ public interface IDatatypeClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default);
+    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string domain);
 
     /// <summary>
     /// List access lists on Datatype.
@@ -2677,7 +2599,7 @@ public interface IDatatypeClient
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
 }
 
@@ -2692,15 +2614,14 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public PostDataTypeResponse PostDataType(JsonElement body, string? domain = default)
+    public PostDataTypeResponse PostDataType(string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2710,15 +2631,14 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<PostDataTypeResponse> PostDataTypeAsync(JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PostDataTypeResponse> PostDataTypeAsync(string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2728,7 +2648,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public GetDatatypeResponse GetDatatype(string id, string? domain = default)
+    public GetDatatypeResponse GetDatatype(string domain, string id)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2736,8 +2656,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2747,7 +2666,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatatypeResponse> GetDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatatypeResponse> GetDatatypeAsync(string domain, string id, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2755,8 +2674,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2766,7 +2684,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public DeleteDatatypeResponse DeleteDatatype(string id, string? domain = default)
+    public DeleteDatatypeResponse DeleteDatatype(string domain, string id)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2774,8 +2692,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2785,7 +2702,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<DeleteDatatypeResponse> DeleteDatatypeAsync(string domain, string id, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}");
@@ -2793,8 +2710,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2804,7 +2720,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2813,8 +2729,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -2830,7 +2745,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -2839,8 +2754,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -2856,7 +2770,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2866,8 +2780,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2877,7 +2790,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2887,8 +2800,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2898,7 +2810,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2908,18 +2820,17 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<AttributeType>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -2929,18 +2840,17 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<AttributeType>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
     /// <inheritdoc />
-    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default)
+    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -2948,8 +2858,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2959,7 +2868,7 @@ public class DatatypeClient : IDatatypeClient
     }
 
     /// <inheritdoc />
-    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -2967,8 +2876,7 @@ public class DatatypeClient : IDatatypeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -2992,7 +2900,7 @@ public interface IAttributeClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
-    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default);
+    GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -3003,7 +2911,7 @@ public interface IAttributeClient
     /// <param name="Limit">Cap the number of Attributes listed.</param>
     /// <param name="Marker">Start Attribute listing _after_ the given name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
+    Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -3013,7 +2921,7 @@ public interface IAttributeClient
     /// <param name="obj_uuid">HDF5 object's UUID.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
-    PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default);
+    PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body);
 
     /// <summary>
     /// Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
@@ -3024,7 +2932,7 @@ public interface IAttributeClient
     /// <param name="attr">Name of attribute.</param>
     /// <param name="body">Information to create a new attribute of the HDF5 object `obj_uuid`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -3033,7 +2941,7 @@ public interface IAttributeClient
     /// <param name="collection">Collection of object (Group, Dataset, or Datatype).</param>
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
-    GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default);
+    AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr);
 
     /// <summary>
     /// Get information about an Attribute.
@@ -3043,7 +2951,7 @@ public interface IAttributeClient
     /// <param name="obj_uuid">UUID of object.</param>
     /// <param name="attr">Name of attribute.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default);
+    Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default);
 
 }
 
@@ -3058,7 +2966,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default)
+    public GetAttributesResponse GetAttributes(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -3067,8 +2975,7 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -3084,7 +2991,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string? domain = default, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
+    public Task<GetAttributesResponse> GetAttributesAsync(string collection, string obj_uuid, string domain, double? Limit = default, string? Marker = default, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes");
@@ -3093,8 +3000,7 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         if (Limit is not null)
             __queryValues["Limit"] = Uri.EscapeDataString(Convert.ToString(Limit, CultureInfo.InvariantCulture)!);
@@ -3110,7 +3016,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public PutAttributeResponse PutAttribute(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default)
+    public PutAttributeResponse PutAttribute(string domain, string collection, string obj_uuid, string attr, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3120,8 +3026,7 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3131,7 +3036,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public Task<PutAttributeResponse> PutAttributeAsync(string collection, string obj_uuid, string attr, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutAttributeResponse> PutAttributeAsync(string domain, string collection, string obj_uuid, string attr, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3141,8 +3046,7 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3152,7 +3056,7 @@ public class AttributeClient : IAttributeClient
     }
 
     /// <inheritdoc />
-    public GetAttributeResponse GetAttribute(string collection, string obj_uuid, string attr, string? domain = default)
+    public AttributeType GetAttribute(string domain, string collection, string obj_uuid, string attr)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3162,18 +3066,17 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<GetAttributeResponse>("GET", __url, "application/json", default, default);
+        return ___client.Invoke<AttributeType>("GET", __url, "application/json", default, default);
     }
 
     /// <inheritdoc />
-    public Task<GetAttributeResponse> GetAttributeAsync(string collection, string obj_uuid, string attr, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<AttributeType> GetAttributeAsync(string domain, string collection, string obj_uuid, string attr, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/{collection}/{obj_uuid}/attributes/{attr}");
@@ -3183,14 +3086,13 @@ public class AttributeClient : IAttributeClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<GetAttributeResponse>("GET", __url, "application/json", default, default, cancellationToken);
+        return ___client.InvokeAsync<AttributeType>("GET", __url, "application/json", default, default, cancellationToken);
     }
 
 }
@@ -3204,21 +3106,21 @@ public interface IACLSClient
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetAccessListsResponse GetAccessLists(string? domain = default);
+    GetAccessListsResponse GetAccessLists(string domain);
 
     /// <summary>
     /// Get access lists on Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetAccessListsResponse> GetAccessListsAsync(string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Domain.
     /// </summary>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
-    GetUserAccessResponse GetUserAccess(string user, string? domain = default);
+    GetUserAccessResponse GetUserAccess(string domain, string user);
 
     /// <summary>
     /// Get users's access to a Domain.
@@ -3226,7 +3128,7 @@ public interface IACLSClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="user">User identifier/name.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetUserAccessResponse> GetUserAccessAsync(string domain, string user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -3234,7 +3136,7 @@ public interface IACLSClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
-    PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default);
+    PutUserAccessResponse PutUserAccess(string user, string domain, JsonElement body);
 
     /// <summary>
     /// Set user's access to the Domain.
@@ -3243,14 +3145,14 @@ public interface IACLSClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON object with one or more keys from the set: 'create', 'read', 'update', 'delete', 'readACL', 'updateACL'.  Each key should have a boolean value.  Based on keys provided, the user's ACL will be  updated for those keys.  If no ACL exist for the given user, it will be created.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default);
+    Task<PutUserAccessResponse> PutUserAccessAsync(string user, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Group.
     /// </summary>
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default);
+    GetGroupAccessListsResponse GetGroupAccessLists(string id, string domain);
 
     /// <summary>
     /// List access lists on Group.
@@ -3258,7 +3160,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -3266,7 +3168,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the Group, e.g. `g-37aa76f6-2c86-11e8-9391-0242ac110009`.</param>
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default);
+    GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string domain);
 
     /// <summary>
     /// Get users's access to a Group.
@@ -3275,14 +3177,14 @@ public interface IACLSClient
     /// <param name="user">Identifier/name of a user.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Get access lists on Dataset.
     /// </summary>
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default);
+    GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string domain);
 
     /// <summary>
     /// Get access lists on Dataset.
@@ -3290,14 +3192,14 @@ public interface IACLSClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List access lists on Datatype.
     /// </summary>
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
-    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default);
+    GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string domain);
 
     /// <summary>
     /// List access lists on Datatype.
@@ -3305,7 +3207,7 @@ public interface IACLSClient
     /// <param name="id">UUID of the committed datatype.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default);
+    Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default);
 
 }
 
@@ -3320,15 +3222,14 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetAccessListsResponse GetAccessLists(string? domain = default)
+    public GetAccessListsResponse GetAccessLists(string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3338,15 +3239,14 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetAccessListsResponse> GetAccessListsAsync(string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetAccessListsResponse> GetAccessListsAsync(string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls");
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3356,7 +3256,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetUserAccessResponse GetUserAccess(string user, string? domain = default)
+    public GetUserAccessResponse GetUserAccess(string domain, string user)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3364,8 +3264,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3375,7 +3274,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetUserAccessResponse> GetUserAccessAsync(string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetUserAccessResponse> GetUserAccessAsync(string domain, string user, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3383,8 +3282,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3394,7 +3292,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public PutUserAccessResponse PutUserAccess(string user, JsonElement body, string? domain = default)
+    public PutUserAccessResponse PutUserAccess(string user, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3402,8 +3300,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3413,7 +3310,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, JsonElement body, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<PutUserAccessResponse> PutUserAccessAsync(string user, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/acls/{user}");
@@ -3421,8 +3318,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3432,7 +3328,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string? domain = default)
+    public GetGroupAccessListsResponse GetGroupAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -3440,8 +3336,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3451,7 +3346,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupAccessListsResponse> GetGroupAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls");
@@ -3459,8 +3354,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3470,7 +3364,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string? domain = default)
+    public GetGroupUserAccessResponse GetGroupUserAccess(string id, string user, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -3479,8 +3373,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3490,7 +3383,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetGroupUserAccessResponse> GetGroupUserAccessAsync(string id, string user, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/groups/{id}/acls/{user}");
@@ -3499,8 +3392,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3510,7 +3402,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string? domain = default)
+    public GetDatasetAccessListsResponse GetDatasetAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -3518,8 +3410,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3529,7 +3420,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDatasetAccessListsResponse> GetDatasetAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/acls");
@@ -3537,8 +3428,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3548,7 +3438,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string? domain = default)
+    public GetDataTypeAccessListsResponse GetDataTypeAccessLists(string id, string domain)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -3556,8 +3446,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3567,7 +3456,7 @@ public class ACLSClient : IACLSClient
     }
 
     /// <inheritdoc />
-    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string? domain = default, CancellationToken cancellationToken = default)
+    public Task<GetDataTypeAccessListsResponse> GetDataTypeAccessListsAsync(string id, string domain, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datatypes/{id}/acls");
@@ -3575,8 +3464,7 @@ public class ACLSClient : IACLSClient
 
         var __queryValues = new Dictionary<string, string>();
 
-        if (domain is not null)
-            __queryValues["domain"] = Uri.EscapeDataString(domain);
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
 
         var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
         __urlBuilder.Append(__query);
@@ -3623,6 +3511,49 @@ public record ACL(ACLUsernameType Username);
 /// </summary>
 /// <param name="ForWhom">Access Control List for a single user.</param>
 public record ACLS(ACL ForWhom);
+
+/// <summary>
+/// A href.
+/// </summary>
+/// <param name="Href">URL of the resource.</param>
+/// <param name="Rel">Relation to this object.</param>
+public record HrefType(string Href, string Rel);
+
+/// <summary>
+/// A shape.
+/// </summary>
+/// <param name="Class">The shape class.</param>
+/// <param name="Dims">The shape dimensions.</param>
+/// <param name="Maxdims">The shape maximum dimensions.</param>
+public record ShapeType(string Class, IReadOnlyList<int>? Dims, IReadOnlyList<double>? Maxdims);
+
+/// <summary>
+/// A type.
+/// </summary>
+/// <param name="Class">The type class.</param>
+/// <param name="Base">The base type class.</param>
+/// <param name="Fields">List of fields in a compound dataset.</param>
+public record TypeType(string Class, string? Base, IReadOnlyList<TypeTypeFieldsType>? Fields);
+
+/// <summary>
+/// A layout.
+/// </summary>
+/// <param name="Class">The layout class.</param>
+/// <param name="Dims">The chunk dimensions.</param>
+public record LayoutType(string Class, IReadOnlyList<int>? Dims);
+
+/// <summary>
+/// An attribute.
+/// </summary>
+/// <param name="Created">The creation date.</param>
+/// <param name="LastModified">The date of last modification.</param>
+/// <param name="Name">The name.</param>
+/// <param name="Shape">The shape.</param>
+/// <param name="Type">The type.</param>
+/// <param name="Value">The values.</param>
+/// <param name="Href">Link to the attribute.</param>
+/// <param name="Hrefs">A collection of relations.</param>
+public record AttributeType(double Created, double? LastModified, string Name, ShapeType Shape, TypeType Type, JsonElement? Value, string? Href, IReadOnlyList<HrefType>? Hrefs);
 
 /// <summary>
 /// 
@@ -3795,67 +3726,16 @@ public record GetGroupResponse(string Id, string Root, IReadOnlyList<string> Ali
 public record DeleteGroupResponse();
 
 /// <summary>
-/// 
-/// </summary>
-public record GetAttributesResponseAttributesTypeShapeType();
-
-/// <summary>
-/// 
-/// </summary>
-public record GetAttributesResponseAttributesTypeTypeType();
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Created"></param>
-/// <param name="Href"></param>
-/// <param name="Name"></param>
-/// <param name="Shape"></param>
-/// <param name="Type"></param>
-/// <param name="Value"></param>
-public record GetAttributesResponseAttributesType(double Created, string Href, string Name, GetAttributesResponseAttributesTypeShapeType Shape, GetAttributesResponseAttributesTypeTypeType Type, string Value);
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Href">URL of resource</param>
-/// <param name="Rel">relation to this object</param>
-public record GetAttributesResponseHrefsType(string Href, string Rel);
-
-/// <summary>
-/// TODO
+/// A list of attributes.
 /// </summary>
 /// <param name="Attributes"></param>
-/// <param name="Hrefs"></param>
-public record GetAttributesResponse(IReadOnlyList<GetAttributesResponseAttributesType> Attributes, IReadOnlyList<GetAttributesResponseHrefsType> Hrefs);
+/// <param name="Hrefs">A collection of relations.</param>
+public record GetAttributesResponse(IReadOnlyList<AttributeType> Attributes, IReadOnlyList<HrefType> Hrefs);
 
 /// <summary>
 /// TODO
 /// </summary>
 public record PutAttributeResponse();
-
-/// <summary>
-/// 
-/// </summary>
-public record GetAttributeResponseShapeType();
-
-/// <summary>
-/// 
-/// </summary>
-/// <param name="Href">URL of resource</param>
-/// <param name="Rel">relation to this object</param>
-public record GetAttributeResponseHrefsType(string Href, string Rel);
-
-/// <summary>
-/// TODO
-/// </summary>
-/// <param name="Created"></param>
-/// <param name="LastModified"></param>
-/// <param name="Name"></param>
-/// <param name="Shape"></param>
-/// <param name="Value"></param>
-/// <param name="Hrefs"></param>
-public record GetAttributeResponse(double Created, double LastModified, string Name, GetAttributeResponseShapeType Shape, string Value, IReadOnlyList<GetAttributeResponseHrefsType> Hrefs);
 
 /// <summary>
 /// 
@@ -3947,34 +3827,6 @@ public record GetLinkResponse(double LastModified, double Created, GetLinkRespon
 public record DeleteLinkResponse();
 
 /// <summary>
-/// 
-/// </summary>
-/// <param name="Name">Descriptive or identifying name. Must be unique in the fields list.</param>
-/// <param name="Type">Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)</param>
-public record GetDatasetResponseTypeTypeFieldsType(string Name, string Type);
-
-/// <summary>
-/// TODO
-/// </summary>
-/// <param name="Class">TODO</param>
-/// <param name="Base">TODO</param>
-/// <param name="Fields">List of fields in a compound dataset.</param>
-public record GetDatasetResponseTypeType(string Class, string Base, IReadOnlyList<GetDatasetResponseTypeTypeFieldsType> Fields);
-
-/// <summary>
-/// TODO
-/// </summary>
-/// <param name="Class">String enum indicating expected structure.</param>
-/// <param name="Dims">Extent of each dimension in Dataset.</param>
-/// <param name="Maxdims">Maximum possible extent for each dimension.</param>
-public record GetDatasetResponseShapeType(string Class, IReadOnlyList<double> Dims, IReadOnlyList<double> Maxdims);
-
-/// <summary>
-/// TODO
-/// </summary>
-public record GetDatasetResponseLayoutType();
-
-/// <summary>
 /// Dataset creation properties as provided upon creation.
 /// </summary>
 public record GetDatasetResponseCreationPropertiesType();
@@ -3982,25 +3834,18 @@ public record GetDatasetResponseCreationPropertiesType();
 /// <summary>
 /// 
 /// </summary>
-/// <param name="Href">URL to reference.</param>
-/// <param name="Rel">Relation to this object.</param>
-public record GetDatasetResponseHrefsType(string Href, string Rel);
-
-/// <summary>
-/// 
-/// </summary>
 /// <param name="Id">UUID of this Dataset.</param>
 /// <param name="Root">UUID of root Group in Domain.</param>
-/// <param name="Domain"></param>
-/// <param name="Created"></param>
-/// <param name="LastModified"></param>
-/// <param name="AttributeCount"></param>
-/// <param name="Type">TODO</param>
-/// <param name="Shape">TODO</param>
-/// <param name="Layout">TODO</param>
+/// <param name="Domain">The domain name.</param>
+/// <param name="Created">The creation date.</param>
+/// <param name="LastModified">The date of the last modification.</param>
+/// <param name="AttributeCount">The number of attributes.</param>
+/// <param name="Type">The type.</param>
+/// <param name="Shape">The shape.</param>
+/// <param name="Layout">The layout.</param>
 /// <param name="CreationProperties">Dataset creation properties as provided upon creation.</param>
-/// <param name="Hrefs">List of references to other objects.</param>
-public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, GetDatasetResponseTypeType Type, GetDatasetResponseShapeType Shape, GetDatasetResponseLayoutType Layout, GetDatasetResponseCreationPropertiesType CreationProperties, IReadOnlyList<GetDatasetResponseHrefsType> Hrefs);
+/// <param name="Hrefs">A collection of relations.</param>
+public record GetDatasetResponse(string Id, string Root, string Domain, double Created, double LastModified, double AttributeCount, TypeType Type, ShapeType Shape, LayoutType Layout, GetDatasetResponseCreationPropertiesType CreationProperties, IReadOnlyList<HrefType> Hrefs);
 
 /// <summary>
 /// 
@@ -4141,6 +3986,13 @@ public record GetDataTypeAccessListsResponse(ACLS Acls, IReadOnlyList<GetDataTyp
 /// <param name="Read"></param>
 /// <param name="ReadACL"></param>
 public record ACLUsernameType(bool Create, bool Update, bool Delete, bool UpdateACL, bool Read, bool ReadACL);
+
+/// <summary>
+/// 
+/// </summary>
+/// <param name="Name">Descriptive or identifying name.</param>
+/// <param name="Type">The type.</param>
+public record TypeTypeFieldsType(string Name, TypeType Type);
 
 
 

@@ -281,6 +281,123 @@ class ACLS:
 
 
 @dataclass(frozen=True)
+class HrefType:
+    """
+    A href.
+
+    Args:
+        href: URL of the resource.
+        rel: Relation to this object.
+    """
+
+    href: str
+    """URL of the resource."""
+
+    rel: str
+    """Relation to this object."""
+
+
+@dataclass(frozen=True)
+class ShapeType:
+    """
+    A shape.
+
+    Args:
+        class: The shape class.
+        dims: The shape dimensions.
+        maxdims: The shape maximum dimensions.
+    """
+
+    class_: str
+    """The shape class."""
+
+    dims: Optional[list[int]]
+    """The shape dimensions."""
+
+    maxdims: Optional[list[float]]
+    """The shape maximum dimensions."""
+
+
+@dataclass(frozen=True)
+class TypeType:
+    """
+    A type.
+
+    Args:
+        class: The type class.
+        base: The base type class.
+        fields: List of fields in a compound dataset.
+    """
+
+    class_: str
+    """The type class."""
+
+    base: Optional[str]
+    """The base type class."""
+
+    fields: Optional[list[TypeTypeFieldsType]]
+    """List of fields in a compound dataset."""
+
+
+@dataclass(frozen=True)
+class LayoutType:
+    """
+    A layout.
+
+    Args:
+        class: The layout class.
+        dims: The chunk dimensions.
+    """
+
+    class_: str
+    """The layout class."""
+
+    dims: Optional[list[int]]
+    """The chunk dimensions."""
+
+
+@dataclass(frozen=True)
+class AttributeType:
+    """
+    An attribute.
+
+    Args:
+        created: The creation date.
+        last_modified: The date of last modification.
+        name: The name.
+        shape: The shape.
+        type: The type.
+        value: The values.
+        href: Link to the attribute.
+        hrefs: A collection of relations.
+    """
+
+    created: float
+    """The creation date."""
+
+    last_modified: Optional[float]
+    """The date of last modification."""
+
+    name: str
+    """The name."""
+
+    shape: ShapeType
+    """The shape."""
+
+    type: TypeType
+    """The type."""
+
+    value: Optional[object]
+    """The values."""
+
+    href: Optional[str]
+    """Link to the attribute."""
+
+    hrefs: Optional[list[HrefType]]
+    """A collection of relations."""
+
+
+@dataclass(frozen=True)
 class PutDomainResponse:
     """
     
@@ -726,88 +843,20 @@ class DeleteGroupResponse:
 
 
 @dataclass(frozen=True)
-class GetAttributesResponseAttributesTypeShapeType:
-    """
-    
-
-    Args:
-    """
-
-
-@dataclass(frozen=True)
-class GetAttributesResponseAttributesTypeTypeType:
-    """
-    
-
-    Args:
-    """
-
-
-@dataclass(frozen=True)
-class GetAttributesResponseAttributesType:
-    """
-    
-
-    Args:
-        created: 
-        href: 
-        name: 
-        shape: 
-        type: 
-        value: 
-    """
-
-    created: float
-    """"""
-
-    href: str
-    """"""
-
-    name: str
-    """"""
-
-    shape: GetAttributesResponseAttributesTypeShapeType
-    """"""
-
-    type: GetAttributesResponseAttributesTypeTypeType
-    """"""
-
-    value: str
-    """"""
-
-
-@dataclass(frozen=True)
-class GetAttributesResponseHrefsType:
-    """
-    
-
-    Args:
-        href: URL of resource
-        rel: relation to this object
-    """
-
-    href: str
-    """URL of resource"""
-
-    rel: str
-    """relation to this object"""
-
-
-@dataclass(frozen=True)
 class GetAttributesResponse:
     """
-    TODO
+    A list of attributes.
 
     Args:
         attributes: 
-        hrefs: 
+        hrefs: A collection of relations.
     """
 
-    attributes: list[GetAttributesResponseAttributesType]
+    attributes: list[AttributeType]
     """"""
 
-    hrefs: list[GetAttributesResponseHrefsType]
-    """"""
+    hrefs: list[HrefType]
+    """A collection of relations."""
 
 
 @dataclass(frozen=True)
@@ -817,65 +866,6 @@ class PutAttributeResponse:
 
     Args:
     """
-
-
-@dataclass(frozen=True)
-class GetAttributeResponseShapeType:
-    """
-    
-
-    Args:
-    """
-
-
-@dataclass(frozen=True)
-class GetAttributeResponseHrefsType:
-    """
-    
-
-    Args:
-        href: URL of resource
-        rel: relation to this object
-    """
-
-    href: str
-    """URL of resource"""
-
-    rel: str
-    """relation to this object"""
-
-
-@dataclass(frozen=True)
-class GetAttributeResponse:
-    """
-    TODO
-
-    Args:
-        created: 
-        last_modified: 
-        name: 
-        shape: 
-        value: 
-        hrefs: 
-    """
-
-    created: float
-    """"""
-
-    last_modified: float
-    """"""
-
-    name: str
-    """"""
-
-    shape: GetAttributeResponseShapeType
-    """"""
-
-    value: str
-    """"""
-
-    hrefs: list[GetAttributeResponseHrefsType]
-    """"""
 
 
 @dataclass(frozen=True)
@@ -1110,114 +1100,12 @@ class DeleteLinkResponse:
 
 
 @dataclass(frozen=True)
-class GetDatasetResponseTypeTypeFieldsType:
-    """
-    
-
-    Args:
-        name: Descriptive or identifying name. Must be unique in the fields list.
-        type: Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)
-    """
-
-    name: str
-    """Descriptive or identifying name. Must be unique in the fields list.
-"""
-
-    type: str
-    """Enum of pre-defined type, UUID of committed type, or type definition. (TODO: see `POST Dataset`?)
-"""
-
-
-@dataclass(frozen=True)
-class GetDatasetResponseTypeType:
-    """
-    TODO
-
-    Args:
-        class: TODO
-        base: TODO
-        fields: List of fields in a compound dataset.
-    """
-
-    class_: str
-    """TODO
-"""
-
-    base: str
-    """TODO
-Only present if class is not `H5T_COMPUND`.
-"""
-
-    fields: list[GetDatasetResponseTypeTypeFieldsType]
-    """List of fields in a compound dataset.
-Only present if `class` is `H5T_COMPOUND`.
-"""
-
-
-@dataclass(frozen=True)
-class GetDatasetResponseShapeType:
-    """
-    TODO
-
-    Args:
-        class: String enum indicating expected structure.
-        dims: Extent of each dimension in Dataset.
-        maxdims: Maximum possible extent for each dimension.
-    """
-
-    class_: str
-    """String enum indicating expected structure.
-+ H5S_NULL -- Dataset has no data and no shape.
-+ H5S_SCALAR -- Single entity as the Datast.
-+ H5S_SIMPLE -- Dataset has hyperrectangular shape of
-  one or more dimensions.
-"""
-
-    dims: list[float]
-    """Extent of each dimension in Dataset.
-Only present if `class` is `H5S_SIMPLE`.
-"""
-
-    maxdims: list[float]
-    """Maximum possible extent for each dimension.
-Value of `0` in array indicates that the dimension has unlimited maximum extent.
-Only present if `class` is `H5S_SIMPLE`, and `maxdims` was included upon Dataset creation.
-"""
-
-
-@dataclass(frozen=True)
-class GetDatasetResponseLayoutType:
-    """
-    TODO
-
-    Args:
-    """
-
-
-@dataclass(frozen=True)
 class GetDatasetResponseCreationPropertiesType:
     """
     Dataset creation properties as provided upon creation.
 
     Args:
     """
-
-
-@dataclass(frozen=True)
-class GetDatasetResponseHrefsType:
-    """
-    
-
-    Args:
-        href: URL to reference.
-        rel: Relation to this object.
-    """
-
-    href: str
-    """URL to reference."""
-
-    rel: str
-    """Relation to this object."""
 
 
 @dataclass(frozen=True)
@@ -1228,15 +1116,15 @@ class GetDatasetResponse:
     Args:
         id: UUID of this Dataset.
         root: UUID of root Group in Domain.
-        domain: 
-        created: 
-        last_modified: 
-        attribute_count: 
-        type: TODO
-        shape: TODO
-        layout: TODO
+        domain: The domain name.
+        created: The creation date.
+        last_modified: The date of the last modification.
+        attribute_count: The number of attributes.
+        type: The type.
+        shape: The shape.
+        layout: The layout.
         creation_properties: Dataset creation properties as provided upon creation.
-        hrefs: List of references to other objects.
+        hrefs: A collection of relations.
     """
 
     id: str
@@ -1246,34 +1134,32 @@ class GetDatasetResponse:
     """UUID of root Group in Domain."""
 
     domain: str
-    """"""
+    """The domain name."""
 
     created: float
-    """"""
+    """The creation date."""
 
     last_modified: float
-    """"""
+    """The date of the last modification."""
 
     attribute_count: float
-    """"""
+    """The number of attributes."""
 
-    type: GetDatasetResponseTypeType
-    """TODO"""
+    type: TypeType
+    """The type."""
 
-    shape: GetDatasetResponseShapeType
-    """TODO"""
+    shape: ShapeType
+    """The shape."""
 
-    layout: GetDatasetResponseLayoutType
-    """TODO"""
+    layout: LayoutType
+    """The layout."""
 
     creation_properties: GetDatasetResponseCreationPropertiesType
     """Dataset creation properties as provided upon creation.
 """
 
-    hrefs: list[GetDatasetResponseHrefsType]
-    """List of references to other objects.
-Must include references to only: `attributes`, `data` (shape class `H5S_NULL` must _not_ include `data`), `root`, `self`.
-"""
+    hrefs: list[HrefType]
+    """A collection of relations."""
 
 
 @dataclass(frozen=True)
@@ -1619,6 +1505,23 @@ class ACLUsernameType:
     """"""
 
 
+@dataclass(frozen=True)
+class TypeTypeFieldsType:
+    """
+    
+
+    Args:
+        name: Descriptive or identifying name.
+        type: The type.
+    """
+
+    name: str
+    """Descriptive or identifying name."""
+
+    type: TypeType
+    """The type."""
+
+
 
 class DomainAsyncClient:
     """Provides methods to interact with domain."""
@@ -1628,7 +1531,7 @@ class DomainAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def put_domain(self, body: Optional[object], domain: Optional[str] = None, folder: Optional[float] = None) -> Awaitable[PutDomainResponse]:
+    def put_domain(self, domain: str, body: Optional[object], folder: Optional[float] = None) -> Awaitable[PutDomainResponse]:
         """
         Create a new Domain on the service.
 
@@ -1641,8 +1544,7 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if folder is not None:
             __query_values["folder"] = quote(_to_string(folder), safe="")
@@ -1652,7 +1554,7 @@ class DomainAsyncClient:
 
         return self.___client._invoke(PutDomainResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_domain(self, domain: Optional[str] = None) -> Awaitable[GetDomainResponse]:
+    def get_domain(self, domain: str) -> Awaitable[GetDomainResponse]:
         """
         Get information about the requested domain.
 
@@ -1664,15 +1566,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDomainResponse, "GET", __url, "application/json", None, None)
 
-    def delete_domain(self, domain: Optional[str] = None) -> Awaitable[DeleteDomainResponse]:
+    def delete_domain(self, domain: str) -> Awaitable[DeleteDomainResponse]:
         """
         Delete the specified Domain or Folder.
 
@@ -1684,15 +1585,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDomainResponse, "DELETE", __url, "application/json", None, None)
 
-    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> Awaitable[PostGroupResponse]:
+    def post_group(self, domain: str, body: Optional[object]) -> Awaitable[PostGroupResponse]:
         """
         Create a new Group.
 
@@ -1704,15 +1604,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostGroupResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_groups(self, domain: Optional[str] = None) -> Awaitable[GetGroupsResponse]:
+    def get_groups(self, domain: str) -> Awaitable[GetGroupsResponse]:
         """
         Get UUIDs for all non-root Groups in Domain.
 
@@ -1724,15 +1623,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupsResponse, "GET", __url, "application/json", None, None)
 
-    def post_dataset(self, body: object, domain: Optional[str] = None) -> Awaitable[PostDatasetResponse]:
+    def post_dataset(self, domain: str, body: object) -> Awaitable[PostDatasetResponse]:
         """
         Create a Dataset.
 
@@ -1744,15 +1642,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDatasetResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datasets(self, domain: Optional[str] = None) -> Awaitable[GetDatasetsResponse]:
+    def get_datasets(self, domain: str) -> Awaitable[GetDatasetsResponse]:
         """
         List Datasets.
 
@@ -1764,15 +1661,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetsResponse, "GET", __url, "application/json", None, None)
 
-    def post_data_type(self, body: object, domain: Optional[str] = None) -> Awaitable[PostDataTypeResponse]:
+    def post_data_type(self, domain: str, body: object) -> Awaitable[PostDataTypeResponse]:
         """
         Commit a Datatype to the Domain.
 
@@ -1784,15 +1680,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDataTypeResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_access_lists(self, domain: Optional[str] = None) -> Awaitable[GetAccessListsResponse]:
+    def get_access_lists(self, domain: str) -> Awaitable[GetAccessListsResponse]:
         """
         Get access lists on Domain.
 
@@ -1804,15 +1699,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_user_access(self, user: str, domain: Optional[str] = None) -> Awaitable[GetUserAccessResponse]:
+    def get_user_access(self, domain: str, user: str) -> Awaitable[GetUserAccessResponse]:
         """
         Get users's access to a Domain.
 
@@ -1826,15 +1720,14 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> Awaitable[PutUserAccessResponse]:
+    def put_user_access(self, user: str, domain: str, body: object) -> Awaitable[PutUserAccessResponse]:
         """
         Set user's access to the Domain.
 
@@ -1848,8 +1741,7 @@ class DomainAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -1865,7 +1757,7 @@ class GroupAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> Awaitable[PostGroupResponse]:
+    def post_group(self, domain: str, body: Optional[object]) -> Awaitable[PostGroupResponse]:
         """
         Create a new Group.
 
@@ -1877,15 +1769,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostGroupResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_groups(self, domain: Optional[str] = None) -> Awaitable[GetGroupsResponse]:
+    def get_groups(self, domain: str) -> Awaitable[GetGroupsResponse]:
         """
         Get UUIDs for all non-root Groups in Domain.
 
@@ -1897,15 +1788,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group(self, id: str, domain: Optional[str] = None, getalias: Optional[int] = None) -> Awaitable[GetGroupResponse]:
+    def get_group(self, id: str, domain: str, getalias: Optional[int] = None) -> Awaitable[GetGroupResponse]:
         """
         Get information about a Group.
 
@@ -1920,8 +1810,7 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if getalias is not None:
             __query_values["getalias"] = quote(_to_string(getalias), safe="")
@@ -1931,7 +1820,7 @@ class GroupAsyncClient:
 
         return self.___client._invoke(GetGroupResponse, "GET", __url, "application/json", None, None)
 
-    def delete_group(self, id: str, domain: Optional[str] = None) -> Awaitable[DeleteGroupResponse]:
+    def delete_group(self, id: str, domain: str) -> Awaitable[DeleteGroupResponse]:
         """
         Delete a Group.
 
@@ -1945,15 +1834,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteGroupResponse, "DELETE", __url, "application/json", None, None)
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -1971,8 +1859,7 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -1985,7 +1872,7 @@ class GroupAsyncClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[PutAttributeResponse]:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> Awaitable[PutAttributeResponse]:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -2003,15 +1890,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[GetAttributeResponse]:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> Awaitable[AttributeType]:
         """
         Get information about an Attribute.
 
@@ -2029,15 +1915,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetGroupAccessListsResponse]:
+    def get_group_access_lists(self, id: str, domain: str) -> Awaitable[GetGroupAccessListsResponse]:
         """
         List access lists on Group.
 
@@ -2051,15 +1936,14 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> Awaitable[GetGroupUserAccessResponse]:
+    def get_group_user_access(self, id: str, user: str, domain: str) -> Awaitable[GetGroupUserAccessResponse]:
         """
         Get users's access to a Group.
 
@@ -2075,8 +1959,7 @@ class GroupAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -2092,7 +1975,7 @@ class LinkAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def get_links(self, id: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetLinksResponse]:
+    def get_links(self, id: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetLinksResponse]:
         """
         List all Links in a Group.
 
@@ -2108,8 +1991,7 @@ class LinkAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -2122,7 +2004,7 @@ class LinkAsyncClient:
 
         return self.___client._invoke(GetLinksResponse, "GET", __url, "application/json", None, None)
 
-    def put_link(self, id: str, linkname: str, body: object, domain: Optional[str] = None) -> Awaitable[PutLinkResponse]:
+    def put_link(self, id: str, linkname: str, domain: str, body: object) -> Awaitable[PutLinkResponse]:
         """
         Create a new Link in a Group.
 
@@ -2138,15 +2020,14 @@ class LinkAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutLinkResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_link(self, id: str, linkname: str, domain: Optional[str] = None) -> Awaitable[GetLinkResponse]:
+    def get_link(self, id: str, linkname: str, domain: str) -> Awaitable[GetLinkResponse]:
         """
         Get Link info.
 
@@ -2162,15 +2043,14 @@ class LinkAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetLinkResponse, "GET", __url, "application/json", None, None)
 
-    def delete_link(self, id: str, linkname: str, domain: Optional[str] = None) -> Awaitable[DeleteLinkResponse]:
+    def delete_link(self, id: str, linkname: str, domain: str) -> Awaitable[DeleteLinkResponse]:
         """
         Delete Link.
 
@@ -2186,8 +2066,7 @@ class LinkAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -2203,7 +2082,7 @@ class DatasetAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def post_dataset(self, body: object, domain: Optional[str] = None) -> Awaitable[PostDatasetResponse]:
+    def post_dataset(self, domain: str, body: object) -> Awaitable[PostDatasetResponse]:
         """
         Create a Dataset.
 
@@ -2215,15 +2094,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDatasetResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datasets(self, domain: Optional[str] = None) -> Awaitable[GetDatasetsResponse]:
+    def get_datasets(self, domain: str) -> Awaitable[GetDatasetsResponse]:
         """
         List Datasets.
 
@@ -2235,15 +2113,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetsResponse, "GET", __url, "application/json", None, None)
 
-    def get_dataset(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDatasetResponse]:
+    def get_dataset(self, id: str, domain: str) -> Awaitable[GetDatasetResponse]:
         """
         Get information about a Dataset.
 
@@ -2257,15 +2134,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetResponse, "GET", __url, "application/json", None, None)
 
-    def delete_dataset(self, id: str, domain: Optional[str] = None) -> Awaitable[DeleteDatasetResponse]:
+    def delete_dataset(self, id: str, domain: str) -> Awaitable[DeleteDatasetResponse]:
         """
         Delete a Dataset.
 
@@ -2279,15 +2155,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDatasetResponse, "DELETE", __url, "application/json", None, None)
 
-    def put_shape(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[PutShapeResponse]:
+    def put_shape(self, id: str, domain: str, body: object) -> Awaitable[PutShapeResponse]:
         """
         Modify a Dataset's dimensions.
 
@@ -2301,15 +2176,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutShapeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_shape(self, id: str, domain: Optional[str] = None) -> Awaitable[GetShapeResponse]:
+    def get_shape(self, id: str, domain: str) -> Awaitable[GetShapeResponse]:
         """
         Get information about a Dataset's shape.
 
@@ -2323,15 +2197,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetShapeResponse, "GET", __url, "application/json", None, None)
 
-    def get_data_type(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDataTypeResponse]:
+    def get_data_type(self, id: str, domain: str) -> Awaitable[GetDataTypeResponse]:
         """
         Get information about a Dataset's type.
 
@@ -2345,15 +2218,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDataTypeResponse, "GET", __url, "application/json", None, None)
 
-    def put_values(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[None]:
+    def put_values(self, id: str, domain: str, body: object) -> Awaitable[None]:
         """
         Write values to Dataset.
 
@@ -2367,15 +2239,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(type(None), "PUT", __url, None, "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_values_as_stream(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[Response]:
+    def get_values_as_stream(self, id: str, domain: str, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[Response]:
         """
         Get values from Dataset.
 
@@ -2392,8 +2263,7 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if select is not None:
             __query_values["select"] = quote(_to_string(select), safe="")
@@ -2409,7 +2279,7 @@ class DatasetAsyncClient:
 
         return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
 
-    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[GetValuesAsJsonResponse]:
+    def get_values_as_json(self, id: str, domain: str, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Awaitable[GetValuesAsJsonResponse]:
         """
         Get values from Dataset.
 
@@ -2426,8 +2296,7 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if select is not None:
             __query_values["select"] = quote(_to_string(select), safe="")
@@ -2443,7 +2312,7 @@ class DatasetAsyncClient:
 
         return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
-    def post_values(self, id: str, body: object, domain: Optional[str] = None) -> Awaitable[PostValuesResponse]:
+    def post_values(self, id: str, domain: str, body: object) -> Awaitable[PostValuesResponse]:
         """
         Get specific data points from Dataset.
 
@@ -2457,15 +2326,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostValuesResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -2483,8 +2351,7 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -2497,7 +2364,7 @@ class DatasetAsyncClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[PutAttributeResponse]:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> Awaitable[PutAttributeResponse]:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -2515,15 +2382,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[GetAttributeResponse]:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> Awaitable[AttributeType]:
         """
         Get information about an Attribute.
 
@@ -2541,15 +2407,14 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDatasetAccessListsResponse]:
+    def get_dataset_access_lists(self, id: str, domain: str) -> Awaitable[GetDatasetAccessListsResponse]:
         """
         Get access lists on Dataset.
 
@@ -2563,8 +2428,7 @@ class DatasetAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -2580,7 +2444,7 @@ class DatatypeAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def post_data_type(self, body: object, domain: Optional[str] = None) -> Awaitable[PostDataTypeResponse]:
+    def post_data_type(self, domain: str, body: object) -> Awaitable[PostDataTypeResponse]:
         """
         Commit a Datatype to the Domain.
 
@@ -2592,15 +2456,14 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDataTypeResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datatype(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDatatypeResponse]:
+    def get_datatype(self, domain: str, id: str) -> Awaitable[GetDatatypeResponse]:
         """
         Get information about a committed Datatype
 
@@ -2614,15 +2477,14 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatatypeResponse, "GET", __url, "application/json", None, None)
 
-    def delete_datatype(self, id: str, domain: Optional[str] = None) -> Awaitable[DeleteDatatypeResponse]:
+    def delete_datatype(self, domain: str, id: str) -> Awaitable[DeleteDatatypeResponse]:
         """
         Delete a committed Datatype.
 
@@ -2636,15 +2498,14 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDatatypeResponse, "DELETE", __url, "application/json", None, None)
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -2662,8 +2523,7 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -2676,7 +2536,7 @@ class DatatypeAsyncClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[PutAttributeResponse]:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> Awaitable[PutAttributeResponse]:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -2694,15 +2554,14 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[GetAttributeResponse]:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> Awaitable[AttributeType]:
         """
         Get information about an Attribute.
 
@@ -2720,15 +2579,14 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDataTypeAccessListsResponse]:
+    def get_data_type_access_lists(self, id: str, domain: str) -> Awaitable[GetDataTypeAccessListsResponse]:
         """
         List access lists on Datatype.
 
@@ -2742,8 +2600,7 @@ class DatatypeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -2759,7 +2616,7 @@ class AttributeAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -2777,8 +2634,7 @@ class AttributeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -2791,7 +2647,7 @@ class AttributeAsyncClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> Awaitable[PutAttributeResponse]:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> Awaitable[PutAttributeResponse]:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -2809,15 +2665,14 @@ class AttributeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> Awaitable[GetAttributeResponse]:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> Awaitable[AttributeType]:
         """
         Get information about an Attribute.
 
@@ -2835,13 +2690,12 @@ class AttributeAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
 
 class ACLSAsyncClient:
@@ -2852,7 +2706,7 @@ class ACLSAsyncClient:
     def __init__(self, client: HsdsAsyncClient):
         self.___client = client
 
-    def get_access_lists(self, domain: Optional[str] = None) -> Awaitable[GetAccessListsResponse]:
+    def get_access_lists(self, domain: str) -> Awaitable[GetAccessListsResponse]:
         """
         Get access lists on Domain.
 
@@ -2864,15 +2718,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_user_access(self, user: str, domain: Optional[str] = None) -> Awaitable[GetUserAccessResponse]:
+    def get_user_access(self, domain: str, user: str) -> Awaitable[GetUserAccessResponse]:
         """
         Get users's access to a Domain.
 
@@ -2886,15 +2739,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> Awaitable[PutUserAccessResponse]:
+    def put_user_access(self, user: str, domain: str, body: object) -> Awaitable[PutUserAccessResponse]:
         """
         Set user's access to the Domain.
 
@@ -2908,15 +2760,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutUserAccessResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetGroupAccessListsResponse]:
+    def get_group_access_lists(self, id: str, domain: str) -> Awaitable[GetGroupAccessListsResponse]:
         """
         List access lists on Group.
 
@@ -2930,15 +2781,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> Awaitable[GetGroupUserAccessResponse]:
+    def get_group_user_access(self, id: str, user: str, domain: str) -> Awaitable[GetGroupUserAccessResponse]:
         """
         Get users's access to a Group.
 
@@ -2954,15 +2804,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDatasetAccessListsResponse]:
+    def get_dataset_access_lists(self, id: str, domain: str) -> Awaitable[GetDatasetAccessListsResponse]:
         """
         Get access lists on Dataset.
 
@@ -2976,15 +2825,14 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> Awaitable[GetDataTypeAccessListsResponse]:
+    def get_data_type_access_lists(self, id: str, domain: str) -> Awaitable[GetDataTypeAccessListsResponse]:
         """
         List access lists on Datatype.
 
@@ -2998,8 +2846,7 @@ class ACLSAsyncClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -3016,7 +2863,7 @@ class DomainClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def put_domain(self, body: Optional[object], domain: Optional[str] = None, folder: Optional[float] = None) -> PutDomainResponse:
+    def put_domain(self, domain: str, body: Optional[object], folder: Optional[float] = None) -> PutDomainResponse:
         """
         Create a new Domain on the service.
 
@@ -3029,8 +2876,7 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if folder is not None:
             __query_values["folder"] = quote(_to_string(folder), safe="")
@@ -3040,7 +2886,7 @@ class DomainClient:
 
         return self.___client._invoke(PutDomainResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_domain(self, domain: Optional[str] = None) -> GetDomainResponse:
+    def get_domain(self, domain: str) -> GetDomainResponse:
         """
         Get information about the requested domain.
 
@@ -3052,15 +2898,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDomainResponse, "GET", __url, "application/json", None, None)
 
-    def delete_domain(self, domain: Optional[str] = None) -> DeleteDomainResponse:
+    def delete_domain(self, domain: str) -> DeleteDomainResponse:
         """
         Delete the specified Domain or Folder.
 
@@ -3072,15 +2917,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDomainResponse, "DELETE", __url, "application/json", None, None)
 
-    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> PostGroupResponse:
+    def post_group(self, domain: str, body: Optional[object]) -> PostGroupResponse:
         """
         Create a new Group.
 
@@ -3092,15 +2936,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostGroupResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_groups(self, domain: Optional[str] = None) -> GetGroupsResponse:
+    def get_groups(self, domain: str) -> GetGroupsResponse:
         """
         Get UUIDs for all non-root Groups in Domain.
 
@@ -3112,15 +2955,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupsResponse, "GET", __url, "application/json", None, None)
 
-    def post_dataset(self, body: object, domain: Optional[str] = None) -> PostDatasetResponse:
+    def post_dataset(self, domain: str, body: object) -> PostDatasetResponse:
         """
         Create a Dataset.
 
@@ -3132,15 +2974,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDatasetResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datasets(self, domain: Optional[str] = None) -> GetDatasetsResponse:
+    def get_datasets(self, domain: str) -> GetDatasetsResponse:
         """
         List Datasets.
 
@@ -3152,15 +2993,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetsResponse, "GET", __url, "application/json", None, None)
 
-    def post_data_type(self, body: object, domain: Optional[str] = None) -> PostDataTypeResponse:
+    def post_data_type(self, domain: str, body: object) -> PostDataTypeResponse:
         """
         Commit a Datatype to the Domain.
 
@@ -3172,15 +3012,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDataTypeResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_access_lists(self, domain: Optional[str] = None) -> GetAccessListsResponse:
+    def get_access_lists(self, domain: str) -> GetAccessListsResponse:
         """
         Get access lists on Domain.
 
@@ -3192,15 +3031,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_user_access(self, user: str, domain: Optional[str] = None) -> GetUserAccessResponse:
+    def get_user_access(self, domain: str, user: str) -> GetUserAccessResponse:
         """
         Get users's access to a Domain.
 
@@ -3214,15 +3052,14 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> PutUserAccessResponse:
+    def put_user_access(self, user: str, domain: str, body: object) -> PutUserAccessResponse:
         """
         Set user's access to the Domain.
 
@@ -3236,8 +3073,7 @@ class DomainClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -3253,7 +3089,7 @@ class GroupClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def post_group(self, body: Optional[object], domain: Optional[str] = None) -> PostGroupResponse:
+    def post_group(self, domain: str, body: Optional[object]) -> PostGroupResponse:
         """
         Create a new Group.
 
@@ -3265,15 +3101,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostGroupResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_groups(self, domain: Optional[str] = None) -> GetGroupsResponse:
+    def get_groups(self, domain: str) -> GetGroupsResponse:
         """
         Get UUIDs for all non-root Groups in Domain.
 
@@ -3285,15 +3120,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group(self, id: str, domain: Optional[str] = None, getalias: Optional[int] = None) -> GetGroupResponse:
+    def get_group(self, id: str, domain: str, getalias: Optional[int] = None) -> GetGroupResponse:
         """
         Get information about a Group.
 
@@ -3308,8 +3142,7 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if getalias is not None:
             __query_values["getalias"] = quote(_to_string(getalias), safe="")
@@ -3319,7 +3152,7 @@ class GroupClient:
 
         return self.___client._invoke(GetGroupResponse, "GET", __url, "application/json", None, None)
 
-    def delete_group(self, id: str, domain: Optional[str] = None) -> DeleteGroupResponse:
+    def delete_group(self, id: str, domain: str) -> DeleteGroupResponse:
         """
         Delete a Group.
 
@@ -3333,15 +3166,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteGroupResponse, "DELETE", __url, "application/json", None, None)
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -3359,8 +3191,7 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -3373,7 +3204,7 @@ class GroupClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> PutAttributeResponse:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> PutAttributeResponse:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -3391,15 +3222,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> GetAttributeResponse:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> AttributeType:
         """
         Get information about an Attribute.
 
@@ -3417,15 +3247,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> GetGroupAccessListsResponse:
+    def get_group_access_lists(self, id: str, domain: str) -> GetGroupAccessListsResponse:
         """
         List access lists on Group.
 
@@ -3439,15 +3268,14 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> GetGroupUserAccessResponse:
+    def get_group_user_access(self, id: str, user: str, domain: str) -> GetGroupUserAccessResponse:
         """
         Get users's access to a Group.
 
@@ -3463,8 +3291,7 @@ class GroupClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -3480,7 +3307,7 @@ class LinkClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def get_links(self, id: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> GetLinksResponse:
+    def get_links(self, id: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetLinksResponse:
         """
         List all Links in a Group.
 
@@ -3496,8 +3323,7 @@ class LinkClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -3510,7 +3336,7 @@ class LinkClient:
 
         return self.___client._invoke(GetLinksResponse, "GET", __url, "application/json", None, None)
 
-    def put_link(self, id: str, linkname: str, body: object, domain: Optional[str] = None) -> PutLinkResponse:
+    def put_link(self, id: str, linkname: str, domain: str, body: object) -> PutLinkResponse:
         """
         Create a new Link in a Group.
 
@@ -3526,15 +3352,14 @@ class LinkClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutLinkResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_link(self, id: str, linkname: str, domain: Optional[str] = None) -> GetLinkResponse:
+    def get_link(self, id: str, linkname: str, domain: str) -> GetLinkResponse:
         """
         Get Link info.
 
@@ -3550,15 +3375,14 @@ class LinkClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetLinkResponse, "GET", __url, "application/json", None, None)
 
-    def delete_link(self, id: str, linkname: str, domain: Optional[str] = None) -> DeleteLinkResponse:
+    def delete_link(self, id: str, linkname: str, domain: str) -> DeleteLinkResponse:
         """
         Delete Link.
 
@@ -3574,8 +3398,7 @@ class LinkClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -3591,7 +3414,7 @@ class DatasetClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def post_dataset(self, body: object, domain: Optional[str] = None) -> PostDatasetResponse:
+    def post_dataset(self, domain: str, body: object) -> PostDatasetResponse:
         """
         Create a Dataset.
 
@@ -3603,15 +3426,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDatasetResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datasets(self, domain: Optional[str] = None) -> GetDatasetsResponse:
+    def get_datasets(self, domain: str) -> GetDatasetsResponse:
         """
         List Datasets.
 
@@ -3623,15 +3445,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetsResponse, "GET", __url, "application/json", None, None)
 
-    def get_dataset(self, id: str, domain: Optional[str] = None) -> GetDatasetResponse:
+    def get_dataset(self, id: str, domain: str) -> GetDatasetResponse:
         """
         Get information about a Dataset.
 
@@ -3645,15 +3466,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetResponse, "GET", __url, "application/json", None, None)
 
-    def delete_dataset(self, id: str, domain: Optional[str] = None) -> DeleteDatasetResponse:
+    def delete_dataset(self, id: str, domain: str) -> DeleteDatasetResponse:
         """
         Delete a Dataset.
 
@@ -3667,15 +3487,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDatasetResponse, "DELETE", __url, "application/json", None, None)
 
-    def put_shape(self, id: str, body: object, domain: Optional[str] = None) -> PutShapeResponse:
+    def put_shape(self, id: str, domain: str, body: object) -> PutShapeResponse:
         """
         Modify a Dataset's dimensions.
 
@@ -3689,15 +3508,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutShapeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_shape(self, id: str, domain: Optional[str] = None) -> GetShapeResponse:
+    def get_shape(self, id: str, domain: str) -> GetShapeResponse:
         """
         Get information about a Dataset's shape.
 
@@ -3711,15 +3529,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetShapeResponse, "GET", __url, "application/json", None, None)
 
-    def get_data_type(self, id: str, domain: Optional[str] = None) -> GetDataTypeResponse:
+    def get_data_type(self, id: str, domain: str) -> GetDataTypeResponse:
         """
         Get information about a Dataset's type.
 
@@ -3733,15 +3550,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDataTypeResponse, "GET", __url, "application/json", None, None)
 
-    def put_values(self, id: str, body: object, domain: Optional[str] = None) -> None:
+    def put_values(self, id: str, domain: str, body: object) -> None:
         """
         Write values to Dataset.
 
@@ -3755,15 +3571,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(type(None), "PUT", __url, None, "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_values_as_stream(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Response:
+    def get_values_as_stream(self, id: str, domain: str, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> Response:
         """
         Get values from Dataset.
 
@@ -3780,8 +3595,7 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if select is not None:
             __query_values["select"] = quote(_to_string(select), safe="")
@@ -3797,7 +3611,7 @@ class DatasetClient:
 
         return self.___client._invoke(Response, "GET", __url, "application/octet-stream", None, None)
 
-    def get_values_as_json(self, id: str, domain: Optional[str] = None, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> GetValuesAsJsonResponse:
+    def get_values_as_json(self, id: str, domain: str, select: Optional[str] = None, query: Optional[str] = None, limit: Optional[float] = None) -> GetValuesAsJsonResponse:
         """
         Get values from Dataset.
 
@@ -3814,8 +3628,7 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if select is not None:
             __query_values["select"] = quote(_to_string(select), safe="")
@@ -3831,7 +3644,7 @@ class DatasetClient:
 
         return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
-    def post_values(self, id: str, body: object, domain: Optional[str] = None) -> PostValuesResponse:
+    def post_values(self, id: str, domain: str, body: object) -> PostValuesResponse:
         """
         Get specific data points from Dataset.
 
@@ -3845,15 +3658,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostValuesResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -3871,8 +3683,7 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -3885,7 +3696,7 @@ class DatasetClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> PutAttributeResponse:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> PutAttributeResponse:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -3903,15 +3714,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> GetAttributeResponse:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> AttributeType:
         """
         Get information about an Attribute.
 
@@ -3929,15 +3739,14 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> GetDatasetAccessListsResponse:
+    def get_dataset_access_lists(self, id: str, domain: str) -> GetDatasetAccessListsResponse:
         """
         Get access lists on Dataset.
 
@@ -3951,8 +3760,7 @@ class DatasetClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -3968,7 +3776,7 @@ class DatatypeClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def post_data_type(self, body: object, domain: Optional[str] = None) -> PostDataTypeResponse:
+    def post_data_type(self, domain: str, body: object) -> PostDataTypeResponse:
         """
         Commit a Datatype to the Domain.
 
@@ -3980,15 +3788,14 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PostDataTypeResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_datatype(self, id: str, domain: Optional[str] = None) -> GetDatatypeResponse:
+    def get_datatype(self, domain: str, id: str) -> GetDatatypeResponse:
         """
         Get information about a committed Datatype
 
@@ -4002,15 +3809,14 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatatypeResponse, "GET", __url, "application/json", None, None)
 
-    def delete_datatype(self, id: str, domain: Optional[str] = None) -> DeleteDatatypeResponse:
+    def delete_datatype(self, domain: str, id: str) -> DeleteDatatypeResponse:
         """
         Delete a committed Datatype.
 
@@ -4024,15 +3830,14 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(DeleteDatatypeResponse, "DELETE", __url, "application/json", None, None)
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -4050,8 +3855,7 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -4064,7 +3868,7 @@ class DatatypeClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> PutAttributeResponse:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> PutAttributeResponse:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -4082,15 +3886,14 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> GetAttributeResponse:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> AttributeType:
         """
         Get information about an Attribute.
 
@@ -4108,15 +3911,14 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
-    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> GetDataTypeAccessListsResponse:
+    def get_data_type_access_lists(self, id: str, domain: str) -> GetDataTypeAccessListsResponse:
         """
         List access lists on Datatype.
 
@@ -4130,8 +3932,7 @@ class DatatypeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
@@ -4147,7 +3948,7 @@ class AttributeClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def get_attributes(self, collection: str, obj_uuid: str, domain: Optional[str] = None, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
+    def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
         """
         List all Attributes attached to the HDF5 object `obj_uuid`.
 
@@ -4165,8 +3966,7 @@ class AttributeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         if limit is not None:
             __query_values["Limit"] = quote(_to_string(limit), safe="")
@@ -4179,7 +3979,7 @@ class AttributeClient:
 
         return self.___client._invoke(GetAttributesResponse, "GET", __url, "application/json", None, None)
 
-    def put_attribute(self, collection: str, obj_uuid: str, attr: str, body: object, domain: Optional[str] = None) -> PutAttributeResponse:
+    def put_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str, body: object) -> PutAttributeResponse:
         """
         Create an attribute with name `attr` and assign it to HDF5 object `obj_uudi`.
 
@@ -4197,15 +3997,14 @@ class AttributeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutAttributeResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_attribute(self, collection: str, obj_uuid: str, attr: str, domain: Optional[str] = None) -> GetAttributeResponse:
+    def get_attribute(self, domain: str, collection: str, obj_uuid: str, attr: str) -> AttributeType:
         """
         Get information about an Attribute.
 
@@ -4223,13 +4022,12 @@ class AttributeClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(GetAttributeResponse, "GET", __url, "application/json", None, None)
+        return self.___client._invoke(AttributeType, "GET", __url, "application/json", None, None)
 
 
 class ACLSClient:
@@ -4240,7 +4038,7 @@ class ACLSClient:
     def __init__(self, client: HsdsClient):
         self.___client = client
 
-    def get_access_lists(self, domain: Optional[str] = None) -> GetAccessListsResponse:
+    def get_access_lists(self, domain: str) -> GetAccessListsResponse:
         """
         Get access lists on Domain.
 
@@ -4252,15 +4050,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_user_access(self, user: str, domain: Optional[str] = None) -> GetUserAccessResponse:
+    def get_user_access(self, domain: str, user: str) -> GetUserAccessResponse:
         """
         Get users's access to a Domain.
 
@@ -4274,15 +4071,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def put_user_access(self, user: str, body: object, domain: Optional[str] = None) -> PutUserAccessResponse:
+    def put_user_access(self, user: str, domain: str, body: object) -> PutUserAccessResponse:
         """
         Set user's access to the Domain.
 
@@ -4296,15 +4092,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(PutUserAccessResponse, "PUT", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
-    def get_group_access_lists(self, id: str, domain: Optional[str] = None) -> GetGroupAccessListsResponse:
+    def get_group_access_lists(self, id: str, domain: str) -> GetGroupAccessListsResponse:
         """
         List access lists on Group.
 
@@ -4318,15 +4113,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_group_user_access(self, id: str, user: str, domain: Optional[str] = None) -> GetGroupUserAccessResponse:
+    def get_group_user_access(self, id: str, user: str, domain: str) -> GetGroupUserAccessResponse:
         """
         Get users's access to a Group.
 
@@ -4342,15 +4136,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetGroupUserAccessResponse, "GET", __url, "application/json", None, None)
 
-    def get_dataset_access_lists(self, id: str, domain: Optional[str] = None) -> GetDatasetAccessListsResponse:
+    def get_dataset_access_lists(self, id: str, domain: str) -> GetDatasetAccessListsResponse:
         """
         Get access lists on Dataset.
 
@@ -4364,15 +4157,14 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
         return self.___client._invoke(GetDatasetAccessListsResponse, "GET", __url, "application/json", None, None)
 
-    def get_data_type_access_lists(self, id: str, domain: Optional[str] = None) -> GetDataTypeAccessListsResponse:
+    def get_data_type_access_lists(self, id: str, domain: str) -> GetDataTypeAccessListsResponse:
         """
         List access lists on Datatype.
 
@@ -4386,8 +4178,7 @@ class ACLSClient:
 
         __query_values: dict[str, str] = {}
 
-        if domain is not None:
-            __query_values["domain"] = quote(_to_string(domain), safe="")
+        __query_values["domain"] = quote(_to_string(domain), safe="")
 
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query

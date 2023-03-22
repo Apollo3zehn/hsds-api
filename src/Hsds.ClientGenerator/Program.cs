@@ -17,14 +17,15 @@ public static class Program
 
         response.EnsureSuccessStatusCode();
 
-        var openApiJsonString = await response.Content.ReadAsStringAsync();
+        var openApiYamlString = await response.Content.ReadAsStringAsync();
+        // File.WriteAllText("/home/vincent/Downloads/openapi/1.yaml", openApiYamlString);
 
-        // TODO: workaround
-        openApiJsonString = openApiJsonString.Replace("3.1.0", "3.0.3");
-        openApiJsonString = openApiJsonString.Replace("\"type\"", "type");
+        // TODO: https://github.com/HDFGroup/hdf-rest-api/issues/created_by/Apollo3zehn
+        openApiYamlString = OpenApiFixer.Apply(openApiYamlString);
+        // File.WriteAllText("/home/vincent/Downloads/openapi/2.yaml", openApiYamlString);
 
         var document = new OpenApiStringReader()
-            .Read(openApiJsonString, out var diagnostic);
+            .Read(openApiYamlString, out var diagnostic);
 
         // generate clients
 
