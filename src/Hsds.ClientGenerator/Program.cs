@@ -18,11 +18,11 @@ public static class Program
         response.EnsureSuccessStatusCode();
 
         var openApiYamlString = await response.Content.ReadAsStringAsync();
-        // File.WriteAllText("/home/vincent/Downloads/openapi/1.yaml", openApiYamlString);
+        // File.WriteAllText("/home/vincent/Downloads/openapi1.yaml", openApiYamlString);
 
         // TODO: https://github.com/HDFGroup/hdf-rest-api/issues/created_by/Apollo3zehn
         openApiYamlString = OpenApiFixer.Apply(openApiYamlString);
-        // File.WriteAllText("/home/vincent/Downloads/openapi/2.yaml", openApiYamlString);
+        // File.WriteAllText("/home/vincent/Downloads/openapi2.yaml", openApiYamlString);
 
         var document = new OpenApiStringReader()
             .Read(openApiYamlString, out var diagnostic);

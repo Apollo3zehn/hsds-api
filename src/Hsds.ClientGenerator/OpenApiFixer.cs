@@ -23,7 +23,9 @@ public class OpenApiFixer
             "      required: true",
             string.Join('\n', lines[103..1242]),
             GetDatasetResponse,
-            string.Join('\n', lines[1383..2072]),
+            string.Join('\n', lines[1383..1863]),
+            PostValuesResponse,
+            string.Join('\n', lines[1863..2072]),
             GetAttributesResponse,
             string.Join('\n', lines[2107..2216]),
             GetAttributeResponse,
@@ -242,6 +244,16 @@ public class OpenApiFixer
                         type: array
                         items:
                           $ref: "#/components/schemas/HrefType"
+    """;
+
+    private static readonly string PostValuesResponse = """
+                application/octet-stream:
+                  schema:
+                    type: object
+                    properties:
+                      value:
+                        type: array
+                        items: {}
     """;
 
     private static readonly string GetAttributeResponse = """

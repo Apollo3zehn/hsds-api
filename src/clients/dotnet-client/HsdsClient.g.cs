@@ -1780,7 +1780,7 @@ public interface IDatasetClient
     /// <param name="id">UUID of the Dataset.</param>
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
-    PostValuesResponse PostValues(string id, string domain, JsonElement body);
+    PostValuesAsJsonResponse PostValuesAsJson(string id, string domain, JsonElement body);
 
     /// <summary>
     /// Get specific data points from Dataset.
@@ -1789,7 +1789,24 @@ public interface IDatasetClient
     /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
     /// <param name="body">JSON array of coordinates in the Dataset.</param>
     /// <param name="cancellationToken">The token to cancel the current operation.</param>
-    Task<PostValuesResponse> PostValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
+    Task<PostValuesAsJsonResponse> PostValuesAsJsonAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Get specific data points from Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="body">JSON array of coordinates in the Dataset.</param>
+    HttpResponseMessage PostValuesAsStream(string id, string domain, JsonElement body);
+
+    /// <summary>
+    /// Get specific data points from Dataset.
+    /// </summary>
+    /// <param name="id">UUID of the Dataset.</param>
+    /// <param name="domain">Domain on service to access, e.g., `/home/user/someproject/somefile`.</param>
+    /// <param name="body">JSON array of coordinates in the Dataset.</param>
+    /// <param name="cancellationToken">The token to cancel the current operation.</param>
+    Task<HttpResponseMessage> PostValuesAsStreamAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// List all Attributes attached to the HDF5 object `obj_uuid`.
@@ -2272,7 +2289,7 @@ public class DatasetClient : IDatasetClient
     }
 
     /// <inheritdoc />
-    public PostValuesResponse PostValues(string id, string domain, JsonElement body)
+    public PostValuesAsJsonResponse PostValuesAsJson(string id, string domain, JsonElement body)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2286,11 +2303,11 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.Invoke<PostValuesResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+        return ___client.Invoke<PostValuesAsJsonResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
     }
 
     /// <inheritdoc />
-    public Task<PostValuesResponse> PostValuesAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
+    public Task<PostValuesAsJsonResponse> PostValuesAsJsonAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
     {
         var __urlBuilder = new StringBuilder();
         __urlBuilder.Append("/datasets/{id}/value");
@@ -2304,7 +2321,43 @@ public class DatasetClient : IDatasetClient
         __urlBuilder.Append(__query);
 
         var __url = __urlBuilder.ToString();
-        return ___client.InvokeAsync<PostValuesResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+        return ___client.InvokeAsync<PostValuesAsJsonResponse>("POST", __url, "application/json", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public HttpResponseMessage PostValuesAsStream(string id, string domain, JsonElement body)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        return ___client.Invoke<HttpResponseMessage>("POST", __url, "application/octet-stream", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions));
+    }
+
+    /// <inheritdoc />
+    public Task<HttpResponseMessage> PostValuesAsStreamAsync(string id, string domain, JsonElement body, CancellationToken cancellationToken = default)
+    {
+        var __urlBuilder = new StringBuilder();
+        __urlBuilder.Append("/datasets/{id}/value");
+        __urlBuilder.Replace("{id}", Uri.EscapeDataString(id));
+
+        var __queryValues = new Dictionary<string, string>();
+
+        __queryValues["domain"] = Uri.EscapeDataString(domain);
+
+        var __query = "?" + string.Join('&', __queryValues.Select(entry => $"{entry.Key}={entry.Value}"));
+        __urlBuilder.Append(__query);
+
+        var __url = __urlBuilder.ToString();
+        return ___client.InvokeAsync<HttpResponseMessage>("POST", __url, "application/octet-stream", "application/json", JsonContent.Create(body, options: Utilities.JsonOptions), cancellationToken);
     }
 
     /// <inheritdoc />
@@ -3909,7 +3962,7 @@ public record GetValuesAsJsonResponse(IReadOnlyList<string> Index, IReadOnlyList
 /// 
 /// </summary>
 /// <param name="Value"></param>
-public record PostValuesResponse(IReadOnlyList<JsonElement> Value);
+public record PostValuesAsJsonResponse(IReadOnlyList<JsonElement> Value);
 
 /// <summary>
 /// 

@@ -1299,7 +1299,7 @@ Only present if `query` parameter is part of the request URI.
 
 
 @dataclass(frozen=True)
-class PostValuesResponse:
+class PostValuesAsJsonResponse:
     """
     
 
@@ -2312,7 +2312,7 @@ class DatasetAsyncClient:
 
         return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
-    def post_values(self, id: str, domain: str, body: object) -> Awaitable[PostValuesResponse]:
+    def post_values_as_json(self, id: str, domain: str, body: object) -> Awaitable[PostValuesAsJsonResponse]:
         """
         Get specific data points from Dataset.
 
@@ -2331,7 +2331,28 @@ class DatasetAsyncClient:
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(PostValuesResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+        return self.___client._invoke(PostValuesAsJsonResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def post_values_as_stream(self, id: str, domain: str, body: object) -> Awaitable[Response]:
+        """
+        Get specific data points from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(Response, "POST", __url, "application/octet-stream", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
     def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> Awaitable[GetAttributesResponse]:
         """
@@ -3644,7 +3665,7 @@ class DatasetClient:
 
         return self.___client._invoke(GetValuesAsJsonResponse, "GET", __url, "application/json", None, None)
 
-    def post_values(self, id: str, domain: str, body: object) -> PostValuesResponse:
+    def post_values_as_json(self, id: str, domain: str, body: object) -> PostValuesAsJsonResponse:
         """
         Get specific data points from Dataset.
 
@@ -3663,7 +3684,28 @@ class DatasetClient:
         __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
         __url += __query
 
-        return self.___client._invoke(PostValuesResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+        return self.___client._invoke(PostValuesAsJsonResponse, "POST", __url, "application/json", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
+
+    def post_values_as_stream(self, id: str, domain: str, body: object) -> Response:
+        """
+        Get specific data points from Dataset.
+
+        Args:
+            id: UUID of the Dataset.
+            domain: 
+        """
+
+        __url = "/datasets/{id}/value"
+        __url = __url.replace("{id}", quote(str(id), safe=""))
+
+        __query_values: dict[str, str] = {}
+
+        __query_values["domain"] = quote(_to_string(domain), safe="")
+
+        __query: str = "?" + "&".join(f"{key}={value}" for (key, value) in __query_values.items())
+        __url += __query
+
+        return self.___client._invoke(Response, "POST", __url, "application/octet-stream", "application/json", json.dumps(JsonEncoder.encode(body, _json_encoder_options)))
 
     def get_attributes(self, collection: str, obj_uuid: str, domain: str, limit: Optional[float] = None, marker: Optional[str] = None) -> GetAttributesResponse:
         """
