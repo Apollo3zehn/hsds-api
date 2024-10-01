@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-generator",
-            "program": "${workspaceFolder}/artifacts/bin/Hsds.ClientGenerator/net7.0/Hsds.ClientGenerator.dll",
+            "program": "${workspaceFolder}/artifacts/bin/Hsds.ClientGenerator/Hsds.ClientGenerator.dll",
             "args": [
                 "./"
             ],

@@ -16,32 +16,32 @@ def sync_test():
         # act
 
         # get domain
-        domain = client.domain.get_domain(domain_name)
-        root_group_links = client.link.get_links(domain.root, domain_name)
+        domain = client.v2_0.domain.get_domain(domain_name)
+        root_group_links = client.v2_0.link.get_links(domain.root, domain_name)
 
         # get group "g1"
         g1_link = root_group_links.links[0]
         g1_name = g1_link.title
 
         # get group "g1.1"
-        g1_links = client.link.get_links(g1_link.id, domain_name)
+        g1_links = client.v2_0.link.get_links(g1_link.id, domain_name)
         g1_1_link = g1_links.links[0]
         g1_1_name = g1_1_link.title
-        g1_1_links = client.link.get_links(g1_1_link.id, domain_name)
+        g1_1_links = client.v2_0.link.get_links(g1_1_link.id, domain_name)
 
         # get dataset "dset1.1.1"
         dset_1_1_1_link = g1_1_links.links[0]
         dset_1_1_1_name = dset_1_1_1_link.title
 
-        dset_1_1_1_type = client.dataset \
+        dset_1_1_1_type = client.v2_0.dataset \
             .get_dataset(dset_1_1_1_link.id, domain_name) \
             .type
 
         # get data of dataset "dset1.1.1" as JSON
-        json_response = client.dataset.get_values_as_json(dset_1_1_1_link.id, domain_name)
+        json_response = client.v2_0.dataset.get_values_as_json(dset_1_1_1_link.id, domain_name)
 
         # get data of dataset "dset1.1.1" as stream
-        stream_response = client.dataset.get_values_as_stream(dset_1_1_1_link.id, domain_name)
+        stream_response = client.v2_0.dataset.get_values_as_stream(dset_1_1_1_link.id, domain_name)
         data = stream_response.read()
 
         # assert
@@ -76,32 +76,32 @@ async def async_test():
         # act
 
         # get domain
-        domain = await client.domain.get_domain(domain_name)
-        root_group_links = await client.link.get_links(domain.root, domain_name)
+        domain = await client.v2_0.domain.get_domain(domain_name)
+        root_group_links = await client.v2_0.link.get_links(domain.root, domain_name)
 
         # get group "g1"
         g1_link = root_group_links.links[0]
         g1_name = g1_link.title
 
         # get group "g1.1"
-        g1_links = await client.link.get_links(g1_link.id, domain_name)
+        g1_links = await client.v2_0.link.get_links(g1_link.id, domain_name)
         g1_1_link = g1_links.links[0]
         g1_1_name = g1_1_link.title
-        g1_1_links = await client.link.get_links(g1_1_link.id, domain_name)
+        g1_1_links = await client.v2_0.link.get_links(g1_1_link.id, domain_name)
 
         # get dataset "dset1.1.1"
         dset_1_1_1_link = g1_1_links.links[0]
         dset_1_1_1_name = dset_1_1_1_link.title
 
-        dset_1_1_1_type = (await client.dataset \
+        dset_1_1_1_type = (await client.v2_0.dataset \
             .get_dataset(dset_1_1_1_link.id, domain_name)) \
             .type
 
         # get data of dataset "dset1.1.1" as JSON
-        json_response = await client.dataset.get_values_as_json(dset_1_1_1_link.id, domain_name)
+        json_response = await client.v2_0.dataset.get_values_as_json(dset_1_1_1_link.id, domain_name)
 
         # get data of dataset "dset1.1.1" as stream
-        stream_response = await client.dataset.get_values_as_stream(dset_1_1_1_link.id, domain_name)
+        stream_response = await client.v2_0.dataset.get_values_as_stream(dset_1_1_1_link.id, domain_name)
         data = await stream_response.aread()
 
         # assert

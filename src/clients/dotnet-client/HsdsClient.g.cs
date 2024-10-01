@@ -7,12 +7,244 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Hsds.Api;
-
+namespace Hsds.Api
+{
 /// <summary>
 /// A client for the Hsds system.
 /// </summary>
 public interface IHsdsClient
+{
+    /// <summary>
+    /// Gets the V2_0 client.
+    /// </summary>
+    Hsds.Api.V2_0.IV2_0 V2_0 { get; }
+
+
+
+
+}
+
+/// <inheritdoc />
+public class HsdsClient : IHsdsClient, IDisposable
+{
+    private HttpClient _httpClient;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HsdsClient"/>.
+    /// </summary>
+    /// <param name="baseUrl">The base URL to connect to.</param>
+    public HsdsClient(Uri baseUrl) : this(new HttpClient() { BaseAddress = baseUrl, Timeout = TimeSpan.FromSeconds(60) })
+    {
+        //
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="HsdsClient"/>.
+    /// </summary>
+    /// <param name="httpClient">The HTTP client to use.</param>
+    public HsdsClient(HttpClient httpClient)
+    {
+        if (httpClient.BaseAddress is null)
+            throw new Exception("The base address of the HTTP client must be set.");
+
+        _httpClient = httpClient;
+
+        V2_0 = new Hsds.Api.V2_0.V2_0(this);
+
+    }
+
+
+    /// <inheritdoc />
+    public Hsds.Api.V2_0.IV2_0 V2_0 { get; }
+
+
+
+
+
+    internal T Invoke<T>(string method, string relativeUrl, string? acceptHeaderValue, string? contentTypeValue, HttpContent? content)
+    {
+        // prepare request
+        using var request = BuildRequestMessage(method, relativeUrl, content, contentTypeValue, acceptHeaderValue);
+
+        // send request
+        var response = _httpClient.Send(request, HttpCompletionOption.ResponseHeadersRead);
+
+        // process response
+        if (!response.IsSuccessStatusCode)
+        {
+            var message = new StreamReader(response.Content.ReadAsStream()).ReadToEnd();
+            var statusCode = $"00.{(int)response.StatusCode}";
+
+            if (string.IsNullOrWhiteSpace(message))
+                throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}.");
+
+            else
+                throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}. The response message is: {message}");
+        }
+
+        try
+        {
+            if (typeof(T) == typeof(object))
+            {
+                return default!;
+            }
+
+            else if (typeof(T) == typeof(HttpResponseMessage))
+            {
+                return (T)(object)(response);
+            }
+
+            else
+            {
+                var stream = response.Content.ReadAsStream();
+
+                try
+                {
+                    return JsonSerializer.Deserialize<T>(stream, Utilities.JsonOptions)!;
+                }
+                catch (Exception ex)
+                {
+                    throw new HsdsException("01", "Response data could not be deserialized.", ex);
+                }
+            }
+        }
+        finally
+        {
+            if (typeof(T) != typeof(HttpResponseMessage))
+                response.Dispose();
+        }
+    }
+
+    internal async Task<T> InvokeAsync<T>(string method, string relativeUrl, string? acceptHeaderValue, string? contentTypeValue, HttpContent? content, CancellationToken cancellationToken)
+    {
+        // prepare request
+        using var request = BuildRequestMessage(method, relativeUrl, content, contentTypeValue, acceptHeaderValue);
+
+        // send request
+        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+
+        // process response
+        if (!response.IsSuccessStatusCode)
+        {
+            var message = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var statusCode = $"00.{(int)response.StatusCode}";
+
+            if (string.IsNullOrWhiteSpace(message))
+                throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}.");
+
+            else
+                throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}. The response message is: {message}");
+        }
+
+        try
+        {
+            if (typeof(T) == typeof(object))
+            {
+                return default!;
+            }
+
+            else if (typeof(T) == typeof(HttpResponseMessage))
+            {
+                return (T)(object)(response);
+            }
+
+            else
+            {
+                var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+
+                try
+                {
+                    return (await JsonSerializer.DeserializeAsync<T>(stream, Utilities.JsonOptions).ConfigureAwait(false))!;
+                }
+                catch (Exception ex)
+                {
+                    throw new HsdsException("01", "Response data could not be deserialized.", ex);
+                }
+            }
+        }
+        finally
+        {
+            if (typeof(T) != typeof(HttpResponseMessage))
+                response.Dispose();
+        }
+    }
+
+
+    private HttpRequestMessage BuildRequestMessage(string method, string relativeUrl, HttpContent? content, string? contentTypeHeaderValue, string? acceptHeaderValue)
+    {
+        var requestMessage = new HttpRequestMessage()
+        {
+            Method = new HttpMethod(method),
+            RequestUri = new Uri(relativeUrl, UriKind.Relative),
+            Content = content
+        };
+
+        if (contentTypeHeaderValue is not null && requestMessage.Content is not null)
+            requestMessage.Content.Headers.ContentType = MediaTypeWithQualityHeaderValue.Parse(contentTypeHeaderValue);
+
+        if (acceptHeaderValue is not null)
+            requestMessage.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(acceptHeaderValue));
+
+
+        return requestMessage;
+    }
+
+    /// <inheritdoc />
+    public void Dispose()
+    {
+        _httpClient?.Dispose();
+    }
+
+}
+
+
+/// <summary>
+/// A HsdsException.
+/// </summary>
+public class HsdsException : Exception
+{
+    internal HsdsException(string statusCode, string message) : base(message)
+    {
+        StatusCode = statusCode;
+    }
+
+    internal HsdsException(string statusCode, string message, Exception innerException) : base(message, innerException)
+    {
+        StatusCode = statusCode;
+    }
+
+    /// <summary>
+    /// The exception status code.
+    /// </summary>
+    public string StatusCode { get; }
+}
+
+
+internal static class Utilities
+{
+    internal static JsonSerializerOptions JsonOptions { get; }
+
+    static Utilities()
+    {
+        JsonOptions = new JsonSerializerOptions()
+        {
+            PropertyNameCaseInsensitive = true,
+            WriteIndented = true
+        };
+
+        JsonOptions.Converters.Add(new JsonStringEnumConverter());
+    }
+}
+
+}
+
+namespace Hsds.Api.V2_0
+{
+
+/// <summary>
+/// A client for version V2_0.
+/// </summary>
+public interface IV2_0
 {
     /// <summary>
     /// Gets the <see cref="IDomainClient"/>.
@@ -50,221 +282,48 @@ public interface IHsdsClient
     IACLSClient ACLS { get; }
 
 
-
-
 }
 
 /// <inheritdoc />
-public class HsdsClient : IHsdsClient, IDisposable
+public class V2_0 : IV2_0
 {
-    private HttpClient _httpClient;
-
-    private DomainClient _domain;
-    private GroupClient _group;
-    private LinkClient _link;
-    private DatasetClient _dataset;
-    private DatatypeClient _datatype;
-    private AttributeClient _attribute;
-    private ACLSClient _aCLS;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="HsdsClient"/>.
+    /// Initializes a new instance of the <see cref="V2_0"/>.
     /// </summary>
-    /// <param name="baseUrl">The base URL to connect to.</param>
-    public HsdsClient(Uri baseUrl) : this(new HttpClient() { BaseAddress = baseUrl, Timeout = TimeSpan.FromSeconds(60) })
+    /// <param name="client">The client to use.</param>
+    public V2_0(HsdsClient client)
     {
-        //
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="HsdsClient"/>.
-    /// </summary>
-    /// <param name="httpClient">The HTTP client to use.</param>
-    public HsdsClient(HttpClient httpClient)
-    {
-        if (httpClient.BaseAddress is null)
-            throw new Exception("The base address of the HTTP client must be set.");
-
-        _httpClient = httpClient;
-
-        _domain = new DomainClient(this);
-        _group = new GroupClient(this);
-        _link = new LinkClient(this);
-        _dataset = new DatasetClient(this);
-        _datatype = new DatatypeClient(this);
-        _attribute = new AttributeClient(this);
-        _aCLS = new ACLSClient(this);
+        Domain = new DomainClient(client);
+        Group = new GroupClient(client);
+        Link = new LinkClient(client);
+        Dataset = new DatasetClient(client);
+        Datatype = new DatatypeClient(client);
+        Attribute = new AttributeClient(client);
+        ACLS = new ACLSClient(client);
 
     }
 
+    /// <inheritdoc />
+    public IDomainClient Domain { get; }
 
     /// <inheritdoc />
-    public IDomainClient Domain => _domain;
+    public IGroupClient Group { get; }
 
     /// <inheritdoc />
-    public IGroupClient Group => _group;
+    public ILinkClient Link { get; }
 
     /// <inheritdoc />
-    public ILinkClient Link => _link;
+    public IDatasetClient Dataset { get; }
 
     /// <inheritdoc />
-    public IDatasetClient Dataset => _dataset;
+    public IDatatypeClient Datatype { get; }
 
     /// <inheritdoc />
-    public IDatatypeClient Datatype => _datatype;
+    public IAttributeClient Attribute { get; }
 
     /// <inheritdoc />
-    public IAttributeClient Attribute => _attribute;
+    public IACLSClient ACLS { get; }
 
-    /// <inheritdoc />
-    public IACLSClient ACLS => _aCLS;
-
-
-
-
-
-    internal T Invoke<T>(string method, string relativeUrl, string? acceptHeaderValue, string? contentTypeValue, HttpContent? content)
-    {
-        // prepare request
-        using var request = BuildRequestMessage(method, relativeUrl, content, contentTypeValue, acceptHeaderValue);
-
-        // send request
-        var response = _httpClient.Send(request, HttpCompletionOption.ResponseHeadersRead);
-
-        // process response
-        if (!response.IsSuccessStatusCode)
-        {
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var message = new StreamReader(response.Content.ReadAsStream()).ReadToEnd();
-                var statusCode = $"H00.{(int)response.StatusCode}";
-
-                if (string.IsNullOrWhiteSpace(message))
-                    throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}.");
-
-                else
-                    throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}. The response message is: {message}");
-            }
-        }
-
-        try
-        {
-            if (typeof(T) == typeof(object))
-            {
-                return default!;
-            }
-
-            else if (typeof(T) == typeof(HttpResponseMessage))
-            {
-                return (T)(object)(response);
-            }
-
-            else
-            {
-                var stream = response.Content.ReadAsStream();
-
-                try
-                {
-                    return JsonSerializer.Deserialize<T>(stream, Utilities.JsonOptions)!;
-                }
-                catch (Exception ex)
-                {
-                    throw new HsdsException("H01", "Response data could not be deserialized.", ex);
-                }
-            }
-        }
-        finally
-        {
-            if (typeof(T) != typeof(HttpResponseMessage))
-                response.Dispose();
-        }
-    }
-
-    internal async Task<T> InvokeAsync<T>(string method, string relativeUrl, string? acceptHeaderValue, string? contentTypeValue, HttpContent? content, CancellationToken cancellationToken)
-    {
-        // prepare request
-        using var request = BuildRequestMessage(method, relativeUrl, content, contentTypeValue, acceptHeaderValue);
-
-        // send request
-        var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-
-        // process response
-        if (!response.IsSuccessStatusCode)
-        {
-
-            if (!response.IsSuccessStatusCode)
-            {
-                var message = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var statusCode = $"H00.{(int)response.StatusCode}";
-
-                if (string.IsNullOrWhiteSpace(message))
-                    throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}.");
-
-                else
-                    throw new HsdsException(statusCode, $"The HTTP request failed with status code {response.StatusCode}. The response message is: {message}");
-            }
-        }
-
-        try
-        {
-            if (typeof(T) == typeof(object))
-            {
-                return default!;
-            }
-
-            else if (typeof(T) == typeof(HttpResponseMessage))
-            {
-                return (T)(object)(response);
-            }
-
-            else
-            {
-                var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-
-                try
-                {
-                    return (await JsonSerializer.DeserializeAsync<T>(stream, Utilities.JsonOptions).ConfigureAwait(false))!;
-                }
-                catch (Exception ex)
-                {
-                    throw new HsdsException("H01", "Response data could not be deserialized.", ex);
-                }
-            }
-        }
-        finally
-        {
-            if (typeof(T) != typeof(HttpResponseMessage))
-                response.Dispose();
-        }
-    }
-
-
-    private HttpRequestMessage BuildRequestMessage(string method, string relativeUrl, HttpContent? content, string? contentTypeHeaderValue, string? acceptHeaderValue)
-    {
-        var requestMessage = new HttpRequestMessage()
-        {
-            Method = new HttpMethod(method),
-            RequestUri = new Uri(relativeUrl, UriKind.Relative),
-            Content = content
-        };
-
-        if (contentTypeHeaderValue is not null && requestMessage.Content is not null)
-            requestMessage.Content.Headers.ContentType = MediaTypeWithQualityHeaderValue.Parse(contentTypeHeaderValue);
-
-        if (acceptHeaderValue is not null)
-            requestMessage.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(acceptHeaderValue));
-
-
-        return requestMessage;
-    }
-
-
-    /// <inheritdoc />
-    public void Dispose()
-    {
-        _httpClient?.Dispose();
-    }
 
 }
 
@@ -3530,29 +3589,6 @@ public class ACLSClient : IACLSClient
 
 
 
-
-/// <summary>
-/// A HsdsException.
-/// </summary>
-public class HsdsException : Exception
-{
-    internal HsdsException(string statusCode, string message) : base(message)
-    {
-        StatusCode = statusCode;
-    }
-
-    internal HsdsException(string statusCode, string message, Exception innerException) : base(message, innerException)
-    {
-        StatusCode = statusCode;
-    }
-
-    /// <summary>
-    /// The exception status code.
-    /// </summary>
-    public string StatusCode { get; }
-}
-
-
 /// <summary>
 /// Access Control List for a single user.
 /// </summary>
@@ -4049,19 +4085,4 @@ public record TypeTypeFieldsType(string Name, TypeType Type);
 
 
 
-internal static class Utilities
-{
-    internal static JsonSerializerOptions JsonOptions { get; }
-
-    static Utilities()
-    {
-        JsonOptions = new JsonSerializerOptions()
-        {
-            PropertyNameCaseInsensitive = true,
-            WriteIndented = true
-        };
-
-        JsonOptions.Converters.Add(new JsonStringEnumConverter());
-    }
 }
-

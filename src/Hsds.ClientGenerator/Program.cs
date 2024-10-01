@@ -59,8 +59,6 @@ public static class Program
         var settings = new GeneratorSettings(
             Namespace: "Hsds.Api",
             ClientName: "Hsds",
-            TokenFolderName: default!,
-            ConfigurationHeaderKey: default!,
             ExceptionType: "HsdsException",
             ExceptionCodePrefix: "H",
             GetOperationName: (path, type, _) => {
@@ -69,22 +67,18 @@ public static class Program
 
                 return $"{type}{methodName}";
             },
+            Special_ConfigurationHeaderKey: default!,
             Special_WebAssemblySupport: false,
-            Special_RefreshTokenSupport: false,
-            Special_NexusFeatures: false);
+            Special_AccessTokenSupport: false,
+            Special_NexusFeatures: false
+        );
 
         // generate C# client
         var csharpGenerator = new CSharpGenerator(settings);
-        var csharpCode = csharpGenerator.Generate(document);
-
-        var csharpOutputPath = $"{solutionRoot}src/clients/dotnet-client/HsdsClient.g.cs";
-        File.WriteAllText(csharpOutputPath, csharpCode);
+        csharpGenerator.Generate($"{solutionRoot}src/clients/dotnet-client", document);
 
         // generate Python client
         var pythonGenerator = new PythonGenerator(settings);
-        var pythonCode = pythonGenerator.Generate(document);
-
-        var pythonOutputPath = $"{solutionRoot}src/clients/python-client/hsds_api/_hsds_api.py";
-        File.WriteAllText(pythonOutputPath, pythonCode);
+        pythonGenerator.Generate($"{solutionRoot}src/clients/python-client/hsds_api/", document);
     }
 }

@@ -36,32 +36,32 @@ namespace Hsds.Api.Tests
             // Act
 
             /* get domain */
-            var domain = client.Domain.GetDomain(domainName);
-            var rootGroupLinks = client.Link.GetLinks(domain.Root, domainName);
+            var domain = client.V2_0.Domain.GetDomain(domainName);
+            var rootGroupLinks = client.V2_0.Link.GetLinks(domain.Root, domainName);
 
             /* get group "g1" */
             var g1_Link = rootGroupLinks.Links[0];
             var g1_Name = g1_Link.Title;
 
             /* get group "g1.1" */
-            var g1_Links = client.Link.GetLinks(g1_Link.Id, domainName);
+            var g1_Links = client.V2_0.Link.GetLinks(g1_Link.Id, domainName);
             var g1_1_Link = g1_Links.Links[0];
             var g1_1_Name = g1_1_Link.Title;
-            var g1_1_Links = client.Link.GetLinks(g1_1_Link.Id, domainName);
+            var g1_1_Links = client.V2_0.Link.GetLinks(g1_1_Link.Id, domainName);
 
             /* get dataset "dset1.1.1" */
             var dset_1_1_1_Link = g1_1_Links.Links[0];
             var dset_1_1_1_Name = dset_1_1_1_Link.Title;
 
-            var dset_1_1_1_Type = client.Dataset
+            var dset_1_1_1_Type = client.V2_0.Dataset
                 .GetDataset(dset_1_1_1_Link.Id, domainName)
                 .Type;
 
             /* get data of dataset "dset1.1.1" as JSON */
-            var jsonResponse = client.Dataset.GetValuesAsJson(dset_1_1_1_Link.Id, domainName);
+            var jsonResponse = client.V2_0.Dataset.GetValuesAsJson(dset_1_1_1_Link.Id, domainName);
 
             /* get data of dataset "dset1.1.1" as stream */
-            var streamResponse = client.Dataset.GetValuesAsStream(dset_1_1_1_Link.Id, domainName);
+            var streamResponse = client.V2_0.Dataset.GetValuesAsStream(dset_1_1_1_Link.Id, domainName);
             var stream = streamResponse.Content.ReadAsStream();
 
             // Assert
@@ -97,32 +97,32 @@ namespace Hsds.Api.Tests
             // Act
 
             /* get domain */
-            var domain = await client.Domain.GetDomainAsync(domainName);
-            var rootGroupLinks = await client.Link.GetLinksAsync(domain.Root, domainName);
+            var domain = await client.V2_0.Domain.GetDomainAsync(domainName);
+            var rootGroupLinks = await client.V2_0.Link.GetLinksAsync(domain.Root, domainName);
 
             /* get group "g1" */
             var g1_Link = rootGroupLinks.Links[0];
             var g1_Name = g1_Link.Title;
 
             /* get group "g1.1" */
-            var g1_Links = await client.Link.GetLinksAsync(g1_Link.Id, domainName);
+            var g1_Links = await client.V2_0.Link.GetLinksAsync(g1_Link.Id, domainName);
             var g1_1_Link = g1_Links.Links[0];
             var g1_1_Name = g1_1_Link.Title;
-            var g1_1_Links = await client.Link.GetLinksAsync(g1_1_Link.Id, domainName);
+            var g1_1_Links = await client.V2_0.Link.GetLinksAsync(g1_1_Link.Id, domainName);
 
             /* get dataset "dset1.1.1" */
             var dset_1_1_1_Link = g1_1_Links.Links[0];
             var dset_1_1_1_Name = dset_1_1_1_Link.Title;
 
-            var dset_1_1_1_Type = (await client.Dataset
+            var dset_1_1_1_Type = (await client.V2_0.Dataset
                 .GetDatasetAsync(dset_1_1_1_Link.Id, domainName))
                 .Type;
 
             /* get data of dataset "dset1.1.1" as JSON */
-            var jsonResponse = await client.Dataset.GetValuesAsJsonAsync(dset_1_1_1_Link.Id, domainName);
+            var jsonResponse = await client.V2_0.Dataset.GetValuesAsJsonAsync(dset_1_1_1_Link.Id, domainName);
 
             /* get data of dataset "dset1.1.1" as stream */
-            var streamResponse = await client.Dataset.GetValuesAsStreamAsync(dset_1_1_1_Link.Id, domainName);
+            var streamResponse = await client.V2_0.Dataset.GetValuesAsStreamAsync(dset_1_1_1_Link.Id, domainName);
             var stream = await streamResponse.Content.ReadAsStreamAsync();
 
             // Assert

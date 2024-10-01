@@ -1,3 +1,7 @@
+## v1.0.0-beta.5 - 2024-10-01
+
+Add versioned API support.
+
 ## v1.0.0-beta.4 - 2023-04-24
 
 Added support for point selection binary response.

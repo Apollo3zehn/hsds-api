@@ -3,8 +3,5 @@
         "tests"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true,
-    "python.analysis.extraPaths": [
-        "src/clients/python-client"
-    ]
+    "python.testing.pytestEnabled": true
 }
